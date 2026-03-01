@@ -3,7 +3,9 @@ module.exports = {
   content: [
     "./**/*.php",//detecta todos los archivos 
     "./**/*.html",
-    "./**/*.js"
+    "./**/*.js",
+    "./public/**/*.html",
+    "./src/**/*.{js,html}"
   ],
   theme: {
     extend: {},
