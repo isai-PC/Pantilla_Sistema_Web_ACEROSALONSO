@@ -1,0 +1,129 @@
+1. Estructura General del Proyecto
+El proyecto está dividido en dos entornos claramente diferenciados:
+
+1.1 Carpeta src/ – Entorno de Desarrollo
+En esta carpeta se realizan todas las modificaciones del sistema.
+
+Aquí se encuentran:
+Archivos HTML editables
+Archivos JavaScript
+Archivo input.css de Tailwind
+
+
+Nuevos módulos y componentes
+Ejemplo:
+src/
+│
+├── index.html
+├── pages/
+│   ├── inventario.html
+│   ├── ventas.html
+│
+├── js/
+│   ├── app.js
+│   ├── inventario.js
+│
+├── css/
+│   └── input.css
+
+Regla fundamental:
+Todas las modificaciones deben realizarse exclusivamente dentro de src.
+
+1.2 Carpeta public/ – Entorno de Producción
+Esta carpeta contiene la versión final lista para subir al hosting.
+Ejemplo:
+public/
+│
+├── index.html
+├── pages/
+│
+├── assets/
+│   ├── css/
+│   │   └── output.css
+│   ├── js/
+│   └── images/
+
+Regla fundamental:
+No se deben realizar modificaciones manuales dentro de public.
+
+2. Procedimiento Antes de Realizar Modificaciones
+Antes de comenzar a trabajar en el proyecto, se debe seguir este procedimiento:
+Paso 1: Abrir la terminal en la raíz del proyecto
+Ubicarse en la carpeta donde se encuentra el archivo package.json.
+Paso 2: Ejecutar el modo desarrollo de Tailwind
+Ejecutar:
+
+npm run watch:css   <--Comando
+
+Este comando:
+Activa Tailwind en modo observador
+Detecta cambios en los archivos dentro de src
+Actualiza automáticamente public/assets/css/output.css
+Si este comando no está activo, los nuevos estilos agregados no se reflejarán en el sistema.
+3. Reglas de Desarrollo
+3.1 Todas las modificaciones se realizan en src/
+
+Nunca modificar directamente:
+public/assets/css/output.css
+Archivos HTML dentro de public
+Archivos JS dentro de public
+
+3.2 Creación de nuevos módulos o archivos
+Si se necesita crear un nuevo módulo, debe hacerse dentro de src.
+
+Ejemplo:
+src/pages/clientes.html
+src/js/clientes.js
+Mientras el comando npm run watch:css esté activo, Tailwind detectará automáticamente las nuevas clases utilizadas.
+
+4. Antes de Subir Cambios al Hosting
+Cuando el sistema esté listo para actualizar la versión en producción:
+Paso 1: Compilar versión final
+Ejecutar:
+npm run build:css
+Este comando:
+Compila Tailwind
+Optimiza el CSS
+Genera el archivo final minificado en public/assets/css/output.css
+
+Paso 2: Subir únicamente la carpeta public
+Al hosting se debe subir exclusivamente el contenido de public.
+No se deben subir:
+src
+node_modules
+package.json
+package-lock.json
+tailwind.config.js
+postcss.config.js
+
+5. Flujo Correcto de Trabajo
+El flujo estándar del proyecto es:
+Modificar src → Ejecutar watch → Probar cambios → Ejecutar build → Subir public
+Nunca:
+Modificar directamente archivos en public
+
+
+6. Importante: Creación de Nuevos Archivos y Relación con public
+Cuando se crea un nuevo archivo dentro de src, este NO se crea automáticamente en public.
+Tailwind únicamente compila el archivo CSS (input.css → output.css).
+Tailwind no:
+Copia archivos HTML
+Copia archivos JS
+Sincroniza carpetas
+
+Duplica estructura de proyecto
+Por lo tanto:
+Si se crea un archivo como:
+src/pages/reportes.html
+Este archivo debe copiarse manualmente a:
+public/pages/reportes.html
+antes de subirlo al hosting.
+La carpeta public es una versión final preparada manualmente para producción. No se genera automáticamente toda la estructura del proyecto.
+
+7. Resumen Técnico
+src es el entorno de desarrollo.
+public es el entorno de producción.
+Tailwind solo genera el CSS final.
+Los archivos HTML y JS deben pasarse manualmente a producción.
+Siempre compilar antes de subir al hosting.
+Nunca modificar directamente archivos dentro de public.

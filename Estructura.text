@@ -18,8 +18,7 @@ acerosalonso/                  ← Raíz del proyecto
 │   │   └── input.css
 │   ├── js/                   ← Tu JavaScript
 │   │   └── main.js
-│   └── views/                ← Páginas sin compilar
-│       └── index.html        ← Copia editable de la vista
+│   └── index.html        ← Copia editable de la vista
 │
 ├── node_modules/             ← Paquetes NPM
 ├── .gitignore
@@ -27,3 +26,27 @@ acerosalonso/                  ← Raíz del proyecto
 ├── postcss.config.js         ← Configuración PostCSS
 ├── package.json              ← Dependencias y scripts
 └── README.md
+
+
+
+Esto se ejecuta en la termial al final, se tiene que tomar la carpeta de public
+lo que se sube: public/
+   index.html
+   pages/
+   assets/
+       css/output.css
+       js/
+
+Ejecutar sto antes de subir: npx tailwindcss -i ./src/css/input.css -o ./public/assets/css/output.css --minify
+
+./src/css/input.css -o
+ ./public/assets/css/output.css --watch
+
+
+ ejecutar esto cuando se este desarrollando:
+ npm run watch:css
+ ejecutar esto para subir:
+ npm run build:css
+
+
+ 
