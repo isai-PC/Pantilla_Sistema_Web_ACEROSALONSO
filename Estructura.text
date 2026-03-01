@@ -1,0 +1,29 @@
+acerosalonso/                  ← Raíz del proyecto
+├── public/                   ← Archivos que se servirán directamente
+│   ├── assets/               ← Recursos públicos
+│   │   ├── css/              ← CSS compilado (Tailwind)
+│   │   │   └── output.css
+│   │   ├── js/               ← JS compilado
+│   │   │   └── bundle.js
+│   │   ├── images/           ← Imágenes
+│   │   └── fonts/            ← Tipografías
+│   ├── index.html            ← Página principal
+│   └── (Otras páginas .html) ← por ejemplo, servicios.html
+│
+├── src/                      ← Código fuente editable
+│   ├── assets/               ← Recursos sin compilar
+│   │   ├── images/
+│   │   └── fonts/
+│   ├── css/                  ← Tailwind input
+│   │   └── input.css
+│   ├── js/                   ← Tu JavaScript
+│   │   └── main.js
+│   └── views/                ← Páginas sin compilar
+│       └── index.html        ← Copia editable de la vista
+│
+├── node_modules/             ← Paquetes NPM
+├── .gitignore
+├── tailwind.config.js        ← Configuración de Tailwind CSS
+├── postcss.config.js         ← Configuración PostCSS
+├── package.json              ← Dependencias y scripts
+└── README.md

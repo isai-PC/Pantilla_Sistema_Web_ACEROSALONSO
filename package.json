@@ -1,0 +1,26 @@
+{
+  "name": "pantilla_sistema_web_acerosalonso",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isai-PC/Pantilla_Sistema_Web_ACEROSALONSO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/isai-PC/Pantilla_Sistema_Web_ACEROSALONSO/issues"
+  },
+  "homepage": "https://github.com/isai-PC/Pantilla_Sistema_Web_ACEROSALONSO#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.4"
+  }
+}
