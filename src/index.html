@@ -13,9 +13,8 @@
     <script src="js/Slider.js"></script>
     <!--Header-->
     <header class="BarraSuperior">
-
-        <div class="flex justify-between items-center w-full md:w-auto">
-            <section class="flex items-center gap-3 md:gap-4">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <section class="flex items-center gap-3">
                 <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
                 <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
             </section>
@@ -28,63 +27,65 @@
                     </path>
                 </svg>
             </button>
+
+
+            <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
+                <ul
+                    class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
+
+                    <li class="w-full md:w-auto">
+                        <a href="paginaPrincipal.html" class=" BotonesSuperiores">Inicio</a>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#productos" class="BotonesSuperiores">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="pages/VistaPublica/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="w-full md:w-auto">
+                        <a href="Login/Login.html" class="BotonesSuperiores">
+                            Login</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-
-        <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
-            <ul class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
-
-                <li class="w-full md:w-auto">
-                    <a href="paginaPrincipal.html" class=" BotonesSuperiores">Inicio</a>
-                </li>
-                <li class="relative group w-full md:w-auto">
-                    <a href="#productos" class="BotonesSuperiores">
-                        Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
-                    </a>
-                    <ul class="dropsInternos">
-                        <li class="w-full block">
-                            <a href="#"
-                                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
-                                1</a>
-                            <a href="#"
-                                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
-                                2</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="relative group w-full md:w-auto">
-                    <a href="#" class="BotonesSuperiores">
-                        Productos <span class="md:hidden text-[10px] ml-1">▼</span>
-                    </a>
-                    <ul class="dropsInternos">
-                        <li class="w-full block">
-                            <a href="#"
-                                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
-                                1</a>
-                            <a href="#"
-                                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
-                                2</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="relative group w-full md:w-auto">
-                    <a href="#" class="BotonesSuperiores">
-                        Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
-                    </a>
-                    <ul class="dropsInternos">
-                        <li class="w-full block">
-                            <a href="#"
-                                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Nosotros</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="w-full md:w-auto">
-                    <a href="Login/Login.html" class="BotonesSuperiores">
-                        Login</a>
-                </li>
-            </ul>
-        </nav>
     </header>
     <!--Menu de accesibilidad-->
     <aside class="relative z-[9999]">
@@ -176,12 +177,8 @@
 
                     </div>
                 </div>
-                <button
-                    class="btnSlider left-0"
-                    onclick="moveSlide(-1)">⟨</button>
-                <button
-                    class="btnSlider right-0"
-                    onclick="moveSlide(1)">⟩</button>
+                <button class="btnSlider left-0" onclick="moveSlide(-1)">⟨</button>
+                <button class="btnSlider right-0" onclick="moveSlide(1)">⟩</button>
             </div>
         </section>
 
@@ -206,7 +203,6 @@
             </div>
         </section>
     </main>
-
     <!--Footer-->
     <footer class="bg-slate-900 text-white py-10 px-5 mt-10 text-center">
         <div id="contacto"
