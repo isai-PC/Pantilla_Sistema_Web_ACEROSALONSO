@@ -4,13 +4,14 @@
 
 @layer components {
     .fondo {
-        @apply  bg-slate-300 text-gray-800 flex flex-col min-h-screen;
-         /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
+        @apply bg-slate-300 text-gray-800 flex flex-col min-h-screen;
+
+        /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
     }
 
     .BarraSuperior {
         @apply bg-white shadow-md bg-slate-900 text-white;
-       /*  flex flex-col md:flex-row justify-between items-center bg-slate-900 px-4 md:px-10 py-3 text-white sticky top-0 z-50 shadow-md backdrop-blur-md border-b border-slate-200 shadow-sm; */
+        /*  flex flex-col md:flex-row justify-between items-center bg-slate-900 px-4 md:px-10 py-3 text-white sticky top-0 z-50 shadow-md backdrop-blur-md border-b border-slate-200 shadow-sm; */
     }
 
     .BotonesSuperiores {
@@ -25,13 +26,41 @@
     .dropsInternos {
         @apply md:absolute
         /* md:top-full  */
-        left-0 min-w-[240px] rounded-xl shadow-xl z-50 flex-col max-h-[300px] overflow-y-auto hidden md:group-hover:flex w-full md:w-auto
+        left-0 min-w-[240px] rounded-xl shadow-xl z-50 flex-col max-h-[300px] overflow-y-auto 
+        hidden md:group-hover:flex 
+        w-full md:w-auto
         /* mt-2 */
+        /* block */
+        /* px-4 */
+        /* <- Espacio interno */
+        /* py-2 */
         transition-all duration-300 bg-slate-900
     }
+
+    .dropsInternos a {
+        @apply block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all
+    }
+
+    .btnsNavs {
+        @apply hidden md:flex items-center gap-8 text-sm font-medium
+    }
+
+    header nav ul {
+        @apply flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full
+    }
+
+   /*  header > ul > li {
+        @apply relative group w-full md:w-auto;
+    } */
+
+    /* header nav ul li ul li a{
+        @apply block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all
+    } */
+
     /* ================SLIDER=============== */
     .btnSlider {
         @apply absolute top-1/2 -translate-y-1/2 bg-slate-800/90 backdrop-blur-sm text-white rounded-xl py-8 md:py-16 px-4 shadow-lg transition-all duration-200 hover:bg-black;
     }
+
     /* ===============SLIDER=============== */
 }

@@ -15,50 +15,82 @@
     <!-- ================= HEADER ================= -->
     <header class="BarraSuperior">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <section class="flex items-center gap-3">
+                <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+            </section>
 
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <img src="ACASALogoAcerosA.png" alt="Logo" class="h-12 w-auto object-contain">
-                <h2 class="text-xl font-bold text-gray-900">Aceros Alonso</h2>
-            </div>
+            <button id="btn-menu"
+                class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
 
-            <!-- Nav -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="#" class="hover:text-orange-500 transition">Inicio</a>
+            <nav id="menu-principal" class="btnsNavs">
+                <ul>
+                    <li>
+                        <a href="../../index.html" class="BotonesSuperiores">Inicio</a>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#" class="">Categoría
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <div class="relative group">
-                    <button class="hover:text-orange-500 transition">Categorías</button>
-                    <ul
-                        class="absolute left-0 mt-3 w-48 bg-white shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Categoría 1</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Categoría 2</a></li>
-                    </ul>
-                </div>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a class="BotonesSuperiores" href="#" aria-haspopup="true" aria-expanded="false">Acerca de
+                            nosotros</a>
+                        <ul class="dropsInternos" role="menu" aria-label="Acerca de nosotros">
+                            <li class="w-full block" role="none"><a role="menuitem"
+                                    href="../contacto/contacto.php">Contacto</a></li>
+                            <li class="w-full block" role="none"><a role="menuitem"
+                                    href="../terminos/terminos.php">Términos y
+                                    Condiciones</a></li>
+                            <li class="w-full block" role="none"><a role="menuitem"
+                                    href="../Preguntasfrecuentes/preguntas.php">Preguntas
+                                    frecuentes</a></li>
+                        </ul>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="pages/VistaPublica/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <div class="relative group">
-                    <button class="hover:text-orange-500 transition">Productos</button>
-                    <ul
-                        class="absolute left-0 mt-3 w-48 bg-white shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Producto 1</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Producto 2</a></li>
-                    </ul>
-                </div>
-
-                <div class="relative group">
-                    <button class="hover:text-orange-500 transition">Acerca de</button>
-                    <ul
-                        class="absolute left-0 mt-3 w-56 bg-white shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Contacto</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Términos</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-orange-50">Preguntas frecuentes</a></li>
-                    </ul>
-                </div>
-
-                <a href="#" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition shadow">
-                    Login
-                </a>
+                    <li class="w-full md:w-auto">
+                        <a href="Login/Login.html" class="BotonesSuperiores">
+                            Login</a>
+                    </li>
+                </ul>
             </nav>
-
         </div>
     </header>
 
