@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro de Usuarios</title>
+    <title>Actualizar TyC</title>
         <link rel="icon" href="ACASALogoAcerosA.png" type="image/png" sizes="16px">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -67,7 +67,6 @@
           </ul>
         </div>
       </div>
-
       <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
       <nav
         id="nav-principal"
@@ -200,99 +199,31 @@
 
 <br>
      <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto"> 
+  <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 border-b-2 border-orange-400 pb-2 inline-block">
+            Actualizar Terminos y Condiciones</h1>
+       <form action="#" method="POST" enctype="multipart/form-data" class="space-y-8">
 
-        <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 border-b-2 border-orange-400 pb-2 inline-block">
-            Administrar Registro de Usuarios</h1>
 
-        <div
-            class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
-            ¡Producto registrado exitosamente!
-        </div>
+                <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                
 
-        <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
-            Ocurrió un error al procesar la solicitud.
-        </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="titulo_1col">Titulo
+                                </label>
+                            <input type="text" id="titulo_1col"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="desc_1col">Contenido
+                                </label>
+                            <textarea id="desc_1col" rows="4"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
+                        </div>
+                    </div>
+                </section>
 
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h2 class="text-xl font-semibold text-slate-700 m-0">Listado de Empleados (Total: 15)</h2>
-            <a href="add.html" class="inline-block">
-                <button
-                    class="bg-orange-400 text-white font-bold py-2 px-4 rounded-md shadow hover:bg-orange-600 transition-all">
-                    + Agregar Nuevo Usuario
-                </button>
-            </a>
-        </div>
-
-        <div
-            class="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-slate-200">
-            <label for="filtro" class="font-semibold text-slate-700">Filtrar por Categoría:</label>
-            <form action="" method="GET" class="m-0 w-full sm:w-auto">
-                <select name="filtro_categoria" id="filtro"
-                    class="w-full sm:w-auto border border-slate-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                    <option value="0">-- Ver Todos --</option>
-                    <option value="1">Láminas</option>
-                    <option value="2">Tubos</option>
-                </select>
-            </form>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-x-auto border border-slate-200">
-            <table class="w-full text-left border-collapse min-w-[600px]">
-                <thead class="bg-slate-100 border-b border-slate-200">
-                    <tr>
-                        <th class="py-3 px-4 font-bold text-slate-700">ID</th>
-                        <th class="py-3 px-4 font-bold text-slate-700">Correo</th>
-                        <th class="py-3 px-4 font-bold text-slate-700">Teléfono</th>
-                        <th class="py-3 px-4 font-bold text-slate-700 text-center">Departamento</th>
-                        <th class="py-3 px-4 font-bold text-slate-700 text-center">Puesto</th>
-                        <th class="py-3 px-4 font-bold text-slate-700 text-center">Usuario</th>
-                        <th class="py-3 px-4 font-bold text-slate-700 text-center">Acciones</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                       <td class="py-3 px-4 font-semibold text-slate-800">9</td>
-                        <td class="py-3 px-4 font-semibold text-slate-800">adansito@example.com</td>
-                        <td class="py-3 px-4 text-slate-600">7712357184</td>
-                        <td class="py-3 px-4 text-slate-600">Administracion</td>
-                        <td class="py-3 px-4 text-slate-600">Gerente</td>
-                        <td class="py-3 px-4 text-slate-600 text-center">Administrador</td>
-                        <td class="py-3 px-4 text-center">
-
-                            <a href="editardetalle.html?id=1" class="inline-flex mr-2">
-                                <button type="button"
-                                    class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
-                                    Editar
-                                </button>
-                            </a>
-
-                            <form action="#" method="post" class="inline">
-                                <button type="submit"
-                                    class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
-                                    Borrar
-                                </button>
-                            </form>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="flex justify-center items-center gap-2 mt-8">
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">«
-                Anterior</a>
-            <span
-                class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">1</span>
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">2</a>
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">Siguiente
-                »</a>
-        </div>
-
+       </form>
     </main>
 <br>
 
