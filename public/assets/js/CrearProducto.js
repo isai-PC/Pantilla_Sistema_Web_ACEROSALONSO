@@ -54,10 +54,10 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
     }
     btnGuardarFinal.textContent = 'Guardando datos... ';
     const payload = {
-        /* id_categoria: parseInt(document.getElementById('id_categoria').value) || 0, */
+        id_categoria: parseInt(document.getElementById('id_categoria').value) || 0,
         nombre_producto: document.getElementById('nombre_producto').value,
         ImagenesProducto: urlImagenFinal,
-        nombre_categoria: document.getElementById('nombre_categoria').value,
+        /* nombre_categoria: document.getElementById('id_categoria').value, */
         precio: parseFloat(document.getElementById('precio').value) || 0,
         unidad_medida: document.getElementById('unidad_medida').value,
         calibre: document.getElementById('calibre').value,
@@ -65,7 +65,7 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
         kg: parseFloat(document.getElementById('kg').value) || 0,
         color: document.getElementById('color').value,
         ced: document.getElementById('ced').value,
-        ton: 0,
+        ton:document.getElementById('ton').value,
         cm: parseFloat(document.getElementById('cm').value) || 0
     };
 
@@ -78,16 +78,42 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
             },
             body: JSON.stringify(payload)
         });
+        
+        const responseData = await response.json().catch(() => ({})); // Intenta parsear JSON, si falla devuelve {}
+        
         if (response.ok) {
             Swal.fire('¡Éxito!', 'Producto creado correctamente', 'success');
             document.getElementById('formCrearProducto').reset();
             resetFormulario();
         } else {
-            Swal.fire('Error', 'El backend no pudo guardar el producto.', 'error');
+            // ❌ ERROR DE API - Mostrar detalles reales
+            const errorMessage = responseData.message || responseData.error || 'Error desconocido del servidor';
+            const errorDetails = responseData.details || '';
+            
+            console.error(`[API ERROR ${response.status}]:`, {
+                status: response.status,
+                statusText: response.statusText,
+                message: errorMessage,
+                details: errorDetails,
+                fullResponse: responseData
+            });
+            
+            let mensajeUsuario = errorMessage;
+            if (response.status === 400) {
+                mensajeUsuario = `Datos inválidos: ${errorMessage}`;
+            } else if (response.status === 401) {
+                mensajeUsuario = 'No autorizado para crear productos';
+            } else if (response.status === 409) {
+                mensajeUsuario = 'El producto ya existe';
+            } else if (response.status >= 500) {
+                mensajeUsuario = 'Error en el servidor. Intenta más tarde.';
+            }
+            
+            Swal.fire('Error API', mensajeUsuario, 'error');
         }
     } catch (error) {
-        console.error('Error de red:', error);
-        Swal.fire('Error', 'Fallo de conexión con la API', 'error');
+        console.error('Error de red/conexión:', error);
+        Swal.fire('Error', 'Fallo de conexión con la API. Verifica tu internet.', 'error');
     } finally {
         btnGuardarFinal.disabled = false;
         btnGuardarFinal.textContent = 'Guardar';
