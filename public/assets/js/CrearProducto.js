@@ -46,7 +46,15 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
             urlImagenFinal = cloudData.secure_url;
         } catch (error) {
             console.error("Error subiendo imagen:", error);
-            Swal.fire('Error', 'No se pudo subir la imagen a la nube. Intenta de nuevo.', 'error');
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                icon: 'error',
+                title: 'No se pudo subir la imagen a la nube. Intenta de nuevo.',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true
+            });
             btnGuardarFinal.disabled = false;
             btnGuardarFinal.textContent = 'Guardar';
             return;
@@ -65,7 +73,7 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
         kg: parseFloat(document.getElementById('kg').value) || 0,
         color: document.getElementById('color').value,
         ced: document.getElementById('ced').value,
-        ton:document.getElementById('ton').value,
+        ton: document.getElementById('ton').value,
         cm: parseFloat(document.getElementById('cm').value) || 0
     };
 
@@ -78,18 +86,31 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
             },
             body: JSON.stringify(payload)
         });
-        
+
         const responseData = await response.json().catch(() => ({})); // Intenta parsear JSON, si falla devuelve {}
-        
+
         if (response.ok) {
-            Swal.fire('¡Éxito!', 'Producto creado correctamente', 'success');
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                icon: 'success',
+                title: 'Producto creado correctamente',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                background: '#1f2937',   // gris oscuro
+                color: '#fff',
+                customClass: {
+                    popup: 'rounded-xl shadow-lg'
+                }
+            });
             document.getElementById('formCrearProducto').reset();
             resetFormulario();
         } else {
-            // ❌ ERROR DE API - Mostrar detalles reales
+            // MOSTRAR ERROR DE API - Mostrar detalles reales
             const errorMessage = responseData.message || responseData.error || 'Error desconocido del servidor';
             const errorDetails = responseData.details || '';
-            
+
             console.error(`[API ERROR ${response.status}]:`, {
                 status: response.status,
                 statusText: response.statusText,
@@ -97,7 +118,7 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
                 details: errorDetails,
                 fullResponse: responseData
             });
-            
+
             let mensajeUsuario = errorMessage;
             if (response.status === 400) {
                 mensajeUsuario = `Datos inválidos: ${errorMessage}`;
@@ -108,12 +129,21 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
             } else if (response.status >= 500) {
                 mensajeUsuario = 'Error en el servidor. Intenta más tarde.';
             }
-            
+
             Swal.fire('Error API', mensajeUsuario, 'error');
         }
     } catch (error) {
         console.error('Error de red/conexión:', error);
-        Swal.fire('Error', 'Fallo de conexión con la API. Verifica tu internet.', 'error');
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            icon: 'error',
+            title: 'Fallo de conexión con la API. Verifica tu internet.',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true
+        });
+        /* Swal.fire('Error', '', 'error'); */
     } finally {
         btnGuardarFinal.disabled = false;
         btnGuardarFinal.textContent = 'Guardar';
