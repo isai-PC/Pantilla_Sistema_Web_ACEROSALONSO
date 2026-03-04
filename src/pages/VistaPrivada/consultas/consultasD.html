@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
+<body class="bg-slate-300 text-neutral-900 font-sans ">
     <script src="js/Slider.js"></script>
     <!--Header-->
 
@@ -59,7 +59,7 @@
     </div>
 
     <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
- <nav id="nav-principal" class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
+ <nav class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
     <ul class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
         
         <li class="w-full md:w-auto">
@@ -139,8 +139,6 @@
                 Inicio
             </a>
         </li>
-              </ul>
-      </nav>
         
 
 </header>
@@ -157,47 +155,99 @@
             class="fixed right-2.5 md:right-[4%] bottom-[90px] w-[260px] md:w-auto h-[350px] md:h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
     </aside>
 
-    <main>
 <br>
+<!--********************************************************************************-->
+  <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto"> 
 
-    <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto"> 
-    
-        <h1>Alta de nuevos productos</h1>
+    <h1 class="text-2xl md:text-3xl font-bold mb-6 text-center">
+        REPORTES POR DEPARTAMENTO
+    </h1>
 
-    <div class="mb-5">
-      <label class="block mb-2.5 text-sm font-medium text-heading"> Nombre de Producto</label>
-      <input type="text" id="titulo" placeholder="Nombre del Producto" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"/>
+    <!-- CONSULTAS RAPIDAS -->
+    <div class="mb-6">
+        <label class="block mb-2 font-medium">Consultas rápidas</label>
+        <select id="consultas"
+            class="block w-full px-3 py-2.5 border rounded-md focus:ring-orange-400 focus:border-orange-400">
+            <option value="">Seleccione una consulta</option>
+            <option>Empleados con más faltas</option>
+            <option>Total personal por departamento</option>
+            <option>Asistencias por mes</option>
+            <!--faltan mas-->
+        </select>
+    </div>
+    <!-- Selección por departamento o empleado -->
+    <div class="w-full mb-8">
+        <button
+            class="w-full bg-orange-500 text-white py-3 rounded-t-md hover:bg-orange-600 transition font-semibold">
+            Por empleado
+        </button>
+        <button
+            class="w-full bg-slate-700 text-white py-3 rounded-b-md hover:bg-slate-800 transition font-semibold">
+            Por departamento
+        </button>
     </div>
 
-    <div class="mb-5">
-      <label class="block mb-2.5 text-sm font-medium text-heading"> Precio</label>
-      <input type="number" id="precio" placeholder="$0.00" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"/>
-    </div>
-
-    <div class="mb-5">
-      <label class="block mb-2.5 text-sm font-medium text-heading"> Categorias</label>
-      <select id="categorias" class="hover:bg-cian-100 block w-full px-3 py-2.5 bg-neutral-secondary-medium border border-default-medium text-heading text-gray-800 rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body">
-  
-    </select>
-    </div>
-
-    <div class="mb-5">
-      <label class="block mb-2.5 text-sm font-medium text-heading"> Descipcion</label>
-      <textarea id="descripcion" rows="4" placeholder="Descipcion" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs"> </textarea>
-    </div>
-
-       <div class="mb-5">
-            <label class="block mb-2.5 text-sm font-medium text-heading">URL imagen (opcional):</label>
-            <input type="text" id="imagen" placeholder="https://..." class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs">
+    <!-- RANGO DE FECHAS -->
+    <div class="mb-6">
+        <label class="block mb-2 font-medium">Rango de fecha</label>
+        <div class="flex flex-col md:flex-row gap-4">
+            <input type="date" class="border rounded-md px-3 py-2 w-full">
+            <span>a</span>
+            <input type="date" class="border rounded-md px-3 py-2 w-full">
         </div>
+    </div>
 
-    <button class=" block  text-sm text-gray-800 bg-gray-100 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100 transition" onclick="window.location.href='../'">- come Back</button>
+    <!-- SELECCIONAR DEPARTAMENTO -->
+    <div class="mb-6">
+        <label class="block mb-2 font-medium">Departamento</label>
+        <select class="border rounded-md px-3 py-2 w-full focus:ring-orange-400 focus:border-orange-400">
+            <option>Seleccione departamento</option>
+            <option>Recursos Humanos</option>
+            <option>Ventas</option>
+            <option>TI</option>
+            <option>Administración</option>
+        </select>
+    </div>
 
-    <button class=" block mt-3 text-gray-800 bg-blue-300 rounded-md box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" onclick="editarProducto()">Editar Producto...</button>
-    <div id="mensaje-exito"></div>
- 
-    </main>
+    <!-- BOTON -->
+    <div class="text-center mb-8">
+        <button
+            class="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition">
+            Generar reporte
+        </button>
+    </div>
 
+    <!-- TABLA RESULTADOS -->
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+
+            <thead class="bg-slate-800 text-white">
+                <tr>
+                    <th class="p-3">Fecha</th>
+                    <th class="p-3">Asistencias</th>
+                    <th class="p-3">Faltas</th>
+                    <th class="p-3">Retardos</th>
+                    <th class="p-3">Permisos</th>
+                    <th class="p-3">Horas trabajadas</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-center">
+                <tr class="border-b hover:bg-gray-100 transition">
+                    
+                </tr>
+                <tr>
+                    <td colspan="6" class="p-6 text-black-500 font-medium">
+                    No hay datos para mostrar
+                </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+</main>
     <!--Footer-->
     <footer class="bg-slate-900 text-white py-10 px-5 mt-10 text-center">
         <div id="contacto"
@@ -246,7 +296,7 @@
         <p class="text-center mt-10 text-[0.9rem] text-slate-300">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
 
-    <script src="../../js/listado2.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
