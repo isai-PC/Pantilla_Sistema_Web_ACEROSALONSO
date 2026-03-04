@@ -19,11 +19,13 @@
     .BarraSuperior > div {
         @apply max-w-7xl mx-auto px-6 py-4 flex justify-between items-center
     }
+    .BarraSuperior > div > section{
+        @apply flex items-center gap-3;
+    }
 
     .BotonesSuperiores {
-        @apply 
-       
-        relative inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-sm md:text-base
+        @apply        
+        relative inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium text-sm md:text-base
         /*  text-gray-700 */
         /*  bg-white/70 */
         backdrop-blur-md
@@ -53,6 +55,9 @@
 
     header nav ul {
         @apply flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full
+    }
+    .btnLogin{
+        @apply block px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 transition-all
     }
 
     /*  header > ul > li {
