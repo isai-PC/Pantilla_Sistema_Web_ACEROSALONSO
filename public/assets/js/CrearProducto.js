@@ -86,7 +86,7 @@ document.getElementById('formCrearProducto').addEventListener('submit', async fu
             document.getElementById('formCrearProducto').reset();
             resetFormulario();
         } else {
-            // ❌ ERROR DE API - Mostrar detalles reales
+            // MOSTRAR ERROR DE API - Mostrar detalles reales
             const errorMessage = responseData.message || responseData.error || 'Error desconocido del servidor';
             const errorDetails = responseData.details || '';
             
