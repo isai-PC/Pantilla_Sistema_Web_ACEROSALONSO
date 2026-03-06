@@ -565,7 +565,7 @@ video {
   /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
 }
 
-.BarraSuperior {
+/*.BarraSuperior {
   position: sticky;
   top: 0px;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -731,7 +731,7 @@ header nav ul {
     align-items: center;
     gap: 1.25rem;
   }
-}
+}*/
 
 .btnLogin {
   display: block;
@@ -759,6 +759,8 @@ header nav ul {
 /* header nav ul li ul li a{
         @apply block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all
     } */
+
+
 
 /* ================SLIDER=============== */
 
