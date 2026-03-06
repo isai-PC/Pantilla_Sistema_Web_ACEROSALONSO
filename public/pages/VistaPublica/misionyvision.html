@@ -13,72 +13,65 @@
 
 <body class="fondo">
     <!-- ================= HEADER ================= -->
-    <header class="BarraSuperior">
-        <div>
-            <section class="flex items-center gap-3">
-                <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
-                <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
-            </section>
-            <button id="btn-menu"
-                class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </button>
-
-            <nav id="menu-principal" class="btnsNavs">
-                <ul>
-                    <li>
-                        <a href="" class="BotonesSuperiores">Inicio</a>
+    <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
+        <div class="w-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center">
+            
+            <div class="flex justify-between items-center w-full md:w-auto">
+                <section class="flex items-center gap-3">
+                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                    <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
+                </section>
+                <button id="btn-menu" class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0">
+                
+                <ul class="flex flex-col md:flex-row md:flex-wrap md:justify-end gap-1 md:gap-3 m-0 p-0 items-start md:items-center list-none w-full">
+                    
+                    <li class="w-full md:w-auto">
+                        <a href="paginaPrincipal.html" class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">Inicio</a>
                     </li>
+                    
                     <li class="relative group w-full md:w-auto">
-                        <a href="#" class="BotonesSuperiores">
+                        <a href="#" class="submenu-btn flex justify-between items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="dropsInternos">
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden md:group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
                             <li class="w-full block">
-                                <a href="#" class="">Categoría
-                                    1</a>
-                                <a href="#"
-                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
-                                    2</a>
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 1</a>
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 2</a>
                             </li>
                         </ul>
                     </li>
 
                     <li class="relative group w-full md:w-auto">
-                        <a href="#" class="BotonesSuperiores">
+                        <a href="#" class="submenu-btn flex justify-between items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full cursor-pointer">
                             Productos <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="dropsInternos">
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden md:group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
                             <li class="w-full block">
-                                <a href="#"
-                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
-                                    1</a>
-                                <a href="#"
-                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
-                                    2</a>
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 1</a>
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 2</a>
                             </li>
                         </ul>
                     </li>
+                    
                     <li class="relative group w-full md:w-auto">
-                        <a class="BotonesSuperiores" href="#" aria-haspopup="true" aria-expanded="false">Acerca de
-                            nosotros</a>
-                        <ul class="dropsInternos" aria-label="Acerca de nosotros">
+                        <a href="#" class="submenu-btn flex justify-between items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full cursor-pointer">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden md:group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
                             <li class="w-full block">
-                                <a href="../VistaPublica/ContactoView/contacto.html">Formas de contacto</a>
-                                <a href="terminosView/terminos.html">Términos y
-                                    Condiciones</a>
-                                <a href="../Preguntasfrecuentes/preguntas.php">Preguntas
-                                    frecuentes</a>
+                                <a href="pages/VistaPublica/misionyvision.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
                             </li>
                         </ul>
                     </li>
+
                     <li class="w-full md:w-auto">
-                        <a href="Login/Login.html" class="btnLogin">
-                            Login</a>
+                        <a href="Login/Login.html" class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">Login</a>
                     </li>
                 </ul>
             </nav>
