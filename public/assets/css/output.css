@@ -565,7 +565,7 @@ video {
   /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
 }
 
-/* .BarraSuperior {
+.header {
   position: sticky;
   top: 0px;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -731,7 +731,7 @@ header nav ul {
     align-items: center;
     gap: 1.25rem;
   }
-}*/
+}
 
 .btnLogin {
   display: block;
@@ -759,8 +759,6 @@ footer {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
 }
-
-
 
 /* ================SLIDER=============== */
 
@@ -1095,6 +1093,10 @@ aside nav ul li a {
   margin-top: auto;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1237,6 +1239,10 @@ aside nav ul li a {
 
 .min-w-full {
   min-width: 100%;
+}
+
+.min-w-\[200px\] {
+  min-width: 200px;
 }
 
 .max-w-4xl {
@@ -1587,6 +1593,11 @@ aside nav ul li a {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#0f172a\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
 .object-contain {
@@ -2046,6 +2057,11 @@ aside nav ul li a {
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-orange-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity));
+}
+
 .hover\:pl-6:hover {
   padding-left: 1.5rem;
 }
@@ -2156,6 +2172,10 @@ aside nav ul li a {
 
   .md\:top-full {
     top: 100%;
+  }
+
+  .md\:right-0 {
+    right: 0px;
   }
 
   .md\:order-1 {
@@ -2293,6 +2313,10 @@ aside nav ul li a {
     justify-content: flex-start;
   }
 
+  .md\:justify-end {
+    justify-content: flex-end;
+  }
+
   .md\:gap-12 {
     gap: 3rem;
   }
@@ -2314,8 +2338,17 @@ aside nav ul li a {
     border-bottom-left-radius: 0.375rem;
   }
 
+  .md\:border-t-2 {
+    border-top-width: 2px;
+  }
+
   .md\:border-none {
     border-style: none;
+  }
+
+  .md\:bg-\[\#0f172a\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(15 23 42 / var(--tw-bg-opacity));
   }
 
   .md\:p-0 {
