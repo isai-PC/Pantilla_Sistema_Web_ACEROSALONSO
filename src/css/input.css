@@ -9,7 +9,7 @@
         /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
     }
 
-    .BarraSuperior {
+    .header {
         @apply sticky top-0
         /* Posicion fija */
         bg-white shadow-md bg-slate-900 text-white;
