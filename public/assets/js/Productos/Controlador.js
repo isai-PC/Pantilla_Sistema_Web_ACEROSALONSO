@@ -84,7 +84,7 @@ const eliminarProducto = async (id) => {
             const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
             if (response.ok) {
                 Swal.fire('¡Borrado!', 'El producto ha sido eliminado.', 'success');
-                ListarProductos(); 
+                ListarProductos();
             } else {
                 throw new Error("No se pudo eliminar el producto");
             }
@@ -110,7 +110,7 @@ const ListarProductos = async () => {
             tituloTotal.textContent = `Listado de Productos (Total: ${productos.length})`;
         }
 
-        if (!tbody) return; 
+        if (!tbody) return;
 
         tbody.innerHTML = "";
 
@@ -171,27 +171,27 @@ const cargarProducto = async () => {
             const resLista = await fetch(API_URL);
             const listaData = await resLista.json();
             const productos = listaData.data || listaData;
-            
+
             // Buscamos el producto que coincida con el ID de la URL
             p = productos.find(item => (item.id_producto || item.id).toString() === idProducto.toString());
         }
 
         if (p && form) {
             console.log("Producto encontrado para editar:", p);
-            
+
             // Llenamos los inputs (Asegúrate que los ID en el HTML coincidan)
-            if(document.getElementById('nombre_producto')) document.getElementById('nombre_producto').value = p.nombre_producto || "";
-            if(document.getElementById('id_categoria')) document.getElementById('id_categoria').value = p.id_categoria || "";
-            if(document.getElementById('precio')) document.getElementById('precio').value = p.precio || "";
-            if(document.getElementById('unidad_medida')) document.getElementById('unidad_medida').value = p.unidad_medida || "";
-            if(document.getElementById('calibre')) document.getElementById('calibre').value = p.calibre || "";
-            if(document.getElementById('metros')) document.getElementById('metros').value = p.metros || "";
-            if(document.getElementById('kg')) document.getElementById('kg').value = p.kg || "";
-            if(document.getElementById('cm')) document.getElementById('cm').value = p.cm || "";
-            if(document.getElementById('ton')) document.getElementById('ton').value = p.ton || "";
-            if(document.getElementById('ced')) document.getElementById('ced').value = p.ced || "";
-            if(document.getElementById('color')) document.getElementById('color').value = p.color || "";
-            
+            if (document.getElementById('nombre_producto')) document.getElementById('nombre_producto').value = p.nombre_producto || "";
+            if (document.getElementById('id_categoria')) document.getElementById('id_categoria').value = p.id_categoria || "";
+            if (document.getElementById('precio')) document.getElementById('precio').value = p.precio || "";
+            if (document.getElementById('unidad_medida')) document.getElementById('unidad_medida').value = p.unidad_medida || "";
+            if (document.getElementById('calibre')) document.getElementById('calibre').value = p.calibre || "";
+            if (document.getElementById('metros')) document.getElementById('metros').value = p.metros || "";
+            if (document.getElementById('kg')) document.getElementById('kg').value = p.kg || "";
+            if (document.getElementById('cm')) document.getElementById('cm').value = p.cm || "";
+            if (document.getElementById('ton')) document.getElementById('ton').value = p.ton || "";
+            if (document.getElementById('ced')) document.getElementById('ced').value = p.ced || "";
+            if (document.getElementById('color')) document.getElementById('color').value = p.color || "";
+
             if (p.ImagenesProducto && image) {
                 image.src = p.ImagenesProducto;
             }
@@ -243,7 +243,7 @@ const previsualizar = () => {
     }
     if (image.src !== "" && !image.src.includes("placeholder")) {
         URL.revokeObjectURL(image.src);
-    } 
+    }
     image.src = URL.createObjectURL(foto);
 };
 
@@ -312,13 +312,13 @@ if (form) {
                 response = await crearProducto(payload);
             }
 
-            const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
-            
+             const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
+
             if (response.ok) {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: mensajeExito, showConfirmButton: false, timer: 3000 });
-                if (!modoEditar) { 
-                    form.reset(); 
-                    resetFormulario(); 
+                if (!modoEditar) {
+                    form.reset();
+                    resetFormulario();
                 }
             } else {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo guardar el producto", showConfirmButton: false, timer: 4000 });
@@ -341,7 +341,5 @@ document.addEventListener("DOMContentLoaded", () => {
         ListarProductos();
     }
     // Si estamos en modo editar y hay formulario, cargamos los datos
-    
-        cargarProducto();
-    
+    cargarProducto();
 });
