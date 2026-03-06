@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Producto | Aceros Alonso</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../ACASALogoAcerosA.png" type="image/png">
+    <link rel="stylesheet" href="../../../assets/css/output.css">
+</head>
+
+<body class="fondo">
+
+    <!-- HEADER -->
+    <header class="BarraSuperior">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <section class="flex items-center gap-3 ">
+                <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+            </section>
+            <button id="btn-menu"
+                class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+            <nav id="menu-principal" class="btnsNavs ">
+                <ul>
+                    <li>
+                        <a href="../../../index.html" class="BotonesSuperiores">Inicio</a>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="../CatalogoProductosWiew/CatalogoProductos.html"
+                                    class="">Categoría Producto
+                                    1</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="pages/VistaPublica/VistaDetalleProducto/VistaVieew.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">
+                                    Producto 1</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="../misionyvision.html" class="BotonesSuperiores">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="../misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="Login/Login.html" class="btnLogin">
+                            Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- MAIN -->
+    <main class="max-w-7xl mx-auto px-6 py-10">
+        <!-- Breadcrumb -->
+        <div class="text-sm text-gray-500 mb-6">
+            <a href="../CatalogoProductosWiew/CatalogoProductos.html" class="hover:text-orange-500">Volver al Catálogo</a>
+            <span class="mx-2">/</span>
+            <span>Nombre del Producto</span>
+        </div>
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+            <!-- Imagen -->
+            <div class="bg-white rounded-xl shadow p-6 flex justify-center">
+                <img src="../imagenes/placeholder.jpg" alt="Producto" class="max-h-96 object-contain">
+            </div>
+            <!-- Información -->
+            <div class="bg-white rounded-xl shadow p-8">
+                <h1 class="text-3xl font-bold mb-3">
+                    Nombre del Producto
+                </h1>
+                <p class="text-gray-600 mb-6">
+                    Descripción corta del producto o unidad de medida
+                </p>
+                <h2 class="text-xl font-semibold mb-4">
+                    Especificaciones Técnicas
+                </h2>
+                <table class="w-full text-sm">
+                    <tbody class="divide-y">
+
+                        <tr>
+                            <td class="py-2 font-semibold">Unidad de Medida</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Calibre</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Metros</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Kg</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Color</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Ced</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Ton</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 font-semibold">Cm</td>
+                            <td class="py-2">Ejemplo</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white mt-16">
+
+        <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
+
+            <div>
+                <h3 class="font-semibold text-lg mb-2">
+                    Pregunta frecuente
+                </h3>
+
+                <p class="text-gray-400">
+                    Aquí aparecerá una pregunta frecuente con su respuesta.
+                </p>
+            </div>
+
+            <div>
+
+                <h3 class="font-semibold text-lg mb-4">
+                    Nuestras Redes Sociales
+                </h3>
+
+                <div class="flex gap-4">
+
+                    <a href="#">
+                        <img class="w-8"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/500px-Facebook_Logo_%282019%29.png">
+                    </a>
+
+                    <a href="#">
+                        <img class="w-8"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png">
+                    </a>
+
+                    <a href="#">
+                        <img class="w-8"
+                            src="https://upload.wikimedia.org/wikipedia/commons/0/01/X-Logo-Round-Color.png">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <ul class="space-y-2">
+
+                    <li>
+                        <a href="#" class="hover:text-orange-400">
+                            Contacto
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="hover:text-orange-400">
+                            Preguntas frecuentes
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="hover:text-orange-400">
+                            Términos y condiciones
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="text-center border-t border-gray-700 py-4 text-sm text-gray-400">
+            Todos los derechos reservados © 2025 Aceros Alonso
+        </div>
+
+    </footer>
+</body>
+
+</html>

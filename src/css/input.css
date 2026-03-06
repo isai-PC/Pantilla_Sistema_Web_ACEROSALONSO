@@ -9,23 +9,22 @@
         /* bg-slate-300 text-neutral-900 font-sans h-full m-0 antialiased  */
     }
 
-    .BarraSuperior {
-        @apply  
-        sticky top-0 /* Posicion fija */
-        bg-white shadow-md
-         bg-slate-900 text-white;
+    .header {
+        @apply sticky top-0
+        /* Posicion fija */
+        bg-white shadow-md bg-slate-900 text-white;
     }
 
-    .BarraSuperior > div {
+    .BarraSuperior>div {
         @apply max-w-7xl mx-auto px-6 py-4 flex justify-between items-center
     }
-    .BarraSuperior > div > section{
+
+    .BarraSuperior>div>section {
         @apply flex items-center gap-3;
     }
 
     .BotonesSuperiores {
-        @apply        
-        relative inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium text-sm md:text-base
+        @apply relative inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium text-sm md:text-base
         /*  text-gray-700 */
         /*  bg-white/70 */
         backdrop-blur-md
@@ -56,17 +55,22 @@
     header nav ul {
         @apply flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full
     }
-    .btnLogin{
+
+    .btnLogin {
         @apply block px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 transition-all
     }
 
-    /*  header > ul > li {
-        @apply relative group w-full md:w-auto;
-    } */
+    .bonesSalida {
+        @apply flex flex-wrap justify-center gap-4 mt-6;
+    }
 
-    /* header nav ul li ul li a{
-        @apply block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all
-    } */
+    .btnReg {
+        @apply block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-md;
+    }
+
+    footer {
+        @apply bg-gray-900 text-gray-300 mt-20
+    }
 
     /* ================SLIDER=============== */
     .btnSlider {
@@ -74,4 +78,54 @@
     }
 
     /* ===============SLIDER=============== */
+
+
+
+    /* APARTADO DE LA SECCION PRIVADA */
+    .fondoPrivado {
+        @apply bg-slate-300 text-neutral-900 font-sans h-full m-0;
+    }
+
+    header {
+        @apply flex justify-between items-center bg-slate-900 px-4 md:px-6 py-3 text-white shadow-md z-50 relative;
+    }
+
+    header nav ul {
+        @apply flex m-0 p-0 list-none;
+    }
+
+    .btnCerrarSesion {
+        @apply inline-flex        /* Contenedor */
+        items-center justify-center        /* Ubicacion */
+        px-4 py-2 text-sm font-bold text-white        /* Estilo */
+        rounded-md        /* Bordes */
+        bg-red-500 hover:bg-red-700        /* Colores */
+        transition-colors shadow-smL;/* Animaciones */
+    }
+    aside {
+    @apply 
+        hidden /* Oculta completamente el elemento en pantallas pequeñas */
+        md:block /* Muestra el elemento como bloque a partir de pantallas medianas */
+        w-full /* Hace que el elemento ocupe todo el ancho disponible */
+        bg-slate-900 /* Aplica un fondo oscuro para dar apariencia corporativa o de barra lateral */
+        text-white /* Establece el texto en color blanco para generar alto contraste */
+        shadow-sm /* Agrega una sombra sutil para separar visualmente el aside del contenido */
+        z-40 /* Define una capa alta para que se superponga sobre otros elementos si es necesario */
+        relative /* Permite posicionar elementos hijos con position absolute respecto a este contenedor */
+        border-t /* Agrega una línea superior como delimitador visual */
+        border-slate-700; /* Aplica un tono gris oscuro al borde para mantener coherencia con el fondo */
+        }
+    aside nav {
+        @apply px-4 md:px-6 py-2;
+    }
+    aside nav ul {
+    @apply flex flex-col md:flex-row md:flex-wrap gap-1 md:gap-3 m-0 p-0 items-start md:items-center list-none w-full;
+    }
+    aside nav ul li {
+        @apply w-full md:w-auto;
+    }
+    aside nav ul li a {
+        
+    }
+
 }

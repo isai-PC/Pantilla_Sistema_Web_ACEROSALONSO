@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aceros Alonso | Misión y Visión</title>
-    <link rel="stylesheet" href="../../assets/css/output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Preguntas Frecuentes | Aceros Alonso</title>
 
-
+    <!-- CSS compilado de Tailwind -->
+    <link rel="stylesheet" href="../../../assets/css/output.css">
 </head>
 
-<body class="fondo">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
     <!-- ================= HEADER ================= -->
     <header class="BarraSuperior">
         <div>
@@ -28,6 +28,7 @@
                 </svg>
             </button>
 
+            <!-- Navegación -->
             <nav id="menu-principal" class="btnsNavs">
                 <ul>
                     <li>
@@ -68,11 +69,10 @@
                             nosotros</a>
                         <ul class="dropsInternos" aria-label="Acerca de nosotros">
                             <li class="w-full block">
-                                <a href="../VistaPublica/ContactoView/contacto.html">Formas de contacto</a>
-                                <a href="terminosView/terminos.html">Términos y
+                                <a href="../terminosView/terminos.html">Términos y
                                     Condiciones</a>
-                                <a href="../Preguntasfrecuentes/preguntas.php">Preguntas
-                                    frecuentes</a>
+                                <a href="../ContactoView/contacto.html">Contacto</a>
+                                <a href="../misionyvision.html"> Acerca de nosostros</a>
                             </li>
                         </ul>
                     </li>
@@ -89,53 +89,53 @@
     <!-- ================= MAIN ================= -->
     <main class="flex-grow">
 
-        <!-- Sección Misión -->
-        <section class="py-20">
-            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <section class="max-w-4xl mx-auto px-6 py-12">
+            <div class="bg-white shadow-lg rounded-2xl p-8">
 
-                <div>
-                    <h1 class="text-4xl font-bold mb-6 text-gray-900">Misión</h1>
-                    <p class="text-lg leading-relaxed text-gray-600">
-                        Nuestra misión es ofrecer productos de acero de la más alta calidad,
-                        garantizando innovación, compromiso y excelencia en cada proyecto.
-                    </p>
-                </div>
+                <h1 class="text-3xl font-bold text-center mb-8">
+                    Preguntas Frecuentes
+                </h1>
 
-                <img src="images/mision.jpg" alt="Imagen Misión" class="rounded-2xl shadow-xl w-full h-80 object-cover">
-            </div>
-        </section>
+                <!-- FAQ CARD 1 -->
+                <article class="border border-gray-200 rounded-xl mb-4 overflow-hidden">
+                    <button
+                        class="w-full flex justify-between items-center px-6 py-4 text-left font-semibold bg-gray-100 hover:bg-gray-200 transition">
+                        <span>¿Realizan envíos a domicilio?</span>
+                        <span class="text-blue-600">➤</span>
+                    </button>
+                    <div class="px-6 py-4 text-gray-600 bg-white">
+                        Sí, realizamos envíos locales y foráneos dependiendo del volumen del pedido.
+                    </div>
+                </article>
 
-        <!-- Sección Visión -->
-        <section class="py-20 bg-gray-100">
-            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <!-- FAQ CARD 2 -->
+                <article class="border border-gray-200 rounded-xl mb-4 overflow-hidden">
+                    <button
+                        class="w-full flex justify-between items-center px-6 py-4 text-left font-semibold bg-gray-100 hover:bg-gray-200 transition">
+                        <span>¿Manejan cotizaciones personalizadas?</span>
+                        <span class="text-blue-600">➤</span>
+                    </button>
+                    <div class="px-6 py-4 text-gray-600 bg-white">
+                        Sí, puedes solicitar una cotización personalizada según el tipo y volumen de material requerido.
+                    </div>
+                </article>
 
-                <div>
-                    <h1 class="text-4xl font-bold mb-6 text-gray-900">Visión</h1>
-                    <p class="text-lg leading-relaxed text-gray-600">
-                        Ser líderes en el mercado nacional e internacional,
-                        destacándonos por calidad, innovación y compromiso con nuestros clientes.
-                    </p>
-                </div>
-
-                <img src="images/vision.jpg" alt="Imagen Visión" class="rounded-2xl shadow-xl w-full h-80 object-cover">
-            </div>
-        </section>
-
-        <!-- Por qué elegir -->
-        <section class="py-20">
-            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-
-                <img src="images/beneficios.jpg" alt="Beneficios"
-                    class="rounded-2xl shadow-xl w-full h-80 object-cover order-2 md:order-1">
-
-                <div class="order-1 md:order-2">
-                    <h1 class="text-4xl font-bold mb-6 text-gray-900">
-                        ¿Por qué elegir los productos de Aceros Alonso?
-                    </h1>
-                    <p class="text-lg leading-relaxed text-gray-600">
-                        Ofrecemos productos resistentes, certificados y adaptados a las necesidades
-                        de cada cliente, garantizando durabilidad y respaldo profesional.
-                    </p>
+                <!-- FAQ CARD 3 -->
+                <article class="border border-gray-200 rounded-xl mb-4 overflow-hidden">
+                    <button
+                        class="w-full flex justify-between items-center px-6 py-4 text-left font-semibold bg-gray-100 hover:bg-gray-200 transition">
+                        <span>¿Cuáles son sus horarios de atención?</span>
+                        <span class="text-blue-600">➤</span>
+                    </button>
+                    <div class="px-6 py-4 text-gray-600 bg-white">
+                        Nuestro horario es de lunes a viernes de 8:00 AM a 6:00 PM.
+                    </div>
+                </article>
+                <div class="flex flex-wrap justify-center gap-4 mt-6">
+                    <a href="../misionyvision.html"
+                        class="incline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-md">
+                        Regresar
+                    </a>
                 </div>
 
             </div>
@@ -143,9 +143,8 @@
 
     </main>
 
-
     <!-- ================= FOOTER ================= -->
-    <footer class="bg-gray-900 text-gray-300 mt-20">
+    <footer>
         <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12">
 
             <!-- Pregunta frecuente -->

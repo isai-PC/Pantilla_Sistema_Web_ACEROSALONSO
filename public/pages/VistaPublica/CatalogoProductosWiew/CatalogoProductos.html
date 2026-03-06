@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Aceros Alonso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../ACASALogoAcerosA.png">
+    <link rel="stylesheet" href="../../../assets/css/output.css">
+
+</head>
+
+<body class="fondo">
+
+    <!-- HEADER -->
+    <header class="BarraSuperior">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <section class="flex items-center gap-3">
+                <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+            </section>
+
+            <button id="btn-menu"
+                class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+
+            <nav id="menu-principal" class="btnsNavs">
+                <ul>
+                    <li>
+                        <a href="paginaPrincipal.html" class="BotonesSuperiores">Inicio</a>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#" class="">Categoría
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Categoría
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Producto
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="BotonesSuperiores">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="dropsInternos">
+                            <li class="w-full block">
+                                <a href="pages/VistaPublica/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="w-full md:w-auto">
+                        <a href="Login/Login.html" class="btnLogin">
+                            Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- MAIN -->
+    <main class="max-w-7xl mx-auto p-6 flex-1">
+        <h1 class="text-3xl font-bold mb-8 text-center">
+            Todos los productos
+        </h1>
+        <!-- GRID CATALOGO -->
+        <section class="grid gap-8
+                grid-cols-1
+                sm:grid-cols-2 
+                md:grid-cols-3 
+                lg:grid-cols-4
+                justify-center">
+            <!-- CARD -->
+            <a href="#" class="block group">
+
+                <article class="relative w-full max-w-xs bg-white rounded-xl shadow-lg overflow-hidden">
+
+                    <figure class="h-48 overflow-hidden">
+                        <img src="../imagenes/placeholder.jpg"
+                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                    </figure>
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Producto ejemplo</h3>
+                        <p class="text-sm text-gray-600">Unidad · Cal: 12</p>
+                    </div>
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-slate-800/95 text-white 
+                flex flex-col justify-center items-center text-left
+                p-6 opacity-0 
+                transition-all duration-300
+                group-hover:opacity-100">
+                        <h4 class="text-lg font-semibold mb-3">Detalles Técnicos</h4>
+                        <ul class="space-y-1 text-sm">
+                            <li><span class="font-semibold">Metros:</span> 6</li>
+                            <li><span class="font-semibold">Kilos:</span> 12</li>
+                            <li><span class="font-semibold">Color:</span> Negro</li>
+                        </ul>
+                        <span
+                            class="mt-4 bg-orange-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-orange-600 transition">
+                            Ver detalle
+                        </span>
+                    </div>
+                </article>
+            </a>
+            <!-- DUPLICAR CARD -->
+            <a href="#" class="block group">
+                <article class="relative w-full max-w-xs mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                    <figure class="h-48 overflow-hidden">
+                        <img src="../imagenes/placeholder.jpg"
+                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                    </figure>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Producto ejemplo</h3>
+                        <p class="text-sm text-gray-600">Unidad · Cal: 12</p>
+                    </div>
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-slate-800/95 text-white 
+                flex flex-col justify-center items-center text-left
+                p-6 opacity-0 
+                transition-all duration-300
+                group-hover:opacity-100">
+                        <h4 class="text-lg font-semibold mb-3">Detalles Técnicos</h4>
+                        <ul class="space-y-1 text-sm">
+                            <li><span class="font-semibold">Metros:</span> 6</li>
+                            <li><span class="font-semibold">Kilos:</span> 12</li>
+                            <li><span class="font-semibold">Color:</span> Negro</li>
+                        </ul>
+                        <span
+                            class="mt-4 bg-orange-500 px-4 py-2 rounded-md text-sm font-semibold hover:bg-orange-600 transition">
+                            Ver detalle
+                        </span>
+                    </div>
+                </article>
+            </a>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="bg-gray-900 text-white mt-16">
+
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 p-8">
+
+            <div>
+
+                <h3 class="font-bold text-lg mb-3">
+                    Pregunta frecuente
+                </h3>
+
+                <p class="text-gray-300 text-sm">
+                    Aquí aparecerá una pregunta frecuente destacada del sistema.
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3 class="font-bold text-lg mb-3">
+                    Nuestras Redes Sociales
+                </h3>
+
+                <div class="flex gap-4">
+
+                    <img class="w-8"
+                        src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png">
+
+                    <img class="w-8" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+
+                    <img class="w-8" src="https://upload.wikimedia.org/wikipedia/commons/0/01/X-Logo-Round-Color.png">
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <ul class="space-y-2 text-gray-300">
+
+                    <li><a href="#" class="hover:text-white">Contacto</a></li>
+                    <li><a href="#" class="hover:text-white">Preguntas frecuentes</a></li>
+                    <li><a href="#" class="hover:text-white">Términos y condiciones</a></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <p class="text-center text-gray-400 pb-6 text-sm">
+            Todos los derechos reservados © 2025 Aceros Alonso
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
