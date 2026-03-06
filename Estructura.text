@@ -27,7 +27,7 @@ acerosalonso/                  ← Raíz del proyecto
 ├── package.json              ← Dependencias y scripts
 └── README.md
 
-
+  x
 
 Esto se ejecuta en la termial al final, se tiene que tomar la carpeta de public
 lo que se sube: public/
