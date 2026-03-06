@@ -26,8 +26,8 @@ acerosalonso/                  ← Raíz del proyecto
 ├── postcss.config.js         ← Configuración PostCSS
 ├── package.json              ← Dependencias y scripts
 └── README.md
-
-
+ 
+ 
 
 Esto se ejecuta en la termial al final, se tiene que tomar la carpeta de public
 lo que se sube: public/
