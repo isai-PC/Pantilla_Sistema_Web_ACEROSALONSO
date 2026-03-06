@@ -14,134 +14,180 @@
     <script src="js/Slider.js"></script>
     <!--Header-->
 
-    <header
-    class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
-
-    <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
-    <div class="flex flex-col md:flex-row justify-between items-center w-full">
-
+   <header
+      class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
+      <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full">
         <!-- Div logo -->
         <div class="flex justify-between items-center w-full md:w-auto">
-            <section class="flex items-center gap-3 md:gap-4">
-                <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
-                <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
-            </section>
+          <section class="flex items-center gap-3 md:gap-4">
+            <img
+              src="ACASALogoAcerosA.png"
+              alt="Logo de Aceros Alonso"
+              class="w-10 md:w-20" />
+            <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+          </section>
 
-            <button id="btn-menu"
-                class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </button>
+          <button
+            id="btn-menu"
+            class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
         </div>
 
         <!-- Div usuario -->
-        <div id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
-            <ul class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
-                <li class="w-full md:w-auto">
-                    <a href="paginaPrincipal.html"
-                        class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-                        Usuario: Carlos
-                    </a>
-                </li>
+        <div
+          id="menu-principal"
+          class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
+          <ul
+            class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
+            <li class="w-full md:w-auto">
+              <a
+                href="paginaPrincipal.html"
+                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+                Usuario: Carlos
+              </a>
+            </li>
 
-                <li class="w-full md:w-auto">
-                    <a href="Login/Login.html"
-                        class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full">
-                        Cerrar Sesión
-                    </a>
-                </li>
-            </ul>
+            <li class="w-full md:w-auto">
+              <a
+                href="Login/Login.html"
+                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
+                Cerrar Sesión
+              </a>
+            </li>
+          </ul>
         </div>
-
-    </div>
-
-    <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
- <nav class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
-    <ul class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
-        
-        <li class="w-full md:w-auto">
-            <a href="paginaPrincipal.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
-                Productos
+      </div>
+      <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
+      <nav
+        id="nav-principal"
+        class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
+        <ul
+          class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
+          <li class="w-full md:w-auto">
+            <a
+              href="../Productos/listadoProductos.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
+              Productos
             </a>
-        </li>
-
-        <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-                Categorias
-            </a>
-        </li>
-            
-     <li class="w-full md:w-auto relative group"> <a href="#"
-        class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
-        Mision Vision
-    </a>
-    
-    <ul class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
-        <li class="w-full block">
-            <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Misión</a>
-            <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Visión</a>
-            <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Por qué elegirnos</a>
-        </li>
-    </ul>
-</li>
-     
-
-        <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-                Usuarios
-            </a>
-        </li>
+          </li>
 
           <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-                Ubicaciones
+            <a
+              href="../Categorias/ListadoCategoriasView.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+              Categorias
             </a>
-        </li>
-        
-        <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-                Preguntas frecuentes
-            </a>
-        </li>
-        
-        <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-                Contacto
-            </a>
-        </li>
-        
-        <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-                Terminos y Condiciones
-            </a>
-        </li>
+          </li>
 
-         <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-                Consultas
+          <li class="w-full md:w-auto relative group">
+            <a
+              href="#"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+              Mision Vision
             </a>
-        </li>
 
-         <li class="w-full md:w-auto">
-            <a href="Login/Login.html"
-                class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-                Inicio
+            <ul
+              class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+              <li class="w-full block">
+                <a
+                  href="../Mision-Vision/actualizarMision.html"
+                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
+                  >Misión</a
+                >
+                <a
+                  href="../Mision-Vision/actualizarVision.html"
+                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
+                  >Visión</a
+                >
+                <a
+                  href="../Mision-Vision/actualizarPorQueElegirnos.html"
+                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
+                  >Por qué elegirnos</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="w-full md:w-auto">
+            <a
+              href="../Usuarios/listadoUsuarios.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+              Usuarios
             </a>
-        </li>
-        
+          </li>
 
-</header>
+          <li class="w-full md:w-auto">
+            <a
+              href="../Ubicaciones/listadoUbicaciones.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+              Ubicaciones
+            </a>
+          </li>
+
+          <li class="w-full md:w-auto">
+            <a
+              href="../Preguntas-Frecuentes/listadoPreguntasFrecuentes.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+              Preguntas frecuentes
+            </a>
+          </li>
+
+          <li class="w-full md:w-auto">
+            <a
+              href="../Contacto/actualizarContacto.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+              Contacto
+            </a>
+          </li>
+
+          <li class="w-full md:w-auto">
+            <a
+              href="../TyC/actualizarTyC.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+              Terminos y Condiciones
+            </a>
+          </li>
+
+          <li class="w-full md:w-auto relative group">
+            <a
+              href="#"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+              Consultas
+            </a>
+
+       
+    <ul class="md:absolute md:top-full left-0 bg-slate-900 min-w-[215px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+        <li class="w-full block">
+            <a href="../consultas/consultasE.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Empleado</a>
+            <a href="../consultas/consultasD.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Departamento</a>
+
+        </li>
+    </ul>
+          </li>
+
+          <li class="w-full md:w-auto">
+            <a
+              href="../../../index.html"
+              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+              Inicio
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
     <!--Menu de accesibilidad-->
     <aside class="relative z-[9999]">
