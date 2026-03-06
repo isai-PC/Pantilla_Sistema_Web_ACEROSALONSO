@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar información de contacto</title>
+    <title>Actuaizar Producto</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../../../assets/css/output.css">
 </head>
 
 <body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
-
     <header class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
         <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
         <div class="flex flex-col md:flex-row justify-between items-center w-full">
@@ -151,136 +152,67 @@
             </ul>
         </nav>
     </header>
-    <main
-        class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto mt-10">
+    <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto">
         <div class="mb-8 border-b-2 border-orange-400 pb-4">
-            <h1 class="text-2xl md:text-3xl font-bold">
-                Editar información de contacto
-            </h1>
+            <h1 id="tituloFormulario" class="text-2xl md:text-3xl font-bold">Actualizar Categoria</h1>
+            <p id="descripcionFormulario" class="text-slate-500 text-sm mt-1">Completa los campos </p>
         </div>
-        <form class="space-y-8">
-            <!-- ================= HORARIO ================= -->
+        <form id="formCrearProducto" class="space-y-8">
+            <input type="hidden" id="id_producto">
             <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    Horario de atención
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Días
-                        </label>
-                        <input type="text" placeholder="Ejemplo: Lunes a Viernes"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Horario
-                        </label>
-                        <input type="text" placeholder="Ejemplo: 8:00 a.m. - 6:00 p.m."
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-                </div>
-            </section>
-
-            <!-- ================= TELEFONOS ================= -->
-            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    Teléfonos
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div> <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Teléfono
-                        </label>
-                        <input type="text"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            WhatsApp
-                        </label>
-                        <input type="text"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-                </div>
-            </section>
-            <!-- ================= CORREO ================= -->
-            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    Correo electrónico
-                </h2>
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos</h2>
                 <div class="grid grid-cols-1 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Correo
-                        </label>
-                        <input type="email"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-                </div>
-            </section>
-            <!-- ================= IRECCION ================= -->
-            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    Dirección
-                </h2>
-                <div class="grid grid-cols-1 gap-4">
-                    <div> <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Dirección completa
-                        </label>
-                        <textarea rows="4"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
-                    </div>
-                </div>
-            </section>
-            <!-- ================= REDES SOCIALES ================= -->
-            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-                    Redes sociales
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Red social 1
-                        </label>
-                        <input type="text" placeholder="Facebook / @empresa"
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="nombre_producto">Nombre del
+                            Categoria*</label>
+                        <input type="text" id="nombre_producto" required
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Red social 2
-                        </label>
-                        <input type="text" placeholder="Instagram / @empresa"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Red social 3
-                        </label>
-                        <input type="text" placeholder="TikTok / X / Otra"
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" for="nombre_producto">
+                            Descripcion de categoria *</label>
+                        <input type="text" id="nombre_producto" required
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                 </div>
             </section>
-            <!-- ================= BOTONES ================= -->
-            <div class="flex gap-4 pt-4">
-                <button type="submit"
-                    class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition shadow">
-                    Guardar cambios
-                </button>
-                <a href="#" class="px-6 py-2 bg-slate-200 text-slate-700 rounded-md hover:bg-slate-300 transition">
-                    Cancelar
-                </a>
-            </div>
+            <section class="p-4 bg-slate-50 border border-slate-200 border-dashed rounded-md">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Imagen del producto</h2>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div class="shrink-0">
+                        <p class="text-[11px] text-slate-500 mb-1">Previsualización:</p>
+                        <img id="imagen" src="https://via.placeholder.com/150" alt="Preview"
+                            class="w-20 h-20 md:w-24 md:h-24 object-cover rounded shadow-sm border border-slate-200 bg-white">
+                    </div>
+
+                    <div class="w-full flex flex-col gap-2">
+                        <label class="block text-sm font-semibold text-slate-700" for="inputfile">Selecciona un archivo
+                            (Opcional)</label>
+                        <input type="file" id="inputfile" accept=".jpg,.jpeg,.png,.webp" onchange="previsualizar()"
+                            class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-600 hover:file:bg-blue-200 cursor-pointer transition-colors">
+                    </div>
+                </div>
+            </section>
+
+            <section class="pt-6 border-t border-slate-200">
+                <div class="flex flex-wrap items-center gap-3">
+                    <button type="submit" id="btnGuardarFinal"
+                        class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+                        Actualizar Producto
+                    </button>
+                    <button type="reset" onclick="resetFormulario()"
+                        class="bg-red-500 border border-slate-300 text-white hover:bg-red-600 font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+                        Cancelar
+                    </button>
+                </div>
+            </section>
         </form>
     </main>
     <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
-
+    <script src="../../../assets/js/Categorias/"></script>
 </body>
 
 </html>
