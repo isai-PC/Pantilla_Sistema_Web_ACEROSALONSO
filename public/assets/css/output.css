@@ -2514,3 +2514,18 @@ aside nav ul li a {
     min-width: calc(33.333% - 20px);
   }
 }
+
+/* Estilo para que la barra de scroll sea más discreta */
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+    background: #0f172a; 
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #f97316; 
+    border-radius: 10px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+}
