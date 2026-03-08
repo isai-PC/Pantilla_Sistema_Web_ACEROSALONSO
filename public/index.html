@@ -43,7 +43,7 @@
                         <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                             <li class="w-full block">
                                 <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 1</a>
                                 <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 2</a>
@@ -51,14 +51,12 @@
                         </ul>
                     </li>
 
-                    <li class="relative group w-full md:w-auto">
+                    <li class="relative group w-full md:w-auto" id="SumenuProductos">
                         <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Productos <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                             <li class="w-full block">
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 1</a>
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 2</a>
                             </li>
                         </ul>
                     </li>
@@ -67,7 +65,7 @@
                         <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                             <li class="w-full block">
                                 <a href="pages/VistaPublica/nosotros/misionyvision.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
                             </li>
@@ -89,7 +87,7 @@
         </div>
     </header>
     <!--Menu de accesibilidad-->
-    <aside class="relative z-[9999]">
+    <aside class="relative z-[]">
         <script src="Accesibilidad/accesi.js"></script>
         <div id="btnAccesibilidad"
             class="fixed right-3 md:right-5 bottom-5 bg-white text-white text-[22px] md:text-[28px] w-[50px] md:w-[60px] h-[50px] md:h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400"
@@ -252,6 +250,7 @@
     </footer>
 
     <script src="assets/js/app.js"></script>
+    <script src="/public/assets/js/Index/Submenu.js"></script>
 </body>
 
 </html>
