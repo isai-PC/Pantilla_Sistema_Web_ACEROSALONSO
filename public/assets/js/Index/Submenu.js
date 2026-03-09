@@ -30,3 +30,9 @@
 
     document.addEventListener("DOMContentLoaded", cargarMenu);
 })(); // Los paréntesis finales ejecutan la función
+
+
+/* =====================================================
+            FUNCIONAMIENTO DE CARRUSEL 
+======================================================*/
+    
