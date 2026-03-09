@@ -19,7 +19,7 @@
                 const id = producto.id_producto || producto.id_producto;
                 listaUl.innerHTML += `
                     <li class="w-full block">
-                        <a href="/public/pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${producto.id}" 
+                        <a href="/public/pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${id}" 
                         class="block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 transition-all">
                         ${producto.nombre_producto}
                         </a>
