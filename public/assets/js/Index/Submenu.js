@@ -10,16 +10,16 @@
             const response = await fetch(API_URL);
             const result = await response.json();
             const productos = result.data || result;
-            const listaUl = document.getElementById("listaP")
+            const listaUl = menuLi.querySelector("ul");
 
             if (!listaUl) return;
             listaUl.innerHTML = "";
 
             productos.forEach(producto => {
-                const id = producto.id_producto || producto.id_producto;
+                const id = producto.id_producto || producto.id;
                 listaUl.innerHTML += `
                     <li class="w-full block">
-                        <a href="/public/pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${id}" 
+                        <a href="pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${id}" 
                         class="block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 transition-all">
                         ${producto.nombre_producto}
                         </a>
