@@ -7,7 +7,6 @@ const cerrarSesionIS = () => {
     
 };
 
-
 const cerrarSesion = () => {
 
     localStorage.removeItem("token");
