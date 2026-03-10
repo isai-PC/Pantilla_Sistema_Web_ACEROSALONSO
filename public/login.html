@@ -10,6 +10,10 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="assets/css/output.css" rel="stylesheet" />
+
+
+    <!-- Libreria para el mensaje -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body class="fondo min-h-screen flex flex-col">
@@ -34,13 +38,14 @@
           <p class="text-sm text-slate-500">Accede a tu cuenta</p>
         </div>
 
-        <form action="pages/VistaPrivada/consultas/consultasE.html" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4">
           <div>
             <label class="block text-sm font-semibold mb-1">
               Correo electrónico
             </label>
 
             <input
+            id="correo"
               type="email"
               name="correo"
               placeholder="ejemplo@correo.com"
@@ -52,6 +57,7 @@
             <label class="block text-sm font-semibold mb-1"> Contraseña </label>
 
             <input
+            id="password"
               type="password"
               name="password"
               placeholder="********"
@@ -60,11 +66,12 @@
           </div>
 
           <button
+          onclick="verficarSesion ()"
             type="submit"
             class="mt-2 bg-orange-500 text-white font-semibold py-2 rounded-md hover:bg-orange-600 transition">
             Entrar
           </button>
-        </form>
+        </div>
       </section>
     </main>
 
@@ -74,5 +81,6 @@
         Todos los derechos reservados © 2026 Aceros Alonso
       </p>
     </footer>
+       <script src="assets/js/login/login.js"></script>
   </body>
 </html>
