@@ -35,6 +35,7 @@ const cargarDatosIniciales = () => {
       alert("Error al cargar los datos");
     });
 
+    
 };
 
 const mostrarDatos = () => {
@@ -46,7 +47,7 @@ const mostrarDatos = () => {
 };
 
 const calcularP1 = () => {
-    const fechaInicial = new Date('2025/12/31'); 
+    const fechaInicial = new Date('2026/01/31'); 
 
     // Forzamos que 'hoy' no tenga horas/minutos
     const fechaFinal = new Date(); 
@@ -74,11 +75,12 @@ const calcularP1 = () => {
     const P1 = C * Math.exp(k* tP1);
 
     document.getElementById("P1").value= ` ${P1}`;
+    calcularTabla()
 
 }
 
 const calcularP2 = () => {
-        const fechaInicial = new Date('2025/12/31'); 
+        const fechaInicial = new Date('2026/01/31'); 
 
     // Forzamos que 'hoy' no tenga horas/minutos
     const fechaFinal = new Date(); 
@@ -99,7 +101,52 @@ const calcularP2 = () => {
     const P2 = Math.log( xP2/ C) / k;
 
     document.getElementById("P2").value= ` ${P2}`;
+
+    
 }
+
+const calcularTabla = () => {
+
+    const fechaInicial = new Date('2026-01-31');
+
+    const fechaFinal = new Date();
+    fechaFinal.setHours(0,0,0,0);
+
+    const msPorDia = 86400000;
+    const diferenciaDias = Math.round((fechaFinal - fechaInicial) / msPorDia);
+
+    // días acumulados por mes
+    const diasMes = [0,28,59,89,120,150,181,212,242,273,303,334];
+
+    // datos iniciales (de tu API)
+    let xCI = faltasEnero;   // faltas registradas en enero
+    let xK = faltasActual;   // faltas hasta hoy
+    let tK = diferenciaDias; // día actual del año
+
+    let C = xCI;
+
+    // constante de crecimiento
+    const k = Math.log(xK / C) / tK;
+
+    // arreglo donde guardaremos resultados
+    const estimacionMeses = [];
+
+    // ciclo para recorrer meses
+    for(let i = 0; i < diasMes.length; i++){
+
+        let mes = diasMes[i];
+
+        const p1 = C * Math.exp(k * mes);
+
+        estimacionMeses.push(p1);
+
+    }
+
+    return estimacionMeses;
+  
+
+}
+
 
 
 const pruebaModelo = () => {
