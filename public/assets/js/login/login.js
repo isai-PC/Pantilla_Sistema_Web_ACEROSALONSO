@@ -30,21 +30,16 @@ const verficarSesion = () => {
     contrasena: document.getElementById("password").value
     })
   })
-    //.then((respuesta) => respuesta.json()) // Convertimos la respuesta cruda a formato JSON
-    .then((respuesta) => {
-      if(!respuesta.ok){
-          throw new Error("Error del servidor");
-      }
-      return respuesta.json();
-  })
+    .then((respuesta) => respuesta.json()) // Convertimos la respuesta cruda a formato JSON
+ 
     .then((data) => {
       // La API devuelve un objeto con una propiedad 'items' que contiene el array
      
-        if(data.message){
+          if(data.message){
         Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: data.message
+            icon: "error",
+            title: "Error",
+            text: data.message
         });
         return;
     }
@@ -88,5 +83,12 @@ const verficarSesion = () => {
 };
 
 
-// Cerrar sesion
+function togglePassword() {
+    const input = document.getElementById("password");
 
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
