@@ -181,3 +181,66 @@ const pruebaModelo = () => {
     );
 
 };
+
+
+const renderizarGraficaLineal = () => {
+    // Verificación estricta de variables originales
+    if (typeof faltasEnero === 'undefined' || typeof faltasActual === 'undefined') return;
+
+    const datos = calcularTabla(); // Tu función original
+    const seccion = document.getElementById('seccion-grafica');
+    const svg = document.getElementById('svg-grafica');
+    const path = document.getElementById('linea-tendencia');
+    
+    const maxVal = Math.max(...datos);
+    if (!maxVal || maxVal === 0) return;
+
+    seccion.classList.remove('hidden');
+    
+    // Configuración de dimensiones
+    const width = svg.clientWidth;
+    const height = svg.clientHeight;
+    const padding = 20; // Espacio para que los puntos no toquen los bordes
+    
+    // Limpiar elementos previos (puntos y etiquetas)
+    const elementosPrevios = svg.querySelectorAll('.punto-grafica, .etiqueta-valor');
+    elementosPrevios.forEach(el => el.remove());
+
+    let puntosCoord = "";
+
+    datos.forEach((valor, i) => {
+        // Calcular coordenadas X e Y
+        // X: distribuido uniformemente en los 12 meses
+        const x = (width / (datos.length - 1)) * i;
+        // Y: invertido (porque en SVG el 0 está arriba) y escalado
+        const y = height - ((valor / maxVal) * (height - padding));
+
+        // Construir el string para el atributo 'd' del path (M = mover a, L = línea a)
+        puntosCoord += `${i === 0 ? 'M' : 'L'} ${x} ${y} `;
+
+        // Crear Círculo (Punto)
+        const circulo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circulo.setAttribute("cx", x);
+        circulo.setAttribute("cy", y);
+        circulo.setAttribute("r", "4");
+        circulo.setAttribute("class", "punto-grafica fill-orange-600");
+        svg.appendChild(circulo);
+
+        // Crear Texto (Valor arriba del punto)
+        const texto = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        texto.setAttribute("x", x);
+        texto.setAttribute("y", y - 10); // 10px arriba del punto
+        texto.setAttribute("text-anchor", "middle");
+        texto.setAttribute("class", "etiqueta-valor fill-slate-700 font-bold text-[10px]");
+        texto.textContent = Math.round(valor);
+        svg.appendChild(texto);
+    });
+
+    // Aplicar la línea al path
+    path.setAttribute("d", puntosCoord);
+}
+
+// Ejecutar al cargar o cuando cambien los datos
+
+// Si tienes un botón que recalcula, añade renderizarGraficaLineal() al final de ese evento
+
