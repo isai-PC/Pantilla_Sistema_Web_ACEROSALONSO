@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- BIBLIOTECA PARA GENERAR LA GRAFICA -->
+</head>
+
+<body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
+    <!--Header-->
+    <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
+        <div class="w-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center">
+
+
+            <div class="flex justify-between items-center w-full md:w-auto">
+                <section class="flex items-center gap-3">
+                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                    <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
+                </section>
+
+                <button id="btn-menu"
+                    class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0">
+
+                <ul
+                    class="flex flex-col md:flex-row md:flex-wrap md:justify-end gap-1 md:gap-3 m-0 p-0 items-start md:items-center list-none w-full">
+
+
+                    <li class="w-full md:w-auto">
+                        <a href="heidi.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Heidi</a>
+                    </li>
+                    <li class="w-full md:w-auto">
+                        <a href="index.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <li class="w-full block">
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría
+                                    2</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto" id="SumenuProductos">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul id="listaP"
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                        </ul>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <li class="w-full block">
+                                <a href="pages/VistaPublica/nosotros/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <a href="pages/VistaPrivada/consultas/consultasE.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
+                            Administracion</a>
+                    </li>
+                    <li class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                            <a href="login.html"
+                                class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
+                    </li>
+
+                    <li class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <button onclick="cerrarSesionIS()"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Cerrar
+                            Sesion</button>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </header> <!--Menu de accesibilidad-->
+    <aside class="relative z-[]">
+        <script src="Accesibilidad/accesi.js"></script>
+        <div id="btnAccesibilidad"
+            class="fixed right-3 md:right-5 bottom-5 bg-white text-white text-[22px] md:text-[28px] w-[50px] md:w-[60px] h-[50px] md:h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400"
+            onclick="event.stopPropagation(); toggleMenuAccesibilidad()">
+            <img src="Accesibilidad/accesibilidad.png" class="w-full h-full object-cover" alt="Menú de accesibilidad">
+        </div>
+        <iframe id="menuAccesibilidad" src="Accesibilidad/MenuAccesibilidad.html"
+            class="fixed right-2.5 md:right-[4%] bottom-[90px] w-[260px] md:w-auto h-[350px] md:h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
+    </aside>
+    <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto">
+
+        <div class="mb-8 border-b-2 border-orange-400 pb-4">
+            <h1 class="text-2xl md:text-3xl font-bold">Resultados de estimación de faltas del sistema</h1>
+        </div>
+
+        <p class="text-slate-600 mb-6 leading-relaxed">
+            Módulo para mostrar las resultados de estimar las faltas del sistema en tablas y graficas según las faltas
+            que se tienen registradas
+            hasta el día de hoy. Este apartado permite visualizar los cálculos aproximados para analizar
+            el comportamiento de las faltas dentro del sistema conforme avanza el año.
+        </p>
+
+        <form class="space-y-8">
+
+            <!-- BLOQUE 1 -->
+            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                    Tabla de resultados
+                </h2>
+
+                <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-sm">
+                    <table id="tablaFaltas" class="w-full text-sm text-left border-collapse">
+                        <thead class="text-xs uppercase bg-slate-800 text-white">
+                            <tr>
+                                <th class="px-6 py-4 font-bold border-r border-slate-700 sticky left-0 bg-slate-800">
+                                    Meses
+                                </th>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Enero</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Febrero</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Marzo</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Abril</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Mayo</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Junio</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Julio</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Agosto</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Septiembre
+                                </td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Octubre</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-700 last:border-0">Noviembre</td>
+                                <td class="px-4 py-4 text-center last:border-0">Diciembre</td>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th
+                                    class="px-6 py-4 font-bold text-slate-700 border-r border-slate-200 sticky left-0 bg-white">
+                                    Faltas
+                                </th>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    2</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    4</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    3</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    5</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    6</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    2</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    1</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    3</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    4</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    2</td>
+                                <td class="px-4 py-4 text-center border-r border-slate-100 font-medium text-orange-600">
+                                    5</td>
+                                <td class="px-4 py-4 text-center font-medium text-orange-600">3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- BLOQUE 2 MOSTRAR GRAFICA DE CRECIMIENTO EN BASE AL BLOQUE 1 -->
+            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                    Grafica de crecimiento de las faltas de cada mes
+                </h2>
+                <canvas id="graficaFaltas">
+                    <!-- AQUI VA LA GRAFICA -->
+                </canvas>
+            </section>
+        </form>
+    </main>
+</body>
+<script src="../../assets/js/heidi/controladorGrafica.js"></script><!-- LLALAMADA AL CONTROLADOR DE GRAFICA -->
+
+</html>
