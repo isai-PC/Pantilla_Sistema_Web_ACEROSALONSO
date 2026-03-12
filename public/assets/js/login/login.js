@@ -15,6 +15,8 @@ window.location.replace("pages/VistaPrivada/UsuariosLimit/perfil.html");
 }
 
 
+
+
 const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/login";
 
 const verficarSesion = () => {

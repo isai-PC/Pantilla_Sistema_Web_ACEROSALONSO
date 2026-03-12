@@ -214,9 +214,7 @@ const pruebaModelo = () => {
   const P1 = C * Math.exp(k * tP1);
   const P2 = Math.log(xP2 / C) / k;
 
-<<<<<<< HEAD
 };
-
 
 const renderizarGraficaLineal = () => {
     // Verificación estricta de variables originales
@@ -279,13 +277,3 @@ const renderizarGraficaLineal = () => {
 
 // Si tienes un botón que recalcula, añade renderizarGraficaLineal() al final de ese evento
 
-=======
-  // mostrar resultados
-  alert(
-    "Resultado 1: " + k + "\n" +
-    "Resultado 2: " + P1 + "\n" +
-    "Resultado 3: " + P2 + "\n" +
-    "Diferencia en días: " + diferenciaDias
-  );
-};
->>>>>>> 366c72b93db24270f1c17724e2a576f1bbe147c5
