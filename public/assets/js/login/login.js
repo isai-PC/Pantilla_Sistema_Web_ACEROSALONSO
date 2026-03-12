@@ -1,5 +1,6 @@
 const token = localStorage.getItem("token");
 const rol = localStorage.getItem("rol");
+const nombre = localStorage.getItem("nombre");
 
 if(token){
 
@@ -48,10 +49,12 @@ const verficarSesion = () => {
 
     const token= data.token
     const usuario = data.usuario
+    const nombre = usuario.nombre
 
     localStorage.setItem("token", token);
     localStorage.setItem("usuarioId", usuario.id);
     localStorage.setItem("rol", usuario.rol);
+    localStorage.setItem("nombre", nombre);
 
 
      // alert("Datos recibidos:"+ usuario.id); // Debugging en consola
