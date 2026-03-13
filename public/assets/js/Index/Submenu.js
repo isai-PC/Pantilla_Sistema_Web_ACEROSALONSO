@@ -133,7 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-/* ====================LISTADO DE CATEGORIAS DE BARRA DE NAVEGACION============= 
+/* ================================================================================ 
+            FUNCIONAMIENTO DE CATEGORIAS
 ===============================================================================*/
 const API_CATEGORIAS = "https://repositorio-para-vercel-tawny.vercel.app/api/productos/categoria";
 const submenuUl = document.getElementById("submenu-categorias");
