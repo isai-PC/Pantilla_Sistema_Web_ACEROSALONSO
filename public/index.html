@@ -44,7 +44,7 @@
                     class="flex flex-col md:flex-row md:flex-wrap md:justify-end gap-1 md:gap-3 m-0 p-0 items-start md:items-center list-none w-full">
 
 
-                    
+
                     <li class="w-full md:w-auto">
                         <a href="heidi.html"
                             class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Heidi</a>
@@ -55,14 +55,13 @@
                     </li>
 
                     <li class="relative group w-full md:w-auto">
-                        <a href="#" id="submenu-categorias"
+                        <a href="#"
                             class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul
-                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
-                            <li class="w-full block">
-                            </li>
+                        <ul id="submenu-categorias"
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[220px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <!-- Aquí se generan dinámicamente con JS -->
                         </ul>
                     </li>
 
@@ -97,14 +96,15 @@
                             class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
                             Administracion</a>
                     </li>
-                    <li id="liLogin" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                    <li id=" liLogin" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
                             <a href="login.html"
                                 class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
                     </li>
 
-                     <li id="liLogout" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
-                            <button   onclick="cerrarSesionIS()"
-                                class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Cerrar Sesion</button>
+                    <li id="liLogout" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <button onclick="cerrarSesionIS()"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Cerrar
+                            Sesion</button>
                     </li>
 
                 </ul>
@@ -334,6 +334,14 @@
 
         <p class="text-center mt-10 text-[0.9rem] text-slate-300">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
+<<<<<<< HEAD
+
+    <script src="assets/js/login/cerrar.js"></script>
+    <script src="assets/js/login/navegacion.js"></script>
+    <script src="public/assets/js/app.js"></script>
+    <script src="assets/js/Index/Submenu.js"></script>
+    <script src="assets/js/Categorias/catalogoProductos.js"></script>
+=======
  
       <script src="assets/js/login/cerrar.js"></script>
       <script src="assets/js/login/navegacion.js"></script>
@@ -342,6 +350,7 @@
     <script src="../public/assets/js/Index/Submenu.js"></script>
   
    
+>>>>>>> 1359999438588e87cc9cbbfb096dbcbbda8ea4d2
 </body>
 
 </html> 
