@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Aceros Alonso</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../ACASALogoAcerosA.png">
+    <link rel="stylesheet" href="/public/assets/css/output.css">
+
+</head>
+
+<body class="fondo">
+
+    <!-- HEADER -->
+    <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
+        <div class="w-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center">
+            
+            <div class="flex justify-between items-center w-full md:w-auto">
+                <section class="flex items-center gap-3">
+                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                    <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
+                </section>
+
+                <button id="btn-menu" class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0">
+                
+                <ul class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 m-0 p-0 list-none w-full">
+                    
+                    <li class="w-full md:w-auto md:py-2">
+                        <a href="../../../index.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
+                    </li>
+                    
+                                        <li class="relative group w-full md:w-auto">
+                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <li class="w-full block">
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 1</a>
+                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 2</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="relative group w-full md:w-auto" id="SumenuProductos">
+                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Productos <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <li class="w-full block">
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="relative group w-full md:w-auto">
+                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                            Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
+                        </a>
+                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                            <li class="w-full block">
+                                <a href="/public/pages/VistaPublica/nosotros/misionyvision.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                      <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <a href="../../VistaPrivada/consultas/consultasE.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
+                            Administracion</a>
+                    </li>
+                    <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <a href="Login/Login.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
+                    </li>
+
+                    
+                  
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- MAIN -->
+    <main class="max-w-7xl mx-auto p-6 flex-1">
+        <h1 class="text-3xl font-bold mb-8 text-center">
+            Todos los productos
+        </h1>
+        <!-- GRID CATALOGO -->
+        <section class="grid gap-8
+                grid-cols-1
+                sm:grid-cols-2 
+                md:grid-cols-3 
+                lg:grid-cols-4
+                justify-center" id="catalogoP">
+            <!-- CARD -->
+
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+
+        <footer class="bg-slate-900 text-white py-10 px-5 mt-10 text-center">
+        <div id="contacto"
+            class="flex flex-col md:flex-row flex-wrap max-w-[1200px] mx-auto justify-center gap-6 md:gap-12 items-center md:items-start text-base">
+
+            <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
+                <h3 class="font-bold mb-4">Pregunta frecuente de ejemplo</h3>
+                <p>Respuesta de ejemplo.</p>
+            </div>
+
+            <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
+                <h3 class="font-bold mb-4">Nuestras Redes Sociales</h3>
+                <div class="flex justify-center items-center mt-4">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="inline-block mx-1 group">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/500px-Facebook_Logo_%282019%29.png"
+                            alt="Facebook"
+                            class="w-[50px] md:w-[70px] h-[50px] md:h-[70px] object-contain p-2 md:p-3 transition-transform duration-200 group-hover:scale-110">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="inline-block mx-1 group">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png"
+                            alt="Instagram"
+                            class="w-[50px] md:w-[70px] h-[50px] md:h-[70px] object-contain p-2 md:p-3 transition-transform duration-200 group-hover:scale-110">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="inline-block mx-1 group">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/X-Logo-Round-Color.png" alt="X"
+                            class="w-[50px] md:w-[70px] h-[50px] md:h-[70px] object-contain p-2 md:p-3 transition-transform duration-200 group-hover:scale-110">
+                    </a>
+                </div>
+            </div>
+            <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
+                <ul class="list-none p-0 m-0 text-center md:text-left text-[1.1rem]">
+                    <li class="my-2"><a href="../../VistaPublica/ContactoView/contacto.html"
+                            class="text-white no-underline font-bold text-base hover:text-orange-400 transition-colors">Contacto</a>
+                    </li>
+                    <li class="my-2"><a href="../../VistaPublica/PreguntasFView/preguntas.html"
+                            class="text-white no-underline font-bold text-base hover:text-orange-400 transition-colors">Preguntas
+                            frecuentes</a></li>
+                    <li class="my-2"><a href="../../VistaPublica/terminosView/terminos.html"
+                            class="text-white no-underline font-bold text-base hover:text-orange-400 transition-colors">Términos
+                            y condiciones</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="text-center mt-10 text-[0.9rem] text-slate-300">Todos los derechos reservados © 2026 Aceros Alonso</p>
+    </footer>
+    <script src="/public/assets/js/Categorias/catalogoProductosx.Categorias.js"></script>
+        <script src="/public/assets/js/Index/Submenu.js"></script>
+
+</body>
+
+</html>
