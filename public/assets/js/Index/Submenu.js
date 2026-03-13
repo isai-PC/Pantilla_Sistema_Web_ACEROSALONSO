@@ -83,10 +83,8 @@ else {
 
 })();
 
+/*
 
-/* =====================================================
-            FUNCIONAMIENTO DE CARRUSEL 
-======================================================*/
 document.addEventListener("DOMContentLoaded", () => {
     const carouselElement = document.getElementById('carousel');
 
@@ -133,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (nextButton) {
             nextButton.addEventListener('click', () => carousel.next());
-        } */
+        } 
     } else {
         console.error("No se encontró la librería Flowbite.");
     }
@@ -141,8 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-/* ====================LISTADO DE CATEGORIAS DE BARRA DE NAVEGACION============= 
-===============================================================================*/
+
 const API_CATEGORIAS = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 const submenuUl = document.getElementById("submenu-categorias");
 
@@ -176,4 +173,4 @@ const cargarCategoriasEnMenu = async () => {
 };
 
 // Ejecutar al cargar
-document.addEventListener("DOMContentLoaded", cargarCategoriasEnMenu);
+document.addEventListener("DOMContentLoaded", cargarCategoriasEnMenu);*/
