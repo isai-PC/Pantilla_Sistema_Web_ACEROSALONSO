@@ -20,52 +20,49 @@ let paginaActual = 0;
 const resultadosPorPagina = 10;
 
 
-const paginado = (pagina) => {
-    if (pagina === 0 && paginaActual <= 0) 
-        return;
-    if (pagina === 1 && hayresultados){ //avanzamos y si hya resultados
-        paginaActual++;
-    }
-
-    if (pagina === 0 && paginaActual > 0) { //retrocedemos y si no estamos en la primera pagina
-        paginaActual--;
-    }
-   // si llega 1 adelanrte si llega 0 atra
-
-   document.getElementById("pagina1").textContent = paginaActual + 1;
-    document.getElementById("pagina2").textContent = paginaActual + 2;
-    cargarUsuarios();
-
-}
-
 
 // https://repositorio-para-vercel-tawny.vercel.app/api/grupos?limit=10&start=150
-const cargarUsuarios = () => {
-  // Usamos fetch para hacer la petición HTTP
-  fetch(urlApi + "?limit=" + resultadosPorPagina + "&start=" + (paginaActual  * resultadosPorPagina), {
+const cargarUsuarios = (pagina) => {
+
+  let paginaConsulta = paginaActual;
+
+  // si quiere avanzar
+  if (pagina === 1) {
+    paginaConsulta = paginaActual + 1;
+  }
+
+  // si quiere retroceder
+  if (pagina === 0 && paginaActual > 0) {
+    paginaConsulta = paginaActual - 1;
+  }
+
+  fetch(urlApi + "?limit=" + resultadosPorPagina + "&start=" + (paginaConsulta * resultadosPorPagina), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + token
     }
   })
-    .then((respuesta) => respuesta.json()) // Convertimos la respuesta cruda a formato JSON
+    .then((respuesta) => respuesta.json())
     .then((data) => {
-     
+
       const usuarios = data.data;
 
-      if(data.data.length === 0){ //validar que vemngna resultados
-    hayresultados = false;
-}
-     
+      // si intentamos avanzar pero no hay resultados
+      if (pagina === 1 && usuarios.length === 0) {
+        hayresultados = false;
+        return; // no cambiamos de página
+      }
 
-     
+      // si sí hay resultados actualizamos la página
+      paginaActual = paginaConsulta;
 
-      // Llamamos a la función que se encarga de dibujar en pantalla
+      document.getElementById("pagina1").textContent = paginaActual + 1;
+      document.getElementById("pagina2").textContent = paginaActual + 2;
+
       mostrar(usuarios);
     })
     .catch((error) => {
-      // Buena práctica: Manejar errores por si falla la red o la API
       console.error("Error al cargar los usuarios:", error);
       alert("Hubo un error al cargar los datos. Revisa la consola.");
     });

@@ -10,7 +10,7 @@
   </head>
 
 
- <body onload="cargarUsuarios()" class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
+ <body onload="cargarUsuarios(-1)" class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
     <header
       class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
       <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
@@ -285,22 +285,22 @@
         </div>
 
 <div class="flex justify-center items-center gap-2 mt-8">
-    <button id="btnAnterior" onclick="paginado(0)"
+    <button id="btnAnterior" onclick="cargarUsuarios(0)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">
         « Anterior
     </button>
 
-    <button id="pagina1" onclick="paginado(0)"
+    <button id="pagina1" onclick="cargarUsuarios(0)"
         class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">
         1
     </button>
 
-    <button id="pagina2" onclick="paginado(1)"
+    <button id="pagina2" onclick="cargarUsuarios(1)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">
         2
     </button>
 
-    <button id="btnSiguiente" onclick="paginado(1)"
+    <button id="btnSiguiente" onclick="cargarUsuarios(1)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">
         Siguiente »
     </button>
