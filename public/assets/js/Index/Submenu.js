@@ -160,7 +160,7 @@ const cargarCategoriasEnMenu = async () => {
             li.className = "w-full block";
 
             li.innerHTML = `
-                <a href="../../pages/VidtaPublica/CatalogoProductosWiew/CatalogoProductos.html?id=${cat.id_categoria}"
+                <a href="pages/VistaPublica/CatalogoProductosWiew/catalogoProductosxCategoria.html?id=${cat.id_categoria}"
                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">
                     ${cat.nombre_categoria}
                 </a>
