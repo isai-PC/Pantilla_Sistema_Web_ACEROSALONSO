@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Contacto | Aceros Alonso</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind CSS compilado -->
     <link rel="stylesheet" href="../../../assets/css/output.css">
 </head>
@@ -13,75 +13,97 @@
 <body class="bg-slate-300 text-neutral-900 font-sans ">
 
     <!-- ================= HEADER ================= -->
-     <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
+    <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
         <div class="w-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center">
-            
+
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3">
                     <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
                     <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
                 </section>
 
-                <button id="btn-menu" class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <button id="btn-menu"
+                    class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
 
             <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0">
-                
-                <ul class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 m-0 p-0 list-none w-full">
-                    
+
+                <ul
+                    class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 m-0 p-0 list-none w-full">
+
                     <li class="w-full md:w-auto md:py-2">
-                        <a href="../../../index.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
+                        <a href="../../../index.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
                     </li>
-                    
+
                     <li class="relative group w-full md:w-auto md:py-2">
-                        <a href="" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                        <a href=""
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
                             <li class="w-full block">
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 1</a>
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría 2</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Categoría
+                                    2</a>
                             </li>
                         </ul>
                     </li>
 
                     <li class="relative group w-full md:w-auto md:py-2">
-                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Productos <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
                             <li class="w-full block">
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 1</a>
-                                <a href="#" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto 2</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto
+                                    1</a>
+                                <a href="#"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Producto
+                                    2</a>
                             </li>
                         </ul>
                     </li>
-                    
+
                     <li class="relative group w-full md:w-auto md:py-2">
-                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2">
                             <li class="w-full block">
-                                <a href="../nosotros/misionyvision.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
+                                <a href="../nosotros/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
                             </li>
                         </ul>
                     </li>
 
-                          <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
-                        <a href="../../VistaPrivada/consultas/consultasE.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
+                    <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                        <a href="../../VistaPrivada/consultas/consultasE.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
                             Administracion</a>
                     </li>
-                    <li class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
-                        <a href="Login/Login.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
+                    <li class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                            <a href="Login/Login.html"
+                                class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
                     </li>
 
-                    
-              
+
+
                 </ul>
             </nav>
         </div>
@@ -105,13 +127,12 @@
                     <legend class="px-2 text-lg font-semibold text-blue-600">Datos de atención</legend>
 
                     <div class="space-y-4 mt-4 text-sm md:text-base">
-                        <p><strong>Días de atención:</strong><br>Lunes a Viernes</p>
-                        <p><strong>Horario:</strong><br>8:00 AM - 6:00 PM<br><span
-                                class="text-gray-500 text-sm">(Horario de oficina)</span></p>
-                        <p><strong>Teléfono:</strong><br>782-000-0000</p>
-                        <p><strong>WhatsApp:</strong><br>782-000-0000</p>
-                        <p><strong>Correo:</strong><br>contacto@acerosalonso.com</p>
-                        <p><strong>Dirección:</strong><br>Poza Rica, Veracruz, México</p>
+                        <p><strong>Días de atención:</strong><br><span id="dias">Cargando...</span></p>
+                        <p><strong>Horario:</strong><br><span id="horario">Cargando...</span></p>
+                        <p><strong>Teléfono:</strong><br><span id="telefono">Cargando...</span></p>
+                        <p><strong>WhatsApp:</strong><br><span id="whatsapp">Cargando...</span></p>
+                        <p><strong>Correo:</strong><br><span id="correo">Cargando...</span></p>
+                        <p><strong>Dirección:</strong><br><span id="direccion">Cargando...</span></p>
                     </div>
                 </fieldset>
 
@@ -124,15 +145,19 @@
                     </p>
 
                     <ul class="list-disc list-inside space-y-2 text-sm md:text-base">
-                        <li><strong>Facebook:</strong> facebook.com/acerosalonso</li>
-                        <li><strong>Instagram:</strong> instagram.com/acerosalonso</li>
-                        <li><strong>X:</strong> x.com/acerosalonso</li>
+                        <li><strong>Facebook:</strong> <a id="facebook" href="#" target="_blank"
+                                class="text-blue-600 hover:underline">Cargando...</a></li>
+                        <li><strong>Instagram:</strong> <a id="instagram" href="#" target="_blank"
+                                class="text-pink-600 hover:underline">Cargando...</a></li>
+                        <li><strong>X:</strong> <a id="x" href="#" target="_blank"
+                                class="text-black hover:underline">Cargando...</a></li>
                     </ul>
                 </fieldset>
 
                 <!-- Botones -->
                 <div class="flex flex-wrap justify-center gap-4 mt-6">
-                    <a href="../misionyvision.html" class="incline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-md">
+                    <a href="../misionyvision.html"
+                        class="incline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-md">
                         Regresar
                     </a>
                     <a href="#" target="_blank"
@@ -144,8 +169,6 @@
                         class="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow hover:bg-indigo-700 transition">
                         Enviar correo
                     </a>
-
-                    
                 </div>
 
             </div>
@@ -153,7 +176,7 @@
     </main>
 
     <!-- ================= FOOTER ================= -->
-        <footer class="bg-slate-900 text-white py-10 px-5 mt-10 text-center">
+    <footer class="bg-slate-900 text-white py-10 px-5 mt-10 text-center">
         <div id="contacto"
             class="flex flex-col md:flex-row flex-wrap max-w-[1200px] mx-auto justify-center gap-6 md:gap-12 items-center md:items-start text-base">
 
@@ -199,5 +222,6 @@
         <p class="text-center mt-10 text-[0.9rem] text-slate-300">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
 </body>
+<script src="../../../assets/js/contacto_Publico/contacto_control.js"></script>
 
 </html>
