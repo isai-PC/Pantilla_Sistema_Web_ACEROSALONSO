@@ -1,35 +1,79 @@
+
 (function () {
-    // Ahora API_URL solo existe dentro de esta "burbuja"
     const API_URL = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+
     const menuLi = document.getElementById("SumenuProductos");
 
-    if (!menuLi) return;
+    if (!menuLi) {
+        console.warn("No se encontró #SumenuProductos en el DOM");
+        return;
+    }
 
-    const cargarMenu = async () => {
-        try {
-            const response = await fetch(API_URL);
-            const result = await response.json();
-            const productos = result.data || result;
-            const listaUl = menuLi.querySelector("ul");
+    const ul = menuLi.querySelector("ul#listaP");
 
-            if (!listaUl) return;
-            listaUl.innerHTML = "";
+    if (!ul) {
+        console.warn("No se encontró <ul id='listaP'> dentro de SumenuProductos");
+        return;
+    }
 
-            productos.forEach(producto => {
-                const id = producto.id_producto || producto.id;
-                listaUl.innerHTML += `
-                    <li class="w-full block">
-                        <a href="pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${id}" 
-                        class="block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 transition-all">
-                        ${producto.nombre_producto}
-                        </a>
-                    </li>`;
-            });
-        } catch (e) { console.error(e); }
+    const mostrarCargando = () => {
+        ul.innerHTML = '<li class="px-5 py-3 text-gray-400 italic">Cargando productos...</li>';
     };
 
-    document.addEventListener("DOMContentLoaded", cargarMenu);
-})(); // Los paréntesis finales ejecutan la función
+    const mostrarError = (msg = "Error al cargar productos") => {
+        ul.innerHTML = `<li class="px-5 py-3 text-red-400">${msg}</li>`;
+    };
+
+    const renderListaProductos = (productos) => {
+        if (!productos || productos.length === 0) {
+            ul.innerHTML = '<li class="px-5 py-3 text-gray-400">No hay productos disponibles</li>';
+            return;
+        }
+        ul.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+
+        productos.forEach(producto => {
+            const li = document.createElement('li');
+            li.className = 'w-full block';
+
+            const a = document.createElement('a');
+            a.href = `../VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;//checar la direccion para que funcione el los demas
+            a.className = 'block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 hover:pl-6 transition-all duration-200';
+            a.textContent = producto.nombre_producto || '(Sin nombre)';
+
+            li.appendChild(a);
+            fragment.appendChild(li);
+        });
+
+        ul.appendChild(fragment);
+    };
+
+    const cargarProductos = async () => {
+        mostrarCargando();
+
+        try {
+            const res = await fetch(API_URL);
+
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+
+            const result = await res.json();
+
+            const productos = result.data || [];
+
+            renderListaProductos(productos);
+
+        } catch (err) {
+            console.error("Error cargando menú productos:", err);
+            mostrarError();
+        }
+    };
+
+    // Ejecutar cuando el DOM esté listo
+    document.addEventListener("DOMContentLoaded", cargarProductos);
+
+})();
 
 
 /* =====================================================
@@ -86,3 +130,42 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("No se encontró la librería Flowbite.");
     }
 });
+
+
+
+/* ====================LISTADO DE CATEGORIAS DE BARRA DE NAVEGACION============= 
+===============================================================================*/
+const API_CATEGORIAS = "https://repositorio-para-vercel-tawny.vercel.app/api/productos/categoria";
+const submenuUl = document.getElementById("submenu-categorias");
+
+const cargarCategoriasEnMenu = async () => {
+    try {
+        const res = await fetch(API_CATEGORIAS);
+        if (!res.ok) throw new Error("Error al cargar categorías");
+
+        const categorias = await res.json();
+
+        submenuUl.innerHTML = ""; // limpiar
+
+        categorias.forEach(cat => {
+            const li = document.createElement("li");
+            li.className = "w-full block";
+
+            li.innerHTML = `
+                <a href="CatalogoProductos.html?id=${cat.id_categoria}"
+                   class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">
+                    ${cat.nombre_categoria}
+                </a>
+            `;
+
+            submenuUl.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("Error cargando categorías en menú:", error);
+        submenuUl.innerHTML = `<li class="px-5 py-3 text-red-400">Error al cargar categorías</li>`;
+    }
+};
+
+// Ejecutar al cargar
+document.addEventListener("DOMContentLoaded", cargarCategoriasEnMenu);
