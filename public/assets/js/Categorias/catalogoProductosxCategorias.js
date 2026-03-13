@@ -22,24 +22,22 @@ const cargarProductosPorCategoria = async () => {
     titulo.textContent = `Productos de la categoría ${id}`;
     catalogo.innerHTML = `<p class="col-span-full text-center py-10">Cargando productos...</p>`;
 
-    let res;
     try {
-        res = await fetch(`${API_URL}/${id}`);
+        const res = await fetch(`${API_URL}/${id}`);
 
         if (!res.ok) {
-            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+            throw new Error("Error al cargar productos");
         }
 
-        const productos = await res.json();
-        console.log("Productos recibidos:", productos); // Para depurar
-
-        if (!Array.isArray(productos)) {
-            throw new Error("La respuesta no es un array de productos");
-        }
+        const data = await res.json();/* no se si este bien esto */
+        const productos = data.productos;
 
         if (productos.length === 0) {
             catalogo.innerHTML = `<p class="col-span-full text-center py-10 text-gray-500">No hay productos en esta categoría aún.</p>`;
             return;
+        }
+        if (!Array.isArray(productos)) {
+            throw new Error("La API no devolvió un arreglo de productos");
         }
 
         catalogo.innerHTML = "";
