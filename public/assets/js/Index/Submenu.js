@@ -37,7 +37,7 @@
             li.className = 'w-full block';
 
             const a = document.createElement('a');
-            a.href = `/public/pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;//checar la direccion para que funcione el los demas apartados publicos
+            a.href = `/pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;//checar la direccion para que funcione el los demas apartados
             a.className = 'block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 hover:pl-6 transition-all duration-200';
             a.textContent = producto.nombre_producto || '(Sin nombre)';
 
