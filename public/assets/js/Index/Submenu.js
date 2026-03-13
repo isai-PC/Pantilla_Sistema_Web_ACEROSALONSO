@@ -86,3 +86,42 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("No se encontró la librería Flowbite.");
     }
 });
+
+
+
+/* ====================LISTADO DE CATEGORIAS DE BARRA DE NAVEGACION============= 
+===============================================================================*/
+const API_CATEGORIAS = "https://repositorio-para-vercel-tawny.vercel.app/api/productos/categoria";
+const submenuUl = document.getElementById("submenu-categorias");
+
+const cargarCategoriasEnMenu = async () => {
+    try {
+        const res = await fetch(API_CATEGORIAS);
+        if (!res.ok) throw new Error("Error al cargar categorías");
+
+        const categorias = await res.json();
+
+        submenuUl.innerHTML = ""; // limpiar
+
+        categorias.forEach(cat => {
+            const li = document.createElement("li");
+            li.className = "w-full block";
+
+            li.innerHTML = `
+                <a href="CatalogoProductos.html?id=${cat.id_categoria}"
+                   class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">
+                    ${cat.nombre_categoria}
+                </a>
+            `;
+
+            submenuUl.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("Error cargando categorías en menú:", error);
+        submenuUl.innerHTML = `<li class="px-5 py-3 text-red-400">Error al cargar categorías</li>`;
+    }
+};
+
+// Ejecutar al cargar
+document.addEventListener("DOMContentLoaded", cargarCategoriasEnMenu);
