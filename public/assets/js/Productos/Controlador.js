@@ -332,7 +332,7 @@ if (form) {
         }
 
         const payload = {
-            id_categoria: parseInt(document.getElementById('id_categoria').value) || 0,
+            id_categoria: parseInt(document.getElementById('id_categoria').value) || 1,
             nombre_producto: document.getElementById('nombre_producto').value,
             ImagenesProducto: urlImagenFinal,
             precio: parseFloat(document.getElementById('precio').value) || 0,
