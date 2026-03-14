@@ -254,14 +254,14 @@
         <div class="flex flex-col md:flex-row items-center gap-4">
           <input
             type="date"
-            id="fecha_inicio"
+            id="fechaInicio"
             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors" />
 
           <span class="text-slate-500 text-sm">a</span>
 
           <input
             type="date"
-            id="fecha_fin"
+            id="fechaFin"
             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors" />
         </div>
       </div>
@@ -270,6 +270,7 @@
       <section
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <input
+        id="idEmpleado"
           type="text"
           placeholder="ID Empleado"
           class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors" />
@@ -292,7 +293,7 @@
 
       <!-- BOTON -->
       <div class="text-center mb-8">
-        <button
+        <button onclick="cargarReporte()"
           class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors">
           Generar reporte
         </button>
@@ -308,40 +309,27 @@
               <th class="py-3 px-4 font-bold text-slate-700">Fecha</th>
               <th class="py-3 px-4 font-bold text-slate-700">Entrada</th>
               <th class="py-3 px-4 font-bold text-slate-700">Salida</th>
-              <th class="py-3 px-4 font-bold text-slate-700 text-center">
+              <th class="py-3 px-4 font-bold text-slate-700">
                 Horas
               </th>
-              <th class="py-3 px-4 font-bold text-slate-700 text-center">
+              <th class="py-3 px-4 font-bold text-slate-700">
                 Horas Extra
               </th>
-              <th class="py-3 px-4 font-bold text-slate-700 text-center">
+              <th class="py-3 px-4 font-bold text-slate-700">
                 Tipo
               </th>
             </tr>
           </thead>
-          <tbody id="tabla-empleados">
-            <tr
-              class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-              <td class="py-3 px-4 font-semibold text-slate-800">9</td>
-              <td class="py-3 px-4 font-semibold text-slate-800">
-                adansito@example.com
-              </td>
-              <td class="py-3 px-4 text-slate-600">7712357184</td>
-              <td class="py-3 px-4 text-slate-600">Administracion</td>
-              <td class="py-3 px-4 text-slate-600">Gerente</td>
-              <td class="py-3 px-4 text-slate-600 text-center">
-                Administrador
-              </td>
-            </tr>
+          <tbody id="reporte-empleados">
+          
           </tbody>
         </table>
       </div>
     </main>
 
     <footer>
-      <p class="text-center mt-10 text-[0.9rem] text-slate-300">
-        Todos los derechos reservados © 2026 Aceros Alonso
-      </p>
+        <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
+        <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
 
     <script src="../../../assets/js/consultasadmin/consultasadmin.js"></script>
