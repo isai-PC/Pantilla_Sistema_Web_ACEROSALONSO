@@ -1,29 +1,31 @@
-if(!localStorage.getItem("token")){
-    window.location.href = "../../../index.html";
+//asegurarnos de que el usuario esté autenticado antes de mostrar la página
+if (!localStorage.getItem("token")) {
+  window.location.href = "../../../index.html";
 }
+
+//extraer el nombre y token del localStorage para mostrar el nombre del usuario y usar el token en las peticiones featch a la API
 const nombre = localStorage.getItem("nombre");
 const token = localStorage.getItem("token");
 
-if(nombre){
-    document.getElementById("nombre").textContent = "Usuario: " + nombre;
+// mostrar el nombre del usuario en la página
+if (nombre) {
+  document.getElementById("nombre").textContent = "Usuario: " + nombre;
 }
 
-
-
+// extraer el id del empleado de la URL para mostrar los datos del producto a editar
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// URL de la API para cargar los usuarios
 const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos";
 
+// variables para controlar la paginación
 let hayresultados = true;
 let paginaActual = 0;
 const resultadosPorPagina = 10;
 
-
-
 // https://repositorio-para-vercel-tawny.vercel.app/api/grupos?limit=10&start=150
 const cargarUsuarios = (pagina) => {
-
   let paginaConsulta = paginaActual;
 
   // si quiere avanzar
@@ -36,16 +38,22 @@ const cargarUsuarios = (pagina) => {
     paginaConsulta = paginaActual - 1;
   }
 
-  fetch(urlApi + "?limit=" + resultadosPorPagina + "&start=" + (paginaConsulta * resultadosPorPagina), {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    }
-  })
+  fetch(
+    urlApi +
+      "?limit=" +
+      resultadosPorPagina +
+      "&start=" +
+      paginaConsulta * resultadosPorPagina,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    },
+  )
     .then((respuesta) => respuesta.json())
     .then((data) => {
-
       const usuarios = data.data;
 
       // si intentamos avanzar pero no hay resultados
@@ -73,11 +81,8 @@ const mostrar = (usuarios) => {
   const tabla = document.getElementById("tabla-empleados");
 
   tabla.innerHTML = "";
-  
 
-    
-usuarios.forEach(emp => {
-
+  usuarios.forEach((emp) => {
     tabla.innerHTML += `
     <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
         <td class="py-3 px-4 font-semibold text-slate-600">${emp.Nombre}</td>
@@ -88,12 +93,12 @@ usuarios.forEach(emp => {
         
 
         <td class="py-3 px-4 text-center">
-                    <a href="../../../pages/VistaPrivada/Productos/FormularioActualizar.html?id=${id}" class="inline-flex mr-2">
+                    <a href="actualizarEmpleado.html?id=${emp.Id_Empleado}" class="inline-flex mr-2">
                         <button type="button" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
                             Editar
                         </button>
                     </a>
-                    <button type="button" onclick="eliminarProducto(${id})" class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
+                    <button type="button" onclick="eliminarProducto(${emp.Id_Empleado})" class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
                         Borrar
                     </button>
                 </td>
@@ -102,3 +107,204 @@ usuarios.forEach(emp => {
   });
 };
 
+const urlValues= "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/empleado-value/"
+const cargarDatosEmpleado = () => {
+    if(!id) return;
+    fetch(urlValues + id, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+        },
+    })
+    .then(res => res.json())
+    .then(respuesta=> {
+      empleado = respuesta.data;
+    
+        document.getElementById('name').value = empleado.Nombre || '';
+        document.getElementById('apellidoPaterno').value = empleado.Apellido_Paterno || '';
+        document.getElementById('apellidoMaterno').value = empleado.Apellido_Materno || '';
+        document.getElementById('correo').value = empleado.Correo || '';
+        document.getElementById('telefono').value = empleado.Telefono || '';
+        document.getElementById('comboDepartamento').value = empleado.Id_Departamento || '';
+        document.getElementById('comboPuesto').value = empleado.Id_Puesto || '';
+        document.getElementById('comboTipoUsuario').value = empleado.Id_Tipo_Usuario || '';
+    })
+    .catch(err => console.error('Error al cargar producto', err));
+}
+
+
+
+//cargar los departamentos para mostrarlos en el select del formulario
+const cargarDepartamentos = () => {
+
+fetch(urlApi + "/departamentos", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+    },
+})
+.then(res => res.json())
+.then(result => {
+
+    const select = document.getElementById("comboDepartamento")
+
+    result.data.forEach(dep => {
+
+        const option = document.createElement("option")
+
+        option.value = dep.Id_Departamento
+        option.textContent = dep.Departamento
+
+        select.appendChild(option)
+
+    })
+
+})
+}
+
+//cargar los puestos para mostrarlos en el select del formulario
+const cargarPuestos = () => {
+
+fetch(urlApi + "/puestos", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+    },
+})
+.then(res => res.json())
+.then(result => {
+
+    const select = document.getElementById("comboPuesto")
+
+    result.data.forEach(p => {
+
+        const option = document.createElement("option")
+
+        option.value = p.Id_Puesto
+        option.textContent = p.Puesto
+
+        select.appendChild(option)
+
+    })
+
+})
+}
+
+//cargar los tipos de usuario para mostrarlos en el select del formulario
+const cargarTiposUsuario = () => {
+
+fetch(urlApi + "/tipos-usuario", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+    },
+})
+.then(res => res.json())
+.then(result => {
+
+    const select = document.getElementById("comboTipoUsuario")
+
+    result.data.forEach(t => {
+
+        const option = document.createElement("option")
+
+        option.value = t.Id_Tipo_Usuario
+        option.textContent = t.Usuario
+
+        select.appendChild(option)
+
+    })
+
+})
+}
+
+const cargarCatalogos =  () => {
+
+   cargarDepartamentos()
+     cargarPuestos()
+    cargarTiposUsuario()
+     cargarDatosEmpleado()
+
+}
+
+const guardarEmpleado = async () => {
+
+    const nombre = document.getElementById('name').value.trim();
+    const apellidoP = document.getElementById('apellidoPaterno').value.trim();
+    const apellidoM = document.getElementById('apellidoMaterno').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const departamento = document.getElementById('comboDepartamento').value;
+    const puesto = document.getElementById('comboPuesto').value;
+    const tipoUsuario = document.getElementById('comboTipoUsuario').value;
+    const contrasena = document.getElementById('contrasena').value.trim();
+
+
+
+    if(!nombre || !apellidoP || !apellidoM || !correo || !telefono || !departamento || !puesto || !tipoUsuario ){
+        
+        Swal.fire({
+            icon: "warning",
+            title: "Campos requeridos",
+            text: "Debes completar todos los campos obligatorios"
+        });
+
+        return;
+    }
+
+    const empleado = {
+        nombre: nombre,
+        apaterno: apellidoP,
+        amaterno: apellidoM,
+        correo: correo,
+        telefono: telefono,
+        contrasena: contrasena,
+        tipo_usuario: parseInt(tipoUsuario),
+        departamento: parseInt(departamento),
+        puesto: parseInt(puesto)
+    };
+
+    try {
+
+        const response = await fetch(urlApi + "/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(empleado)
+        });
+
+        const data = await response.json();
+
+        if(data.message){
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: data.message
+            });
+            return;
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "Empleado actualizado",
+            text: "El empleado fue actualizado correctamente"
+        });
+
+    } catch(error){
+
+        Swal.fire({
+            icon: "error",
+            title: "Error del servidor",
+            text: "No se pudo actualizar el empleado"
+        });
+
+        console.error(error);
+    }
+
+};
