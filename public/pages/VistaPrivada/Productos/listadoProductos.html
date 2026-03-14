@@ -236,17 +236,27 @@
       </table>
     </div>
 
-    <div class="flex justify-center items-center gap-2 mt-8">
-      <a href="#"
-        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">«
-        Anterior</a>
-      <span class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">1</span>
-      <a href="#"
-        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">2</a>
-      <a href="#"
-        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">Siguiente
-        »</a>
-    </div>
+<div class="flex justify-center items-center gap-2 mt-8">
+    <button id="btnAnterior" onclick="cargarProductos(0)"
+        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        « Anterior
+    </button>
+
+    <button id="pagina1" onclick="cargarProductos(0)"
+        class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">
+        1
+    </button>
+
+    <button id="pagina2" onclick="cargarProductos(1)"
+        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        2
+    </button>
+
+    <button id="btnSiguiente" onclick="cargarProductos(1)"
+        class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Siguiente »
+    </button>
+</div>
 
   </main>
 
