@@ -11,7 +11,7 @@ const idProducto = params.get("id");
 const modoEditar = idProducto !== null;
 
 /* ======================================================
-ELEMENTOS HTML (Usamos let o const pero verificaremos que existan)
+ELEMENTOS HTML
 ====================================================== */
 const titulo = document.getElementById("tituloFormulario");
 const descripcion = document.getElementById("descripcionFormulario");
@@ -23,13 +23,28 @@ const inpuntform = document.getElementById("inputfile");
 const image = document.getElementById("imagen");
 
 /* ======================================================
+VARIABLES DE PAGINACIÓN 
+====================================================== */
+let hayresultados = true;
+let paginaActual = 0;
+const resultadosPorPagina = 10;
+
+/* ======================================================
+ELEMENTOS DE PAGINACIÓN
+====================================================== */
+const btnAnterior = document.getElementById("btnAnterior");
+const btnSiguiente = document.getElementById("btnSiguiente");
+const pagina1 = document.getElementById("pagina1");
+const pagina2 = document.getElementById("pagina2");
+
+/* ======================================================
 CLOUDINARY CONFIG
 ====================================================== */
 const cloudname = "dq63gma00";
 const present = "AcerosAlonso";
 
 /* ======================================================
-INICIALIZACIÓN DE TEXTOS (SOLO SI EXISTEN LOS ELEMENTOS)
+INICIALIZACIÓN DE TEXTOS
 ====================================================== */
 if (titulo && descripcion) {
     if (modoEditar) {
@@ -56,7 +71,6 @@ const crearProducto = async (payload) => {
 };
 
 const actualizarProducto = async (id, payload) => {
-    // Corregido: Usamos /id en lugar de ?id=
     return await fetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: {
@@ -84,7 +98,7 @@ const eliminarProducto = async (id) => {
             const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
             if (response.ok) {
                 Swal.fire('¡Borrado!', 'El producto ha sido eliminado.', 'success');
-                ListarProductos();
+                cargarProductos(0);  // Recargamos la página actual, no toda la lista
             } else {
                 throw new Error("No se pudo eliminar el producto");
             }
@@ -95,70 +109,130 @@ const eliminarProducto = async (id) => {
     }
 };
 
-/* =====================================================
-CARGAR TODOS LOS PRODUCTOS
-===================================================== */
-const ListarProductos = async () => {
-    try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Error en la respuesta del servidor");
+/* ======================================================
+CARGAR PRODUCTOS PAGINADOS
+====================================================== */
+const cargarProductos = (pagina) => {
+    let paginaConsulta = paginaActual;
 
-        const result = await response.json();
-        const productos = result.data || [];
+    // Avanzar
+    if (pagina === 1) {
+        paginaConsulta = paginaActual + 1;
+    }
 
-        if (tituloTotal) {
-            tituloTotal.textContent = `Listado de Productos (Total: ${productos.length})`;
+    // Retroceder
+    if (pagina === 0 && paginaActual > 0) {
+        paginaConsulta = paginaActual - 1;
+    }
+
+    fetch(
+        API_URL + "?limit=" + resultadosPorPagina + "&start=" + (paginaConsulta * resultadosPorPagina),
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token, 
+            },
         }
+    )
+    .then((respuesta) => {
+        if (!respuesta.ok) throw new Error(`Error ${respuesta.status}`);
+        return respuesta.json();
+    })
+    .then((data) => {
+        const productos = data.data || [];
 
-        if (!tbody) return;
-
-        tbody.innerHTML = "";
-
-        if (productos.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" class="py-4 px-4 text-center text-slate-500">No hay productos registrados en este momento.</td></tr>`;
+        // Si intentamos avanzar pero no hay resultados
+        if (pagina === 1 && productos.length === 0) {
+            hayresultados = false;
+            actualizarBotones();
             return;
         }
 
-        productos.forEach(p => {
-            const tr = document.createElement("tr");
-            tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
-            const imagenSrc = p.ImagenesProducto ? p.ImagenesProducto : "../../imagenes/placeholder.jpg";
-            const id = p.id_producto || p.id;
+        // Actualizamos página
+        paginaActual = paginaConsulta;
+        hayresultados = productos.length === resultadosPorPagina;
 
-            tr.innerHTML = `
-                <td class="py-3 px-4">
-                    <img src="${imagenSrc}" alt="${p.nombre_producto}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
-                </td>
-                <td class="py-3 px-4 font-semibold text-slate-800">${p.nombre_producto}</td>
-                <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Cat: ' + p.id_categoria}</td>
-                <td class="py-3 px-4 text-center">
-                    <a href="../../../pages/VistaPrivada/Productos/FormularioActualizar.html?id=${id}" class="inline-flex mr-2">
-                        <button type="button" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
-                            Editar
-                        </button>
-                    </a>
-                    <button type="button" onclick="eliminarProducto(${id})" class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
-                        Borrar
-                    </button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    } catch (error) {
+        // Actualizar números de página visibles
+        if (pagina1) pagina1.textContent = paginaActual + 1;
+        if (pagina2) pagina2.textContent = paginaActual + 2;
+
+        // Actualizar total si la API lo envía 
+        if (data.total !== undefined && tituloTotal) {
+            tituloTotal.textContent = `Listado de Productos (Total: ${data.total})`;
+        }
+
+        // Mostrar los productos
+        mostrarProductos(productos);
+
+        // Actualizar estado de botones
+        actualizarBotones();
+    })
+    .catch((error) => {
         console.error("Error al cargar los productos:", error);
-        Swal.fire({ icon: 'error', title: 'Oops...', text: 'Hubo un problema al cargar los productos.' });
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-red-600">Error al cargar los productos. Intenta recargar.</td></tr>`;
+        }
+    });
+};
+
+/* ======================================================
+RENDERIZAR LOS PRODUCTOS EN LA TABLA
+====================================================== */
+const mostrarProductos = (productos) => {
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    if (productos.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-4 px-4 text-center text-slate-500">No hay productos en esta página.</td></tr>`;
+        return;
+    }
+
+    productos.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+        const imagenSrc = p.ImagenesProducto ? p.ImagenesProducto : "../../imagenes/placeholder.jpg";
+        const id = p.id_producto || p.id;
+
+        tr.innerHTML = `
+            <td class="py-3 px-4">
+                <img src="${imagenSrc}" alt="${p.nombre_producto}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
+            </td>
+            <td class="py-3 px-4 font-semibold text-slate-800">${p.nombre_producto}</td>
+            <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Cat: ' + p.id_categoria}</td>
+            <td class="py-3 px-4 text-center">
+                <a href="../../../pages/VistaPrivada/Productos/FormularioActualizar.html?id=${id}" class="inline-flex mr-2">
+                    <button type="button" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
+                        Editar
+                    </button>
+                </a>
+                <button type="button" onclick="eliminarProducto(${id})" class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
+                    Borrar
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+};
+
+/* ======================================================
+ACTUALIZAR ESTADO VISUAL DE LOS BOTONES
+====================================================== */
+const actualizarBotones = () => {
+    if (btnAnterior) {
+        btnAnterior.disabled = (paginaActual === 0);
+    }
+    if (btnSiguiente) {
+        btnSiguiente.disabled = !hayresultados;
     }
 };
 
 /* ======================================================
-CARGAR PRODUCTO POR ID (PARA EDITAR)
-====================================================== */
-/* ======================================================
-CARGAR PRODUCTO POR ID (CON PLAN B)
+CARGAR PRODUCTO POR ID 
 ====================================================== */
 const cargarProducto = async () => {
     try {
-        // Intento 1: Pedir el producto directo al ID
         let response = await fetch(`${API_URL}/${idProducto}`);
         let p = null;
 
@@ -166,20 +240,16 @@ const cargarProducto = async () => {
             const data = await response.json();
             p = data.data || data;
         } else {
-            // PLAN B: Si el ID directo da 404, buscamos en la lista completa
             console.warn("La API no soporta búsqueda por ID. Aplicando Plan B...");
             const resLista = await fetch(API_URL);
             const listaData = await resLista.json();
             const productos = listaData.data || listaData;
-
-            // Buscamos el producto que coincida con el ID de la URL
             p = productos.find(item => (item.id_producto || item.id).toString() === idProducto.toString());
         }
 
         if (p && form) {
             console.log("Producto encontrado para editar:", p);
 
-            // Llenamos los inputs (Asegúrate que los ID en el HTML coincidan)
             if (document.getElementById('nombre_producto')) document.getElementById('nombre_producto').value = p.nombre_producto || "";
             if (document.getElementById('id_categoria')) document.getElementById('id_categoria').value = p.id_categoria || "";
             if (document.getElementById('precio')) document.getElementById('precio').value = p.precio || "";
@@ -202,32 +272,6 @@ const cargarProducto = async () => {
         console.error("Error crítico en cargarProducto:", error);
     }
 };
-/* const cargarProducto = async () => {
-    try {
-        const response = await fetch(`${API_URL}/${idProducto}`);
-        const data = await response.json(); 
-        const p = data.data || data; 
-        
-        if (p && form) { 
-            document.getElementById('nombre_producto').value = p.nombre_producto || "";
-            document.getElementById('id_categoria').value = p.id_categoria || "";
-            document.getElementById('precio').value = p.precio || "";
-            document.getElementById('unidad_medida').value = p.unidad_medida || "";
-            document.getElementById('calibre').value = p.calibre || "";
-            document.getElementById('metros').value = p.metros || "";
-            document.getElementById('kg').value = p.kg || "";
-            document.getElementById('cm').value = p.cm || "";
-            document.getElementById('ton').value = p.ton || "";
-            document.getElementById('ced').value = p.ced || "";
-            document.getElementById('color').value = p.color || "";
-            if (p.ImagenesProducto && image) {
-                image.src = p.ImagenesProducto;
-            }
-        }
-    } catch (error) {
-        console.error("Error cargando producto:", error);
-    }
-}; */
 
 /* ======================================================
 PREVISUALIZAR IMAGEN
@@ -249,13 +293,13 @@ const previsualizar = () => {
 
 /* ======================================================
 RESET FORMULARIO
-======================================================*/
+====================================================== */
 const resetFormulario = () => {
     if (image) image.src = "https://via.placeholder.com/150";
 };
 
 /* ======================================================
-SUBMIT FORMULARIO (SOLO SI EXISTE EL FORMULARIO)
+SUBMIT FORMULARIO
 ====================================================== */
 if (form) {
     form.addEventListener('submit', async function (e) {
@@ -284,7 +328,6 @@ if (form) {
                 return;
             }
         } else if (modoEditar && image && image.src !== "") {
-            // Si editamos y no hay foto nueva, conservamos la que ya tenía
             urlImagenFinal = image.src;
         }
 
@@ -312,7 +355,7 @@ if (form) {
                 response = await crearProducto(payload);
             }
 
-             const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
+            const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
 
             if (response.ok) {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: mensajeExito, showConfirmButton: false, timer: 3000 });
@@ -336,10 +379,13 @@ if (form) {
 INICIALIZACIÓN AL CARGAR LA PÁGINA
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    // Si hay una tabla, estamos en el Listado
+    // Si hay tabla, estamos en el listado, cargamos paginado
     if (tbody) {
-        ListarProductos();
+        cargarProductos(0);  // primera página
     }
-    // Si estamos en modo editar y hay formulario, cargamos los datos
-    cargarProducto();
+
+    // Si estamos editando, cargamos el producto
+    if (modoEditar) {
+        cargarProducto();
+    }
 });
