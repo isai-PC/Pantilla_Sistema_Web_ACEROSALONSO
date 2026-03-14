@@ -10,45 +10,52 @@ const cloudname = "dq63gma00";
 const present = "AcerosAlonso";
 
 /* ======================================================
-ELEMENTOS (se obtienen cuando el DOM ya cargó)
+VARIABLES GLOBALES
 ====================================================== */
-let titulo, descripcion, form, btnGuardarFinal, inpuntform, image;
+let modoEditar = false;
+let idProducto = null;
 
 /* ======================================================
-FUNCIÓN QUE SE EJECUTA CUANDO EL DOM CARGÓ (onload del body)
+FUNCIÓN QUE SE EJECUTA AL CARGAR LA PÁGINA 
 ====================================================== */
 function inicializarFormulario() {
     // Obtener elementos
-    titulo = document.getElementById("tituloFormulario");
-    descripcion = document.getElementById("descripcionFormulario");
-    form = document.getElementById("formCrearProducto");
-    btnGuardarFinal = document.getElementById("btnGuardarFinal");
-    inpuntform = document.getElementById("inputfile");
-    image = document.getElementById("imagen");
+    const titulo = document.getElementById("tituloFormulario");
+    const descripcion = document.getElementById("descripcionFormulario");
+    const form = document.getElementById("formCrearProducto");
+    const btnGuardarFinal = document.getElementById("btnGuardarFinal");
+    const inpuntform = document.getElementById("inputfile");
+    const image = document.getElementById("imagen");
 
     // Verificar que existan
     if (!form || !btnGuardarFinal || !inpuntform || !image) {
-        alert("Error: No se encontraron elementos del formulario. Revisa el HTML.");
+        alert("Error: No se encontraron elementos del formulario");
         return;
     }
 
-    // Inicializar textos
+    // Detectar si es editar o crear
+    const params = new URLSearchParams(window.location.search);
+    idProducto = params.get("id");
+    modoEditar = idProducto !== null;
+
     if (modoEditar) {
         titulo.textContent = "Actualizar Producto";
         descripcion.textContent = "Modifica los datos del producto";
+        cargarProducto();  // Cargar datos del producto a editar
     } else {
         titulo.textContent = "Crear Nuevo Producto";
         descripcion.textContent = "Completa los campos para registrar un nuevo producto";
+        resetFormulario(); // Reset inicial
     }
-
-    // Reset inicial
-    resetFormulario();
 }
 
 /* ======================================================
-PREVISUALIZAR IMAGEN (llamado desde onchange del input file)
+PREVISUALIZAR IMAGEN 
 ====================================================== */
 function previsualizar() {
+    const inpuntform = document.getElementById("inputfile");
+    const image = document.getElementById("imagen");
+
     if (!inpuntform || !image) return;
 
     const foto = inpuntform.files[0];
@@ -69,20 +76,25 @@ function previsualizar() {
 }
 
 /* ======================================================
-RESET FORMULARIO (llamado desde onclick del botón Cancelar)
+RESET FORMULARIO 
 ====================================================== */
 function resetFormulario() {
-    if (image) image.src = "https://via.placeholder.com/150";
-    if (inpuntform) inpuntform.value = "";
+    const form = document.getElementById("formCrearProducto");
+    const image = document.getElementById("imagen");
+    const inpuntform = document.getElementById("inputfile");
+
     if (form) form.reset();
+    if (inpuntform) inpuntform.value = "";
+    if (image) image.src = "https://via.placeholder.com/150";
 }
 
 /* ======================================================
-ENVIAR FORMULARIO (llamado desde onsubmit del form)
+ENVIAR FORMULARIO
 ====================================================== */
 function enviarFormulario(event) {
-    event.preventDefault();  // evita recargar la página
+    event.preventDefault();
 
+    const btnGuardarFinal = document.getElementById("btnGuardarFinal");
     if (!btnGuardarFinal) return;
 
     btnGuardarFinal.disabled = true;
@@ -95,13 +107,18 @@ function enviarFormulario(event) {
     const unidadMedida = document.getElementById("unidad_medida")?.value.trim();
 
     if (!nombreProducto || !idCategoria || !precio || !unidadMedida) {
-        alert("Completa los campos obligatorios: Nombre, Categoría, Precio y Unidad de medida");
+        Swal.fire({
+            icon: "warning",
+            title: "Campos requeridos",
+            text: "Completa: Nombre, Categoría, Precio y Unidad de medida"
+        });
         btnGuardarFinal.disabled = false;
         btnGuardarFinal.textContent = "Guardar";
-        return;
+        return false;
     }
 
     let urlImagenFinal = "https://via.placeholder.com/150";
+    const inpuntform = document.getElementById("inputfile");
     const foto = inpuntform?.files[0];
 
     if (foto) {
@@ -116,7 +133,7 @@ function enviarFormulario(event) {
             body: formData
         })
         .then(res => {
-            if (!res.ok) throw new Error("Error Cloudinary");
+            if (!res.ok) throw new Error("Error en Cloudinary");
             return res.json();
         })
         .then(cloudData => {
@@ -124,7 +141,11 @@ function enviarFormulario(event) {
             guardarProducto(urlImagenFinal);
         })
         .catch(error => {
-            alert("No se pudo subir la imagen");
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo subir la imagen"
+            });
             btnGuardarFinal.disabled = false;
             btnGuardarFinal.textContent = "Guardar";
         });
@@ -132,7 +153,7 @@ function enviarFormulario(event) {
         guardarProducto(urlImagenFinal);
     }
 
-    return false;  // evita envío por defecto
+    return false;  // Evita envío por defecto
 }
 
 /* ======================================================
@@ -181,7 +202,7 @@ function guardarProducto(urlImagenFinal) {
         });
 
         if (!modoEditar) {
-            form.reset();
+            document.getElementById("formCrearProducto").reset();
             resetFormulario();
         }
     })
