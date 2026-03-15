@@ -21,6 +21,10 @@ const mostrarMensaje = (tipo, titulo, texto) => {
     });
 };
 
+// Constantes para Cloudinary
+const CLOUD_NAME = "dq63gma00";
+const UPLOAD_PRESET = "AcerosAlonso";
+
 // ================================================
 // CARGAR LISTADO
 // ================================================
@@ -188,11 +192,13 @@ const obtenerDatosCategoria = async (id) => {
         const nombreInput = document.getElementById("nombre_categoria");
         const textoInput = document.getElementById("texto_secundario");
         const preview = document.getElementById("imagenPreview");
+        const imagenActualInput = document.getElementById("imagen_actual");
 
         if (idHidden) idHidden.value = categoria.id_categoria;
         if (nombreInput) nombreInput.value = categoria.nombre_categoria || "";
         if (textoInput) textoInput.value = categoria.texto_secundario || "";
         if (preview) preview.src = categoria.imagen_categoria || "https://via.placeholder.com/150?text=Sin+Imagen";
+        if (imagenActualInput) imagenActualInput.value = categoria.imagen_categoria || "";
 
         return categoria;
 
@@ -201,6 +207,54 @@ const obtenerDatosCategoria = async (id) => {
         Swal.fire("Error", "No se pudo cargar la categoría", "error");
         return null;
     }
+};
+
+// ================================================
+// PREVISUALIZAR IMAGEN
+// ================================================
+const previsualizarImagen = () => {
+    const inputFile = document.getElementById("imagenInput");
+    const preview = document.getElementById("imagenPreview");
+
+    // Si no existe el input o la imagen de previsualización → salir
+    if (!inputFile || !preview) {
+        console.warn("No se encontraron elementos para previsualizar imagen");
+        return;
+    }
+
+    const file = inputFile.files[0];
+
+    // Validación: no hay archivo seleccionado
+    if (!file) {
+        Swal.fire({
+            icon: "info",
+            title: "Selecciona una imagen",
+            text: "No has elegido ningún archivo aún",
+            timer: 2000
+        });
+        return;
+    }
+
+    // Validación: debe ser imagen
+    if (!file.type.startsWith("image/")) {
+        Swal.fire({
+            icon: "error",
+            title: "Formato inválido",
+            text: "Solo se permiten imágenes (jpg, png, webp)",
+            timer: 2500
+        });
+        inputFile.value = ""; // limpiar input
+        return;
+    }
+
+    // Liberar memoria de la imagen anterior (si existe y no es placeholder)
+    if (preview.src && !preview.src.includes("placeholder")) {
+        URL.revokeObjectURL(preview.src);
+    }
+
+    // Mostrar previsualización
+    preview.src = URL.createObjectURL(file);
+    preview.alt = file.name;
 };
 
 // ================================================
@@ -227,9 +281,12 @@ const actualizarCategoria = async () => {
     const btn = document.getElementById("btnActualizar");
     if (!btn) return;
 
-    const textoOriginal = btn.innerHTML;
+    const textoBtn = document.getElementById("textoBtn");
+    const spinner = document.getElementById("spinner");
+
     btn.disabled = true;
-    btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path></svg> Actualizando...';
+    if (textoBtn) textoBtn.textContent = "Actualizando...";
+    if (spinner) spinner.classList.remove("hidden");
 
     let urlImagen = null;
 
@@ -260,51 +317,6 @@ const actualizarCategoria = async () => {
             return null;
         }
     };
-    // Previsualizar imagen nueva (sin subir todavía)
-    const previsualizarImagen = () => {
-        const inputFile = document.getElementById("imagenInput");
-        const preview = document.getElementById("imagenPreview");
-
-        // Si no existe el input o la imagen de previsualización → salir
-        if (!inputFile || !preview) {
-            console.warn("No se encontraron elementos para previsualizar imagen");
-            return;
-        }
-
-        const file = inputFile.files[0];
-
-        // Validación: no hay archivo seleccionado
-        if (!file) {
-            Swal.fire({
-                icon: "info",
-                title: "Selecciona una imagen",
-                text: "No has elegido ningún archivo aún",
-                timer: 2000
-            });
-            return;
-        }
-
-        // Validación: debe ser imagen
-        if (!file.type.startsWith("image/")) {
-            Swal.fire({
-                icon: "error",
-                title: "Formato inválido",
-                text: "Solo se permiten imágenes (jpg, png, webp)",
-                timer: 2500
-            });
-            inputFile.value = ""; // limpiar input
-            return;
-        }
-
-        // Liberar memoria de la imagen anterior (si existe y no es placeholder)
-        if (preview.src && !preview.src.includes("placeholder")) {
-            URL.revokeObjectURL(preview.src);
-        }
-
-        // Mostrar previsualización
-        preview.src = URL.createObjectURL(file);
-        preview.alt = file.name;
-    };
     // Si hay nueva imagen, subirla a Cloudinary primero
     if (inputFile?.files?.[0]) {
         const file = inputFile.files[0];
@@ -324,15 +336,12 @@ const actualizarCategoria = async () => {
     }
 
     // Preparar payload (solo JSON)
+    const imagenActual = document.getElementById("imagen_actual")?.value || "";
     const payload = {
         nombre_categoria: nombre,
-        texto_secundario: texto
+        texto_secundario: texto,
+        imagen_categoria: urlImagen || imagenActual
     };
-
-    // Si subimos imagen nueva, incluir la URL
-    if (urlImagen) {
-        payload.imagen_categoria = urlImagen;
-    }
 
     try {
         console.log("Enviando PUT:", payload);
@@ -365,7 +374,8 @@ const actualizarCategoria = async () => {
         Swal.fire("Error", error.message || "No se pudo actualizar la categoría", "error");
     } finally {
         btn.disabled = false;
-        btn.innerHTML = textoOriginal;
+        if (textoBtn) textoBtn.textContent = "Actualizar Categoría";
+        if (spinner) spinner.classList.add("hidden");
     }
 };
 
