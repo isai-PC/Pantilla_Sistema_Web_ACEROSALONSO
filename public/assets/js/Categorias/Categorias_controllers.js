@@ -41,13 +41,13 @@ const cargarCategorias = async () => {
                 Authorization: "Bearer " + token   // ← formato exacto que usas
             }
         });
-        /*  if (!response.ok) {
-             if (response.status === 401 || response.status === 403) {
-                 redirigirIndex();
-                 return;
-             }
-             throw new Error(`Error ${response.status}`);
-         } */
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                redirigirIndex();
+                return;
+            }
+            throw new Error(`Error ${response.status}`);
+        }
         const data = await response.json();
         const categorias = data.data || data; /* Si no hay data, tomar data */
         if (categorias.length === 0 || !categorias) {
@@ -185,6 +185,10 @@ const previsualizar = () => {
     image.src = URL.createObjectURL(foto);
 };
 /* ================== OBTENER DATOS ================ */
+const getCategoriaId = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id");
+};
 const obtenerDatosCategoria = async (id) => {
 
     const token = getToken();/* Obtener token */
@@ -202,8 +206,8 @@ const obtenerDatosCategoria = async (id) => {
                 Authorization: "Bearer " + token
             }
         });
-        if (!response.ok) {
-            if (response.status === 404) {
+        if (!res.ok) {
+            if (rs.status === 404) {
                 Swal.fire({
                     icon: "warning",
                     title: "Categoría no encontrada",
@@ -212,10 +216,10 @@ const obtenerDatosCategoria = async (id) => {
                 window.location.replace("ListadoCategoriasView.html");
                 return null;
             }
-            throw new Error(`Error ${response.status}`);
+            throw new Error(`Error ${res.status}`);
         }
         /* SI EL TOKEN ESXPIRO */
-        if (response.status === 401 || response.status === 403) {
+        if (res.status === 401 || res.status === 403) {
             Swal.fire({
                 icon: "error",
                 title: "Sesión expirada",
@@ -239,7 +243,7 @@ const obtenerDatosCategoria = async (id) => {
         /* LLENAR CAMPOS DE TEXTO */
         const titulo = document.getElementById("nombre_Categoria")
         const descripcion = document.getElementById("descripcion_Categoria")
-        const imagen = document.getElementById("imagen_Categoria")
+        const imagen = document.getElementById("imagen")
         if (titulo) titulo.value = categoria.nombre_categoria;
         if (descripcion) descripcion.value = categoria.texto_secundario;
         if (imagen) imagen.value = categoria.imagen_categoria;
@@ -262,7 +266,7 @@ const obtenerDatosCategoria = async (id) => {
 }
 // ]=================== ACTUALIZAR CATEGORIA ================   
 const actualizarCategoria = async () => {
-    const id = document.getElementById("id_categoria_hidden").value;
+    const id = document.getElementById("id_categoria").value;
     const nombre = document.getElementById("nombre_Categoria").value.trim();
     const texto = document.getElementById("texto_secundario").value.trim();
     const inputFile = document.getElementById("imagenInput");
@@ -358,5 +362,8 @@ const siguiente = () => {
 /* ===================== INICIO ===================== */
 
 cargarCategorias();
-obtenerDatosCategoria();
+const id = getCategoriaId();
+if (id) {
+    obtenerCategoria(id);
+}   
 
