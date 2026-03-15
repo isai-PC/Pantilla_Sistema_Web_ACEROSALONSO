@@ -96,10 +96,11 @@ const cargarCategorias = async () => {
 
 }
 /* =================ELIMINAR CATEGORIA ================*/
-const eliminarCategoria = async (id) => {
+/* const eliminarCategoria = async (id) => { */
+async function eliminarCategoria(id) {
     /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
     const confirmacion = await Swal.fire({
-        title: "¿Eliminar empleado?",
+        title: "¿Esta seguro de eliminar esta categoria?",
         text: "Esta acción no se puede deshacer",
         icon: "warning",
         showCancelButton: true,
