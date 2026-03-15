@@ -234,9 +234,9 @@ const actualizarCategoria = async () => {
     formData.append("nombre_categoria", nombre);
     formData.append("texto_secundario", texto);
 
-    if (inputFile?.files?.[0]) {
+    /* if (inputFile?.files?.[0]) {
         formData.append("imagen_categoria", inputFile.files[0]);
-    }
+    } */
 
     try {
         console.log("Enviando PUT a:", `${API_URL}/${id}`); // para depurar
