@@ -63,9 +63,7 @@ const cargarCategorias = async () => {
             /* CONTENIDO DE LAS FILAS */
             fila.innerHTML = `
             <td class="py-3 px-4">
-            ${cat.imagen_categoria} ? 
-                            <img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200"> : 
-                            <img src="https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
+                            <img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200"> 
                         </td>                      
                         <td class="py-3 px-4 text-slate-600">${cat.nombre_categoria}</td>
                         <td class="py-3 px-4 text-center">
