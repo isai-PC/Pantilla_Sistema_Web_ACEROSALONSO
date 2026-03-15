@@ -189,16 +189,17 @@ const getCategoriaId = () => {
     const params = new URLSearchParams(window.location.search);
     return params.get("id");
 };
+
 const obtenerDatosCategoria = async (id) => {
 
-    const token = getToken();/* Obtener token */
-    /* SI NO HAY TOKEN */
+    const token = getToken();
     if (!token) {
         redirigirIndex();
         return;
     }
+
     try {
-        /* FUNCION DE LA API */
+
         const res = await fetch(`${API_URL}/${id}`, {
             method: "GET",
             headers: {
@@ -206,64 +207,48 @@ const obtenerDatosCategoria = async (id) => {
                 Authorization: "Bearer " + token
             }
         });
+
         if (!res.ok) {
-            if (rs.status === 404) {
+
+            if (res.status === 404) {
                 Swal.fire({
                     icon: "warning",
-                    title: "Categoría no encontrada",
-                    text: "La categoría que intentas editar no existe."
+                    title: "Categoría no encontrada"
                 });
                 window.location.replace("ListadoCategoriasView.html");
-                return null;
+                return;
             }
+
+            if (res.status === 401 || res.status === 403) {
+                redirigirIndex();
+                return;
+            }
+
             throw new Error(`Error ${res.status}`);
         }
-        /* SI EL TOKEN ESXPIRO */
-        if (res.status === 401 || res.status === 403) {
-            Swal.fire({
-                icon: "error",
-                title: "Sesión expirada",
-                text: "Tu sesión ha caducado. Inicia sesión nuevamente."
-            });
-            redirigirIndex();
-            return null;
-        }
+
         const data = await res.json();
         const categoria = data.data || data;
-        if (!categoria.id_categoria || !categoria) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "No se encontraron datos de la categoria"
-            })
-            Window.location.replace("ListadoCategoriasView.html");
 
-            return categoria;/* SI NO HAY DATOS */
-        }
-        /* LLENAR CAMPOS DE TEXTO */
-        const titulo = document.getElementById("nombre_Categoria")
-        const descripcion = document.getElementById("descripcion_Categoria")
-        const imagen = document.getElementById("imagen")
-        if (titulo) titulo.value = categoria.nombre_categoria;
-        if (descripcion) descripcion.value = categoria.texto_secundario;
-        if (imagen) imagen.value = categoria.imagen_categoria;
+        document.getElementById("id_categoria_hidden").value = categoria.id_categoria;
+        document.getElementById("nombre_Categoria").value = categoria.nombre_categoria;
+        document.getElementById("descripcion_Categoria").value = categoria.texto_secundario;
 
-
-
-
+        const imagen = document.getElementById("imagen");
+        if (imagen) imagen.src = categoria.imagen_categoria;
 
     } catch (error) {
+
         console.error("Error al obtener datos de la categoría:", error);
 
         Swal.fire({
             icon: "error",
             title: "Error de conexión",
-            text: "No se pudo cargar la información de la categoría. Intenta de nuevo."
+            text: "No se pudo cargar la información de la categoría."
         });
 
-        return null;
     }
-}
+};
 // ]=================== ACTUALIZAR CATEGORIA ================   
 const actualizarCategoria = async () => {
     const id = document.getElementById("id_categoria").value;
@@ -364,6 +349,6 @@ const siguiente = () => {
 cargarCategorias();
 const id = getCategoriaId();
 if (id) {
-    obtenerCategoria(id);
-}   
+    obtenerDatosCategoria(id);
+}
 
