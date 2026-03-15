@@ -1,119 +1,123 @@
-// categorias_Controller.js
-// Listado dinámico de categorías con manejo completo de token y errores
+// Categorias_controllers.js - Versión corregida sin bucles infinitos
 
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 const TOKEN_KEY = "token";
-/* PAGINACION */
+
 let paginaActual = 0;
 const resultadosPorPagina = 10;
 
 // ================================================
 // FUNCIONES AUXILIARES
 // ================================================
-/* OBTENER TOKEN */
-function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
-}
+const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-/* REDIRIGIR AL LOGIN CUANDO NO HAY TOKEN */
-const redirigirIndex = () => {
-    messages.error("Sesion expirada o no estás autenticado. Inicia sesión nuevamente");
-    localStorage.removeItem(TOKEN_KEY);/* Limpiar token */
-    window.location.href = "../../index.html";
-}
-/* CARGAR las CATEGORIAS CON PAGINACION */
+const mostrarMensaje = (tipo, titulo, texto) => {
+    Swal.fire({
+        icon: tipo,
+        title: titulo,
+        text: texto,
+        timer: 3000,
+        showConfirmButton: false
+    });
+};
+
+// ================================================
+// CARGAR LISTADO DE CATEGORÍAS
+// ================================================
 const cargarCategorias = async () => {
     const tbody = document.querySelector("tbody");
-    if (!tbody) return;/* Si no hay tbody, salir */
-    const token = getToken();/* Obtener token */
-    /* SI NO HAY TOKEN */
+    if (!tbody) return;
+
+    const token = getToken();
     if (!token) {
-        redirigirIndex();
-        return;
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para ver las categorías");
+        return; // NO redirigir automáticamente
     }
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>'; /* Mostrar cragando */
+
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>';
+
     try {
-        const url = `${API_URL}?limit=${resultadosPorPagina}&start=${paginaActual * resultadosPorPagina}`;/* paginacion */
+        const url = `${API_URL}?limit=${resultadosPorPagina}&start=${paginaActual * resultadosPorPagina}`;
+
         const response = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer " + token   // ← formato exacto que usas
+                Authorization: "Bearer " + token
             }
         });
+
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                redirigirIndex();
-                return;
+                mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
+                return; // NO redirigir
             }
             throw new Error(`Error ${response.status}`);
         }
+
         const data = await response.json();
-        const categorias = data.data || data; /* Si no hay data, tomar data */
-        if (categorias.length === 0 || !categorias) {
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Sin categorias registradas</td></tr>'; /* Mostrar cragando */
+        const categorias = data.data || data;
+
+        if (!categorias || categorias.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-slate-500">No hay categorías registradas</td></tr>';
             return;
         }
-        /* SI TODO FUNCI0ONA A EMPEZAR A REALIZAR LA TABLA */
+
         tbody.innerHTML = "";
-        categorias.forEach((cat) => {
-            /* FILAS */
+
+        categorias.forEach(cat => {
             const fila = document.createElement("tr");
             fila.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
-            /* CONTENIDO DE LAS FILAS */
+
             fila.innerHTML = `
-            <td class="py-3 px-4">
-                            <img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200"> 
-                        </td>                      
-                        <td class="py-3 px-4 text-slate-600">${cat.nombre_categoria}</td>
-                        <td class="py-3 px-4 text-center">
-
-                            <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2">
-                                <button type="button"
-                                    class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
-                                    Editar
-                                </button>
-                            </a>
-
-                            <button onclick="eliminarCategoria(${cat.id_categoria})" 
+                <td class="py-3 px-4">
+                    ${cat.imagen_categoria 
+                        ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">` 
+                        : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`}
+                </td>
+                <td class="py-3 px-4 font-medium">${cat.nombre_categoria}</td>
+                <td class="py-3 px-4 text-center">
+                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold text-sm">Editar</button>
+                    </a>
+                    <button onclick="eliminarCategoria(${cat.id_categoria})" 
                             class="bg-red-500 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm">
                         Borrar
                     </button>
-
-                        </td>
-        `;
+                </td>
+            `;
             tbody.appendChild(fila);
         });
-        /* ACTUALKIZAR Y NU,MEROS DE PAGINAS */
-        const paginacionSpan = document.getElementById("pagina-actual");
-        if (paginacionSpan) paginacionSpan.textContent = paginaActual + 1;
 
+        const paginaSpan = document.getElementById("pagina-actual");
+        if (paginaSpan) paginaSpan.textContent = paginaActual + 1;
 
     } catch (error) {
         console.error("Error cargando categorías:", error);
         tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar categorías</td></tr>`;
     }
-}
+};
 
-/* =================ELIMINAR CATEGORIA ================*/
-async function eliminarCategoria(id) {
-    /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
+// ================================================
+// ELIMINAR CATEGORÍA
+// ================================================
+const eliminarCategoria = async (id) => {
     const confirmacion = await Swal.fire({
-        title: "¿Esta seguro de eliminar esta categoria?",
+        title: "¿Estás seguro?",
         text: "Esta acción no se puede deshacer",
         icon: "warning",
         showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar"
     });
 
-    if (!confirmacion.isConfirmed) {
-        return;
-    }
+    if (!confirmacion.isConfirmed) return;
 
     const token = getToken();
     if (!token) {
-        redirigirIndex();
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para eliminar");
         return;
     }
 
@@ -127,81 +131,33 @@ async function eliminarCategoria(id) {
         });
 
         if (!res.ok) {
-            /* ver por que no funciona */
             if (res.status === 401 || res.status === 403) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Sesión expirada",
-                    text: "Debes iniciar sesión nuevamente"
-                });
-                redirigirIndex();
+                mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
                 return;
             }
-
             throw new Error(`Error ${res.status}`);
         }
-        if (!res.ok) {
-            // Obtener detalles del error para mejor diagnóstico
-            const errorText = await res.text();
-            throw new Error(`Error ${res.status}: ${res.statusText}. ${errorText}`);
-        }
 
-        Swal.fire({
-            icon: "success",
-            title: "Categoria eliminado",
-            text: "La categoria fue eliminado correctamente"
-        });
-        // Recargar la tabla localmente sin redirigir
+        Swal.fire("Eliminado", "Categoría eliminada correctamente", "success");
         cargarCategorias();
 
     } catch (error) {
-        console.error("Error al eliminar categoría:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Fallo al eliminar",
-            text: `Hubo un error al eliminar la categoria: ${error.message}`
-        });
+        Swal.fire("Error", "No se pudo eliminar la categoría", "error");
+        console.error(error);
     }
-}
-window.eliminarCategoria = eliminarCategoria;
-/* ================= OBTENCION DE RLRMRNOS ================ */
-
-/* DATOS CLOUDINADY */
-const cloudname = "dq63gma00";
-const present = "AcerosAlonso";
-/* }==================================== */
-const previsualizarImagen = () => {
-    const inpuntform = document.getElementById("imagenInput");
-    const image = document.getElementById("imagenPreview");
-    if (!inpuntform) return;
-    const foto = inpuntform.files[0];
-    if (!foto) return;
-    if (!foto.type.startsWith("image/")) {
-        Swal.fire('Error', 'Seleccione un formato de imagen válido', 'error');
-        inpuntform.value = "";
-        return;
-    }
-    if (image.src !== "" && !image.src.includes("placeholder")) {
-        URL.revokeObjectURL(image.src);
-    }
-    image.src = URL.createObjectURL(foto);
-};
-/* ================== OBTENER DATOS ================ */
-const getCategoriaId = () => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
 };
 
+// ================================================
+// OBTENER DATOS PARA ACTUALIZAR
+// ================================================
 const obtenerDatosCategoria = async (id) => {
-
     const token = getToken();
     if (!token) {
-        redirigirIndex();
-        return;
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para editar");
+        return null;
     }
 
     try {
-
         const res = await fetch(`${API_URL}/${id}`, {
             method: "GET",
             headers: {
@@ -211,50 +167,39 @@ const obtenerDatosCategoria = async (id) => {
         });
 
         if (!res.ok) {
-
             if (res.status === 404) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Categoría no encontrada"
-                });
-                window.location.replace("ListadoCategoriasView.html");
-                return;
+                Swal.fire("No encontrada", "La categoría no existe", "warning");
+                return null;
             }
-
-            if (res.status === 401 || res.status === 403) {
-                redirigirIndex();
-                return;
-            }
-
             throw new Error(`Error ${res.status}`);
         }
 
         const data = await res.json();
         const categoria = data.data || data;
 
-        document.getElementById("id_categoria_hidden").value = categoria.id_categoria;
-        document.getElementById("nombre_categoria").value = categoria.nombre_categoria;
-        document.getElementById("texto_secundario").value = categoria.texto_secundario;
+        if (!categoria || !categoria.id_categoria) {
+            Swal.fire("Error", "Datos inválidos de la categoría", "error");
+            return null;
+        }
 
-        const imagen = document.getElementById("imagenPreview");
-        if (imagen) imagen.src = categoria.imagen_categoria;
+        // Llenar campos
+        document.getElementById("id_categoria_hidden").value = categoria.id_categoria;
+        document.getElementById("nombre_categoria").value = categoria.nombre_categoria || "";
+        document.getElementById("texto_secundario").value = categoria.texto_secundario || "";
+        document.getElementById("imagenPreview").src = categoria.imagen_categoria || "https://via.placeholder.com/150?text=Sin+Imagen";
+
+        return categoria;
 
     } catch (error) {
-
-        console.error("Error al obtener datos de la categoría:", error);
-
-        Swal.fire({
-    icon: "error",
-    title: "Error de conexión",
-    text: "No se pudo cargar la información de la categoría."
-}).then(() => {
-    setTimeout(() => {
-        window.location.replace("ListadoCategoriasView.html");
-    }, 2000); // 2000 milisegundos = 2 segundos
-});
+        console.error("Error al obtener categoría:", error);
+        Swal.fire("Error", "No se pudo cargar la categoría", "error");
+        return null;
     }
 };
-// ]=================== ACTUALIZAR CATEGORIA ================   
+
+// ================================================
+// ACTUALIZAR CATEGORÍA
+// ================================================
 const actualizarCategoria = async () => {
     const id = document.getElementById("id_categoria_hidden").value;
     const nombre = document.getElementById("nombre_categoria").value.trim();
@@ -268,15 +213,19 @@ const actualizarCategoria = async () => {
 
     const token = getToken();
     if (!token) {
-        redirigirIndex();
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para actualizar");
         return;
     }
+
+    const btn = document.getElementById("btnActualizar");
+    const textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path></svg> Actualizando...';
 
     const formData = new FormData();
     formData.append("nombre_categoria", nombre);
     formData.append("texto_secundario", texto);
 
-    // Si hay nueva imagen, agregarla
     if (inputFile.files && inputFile.files[0]) {
         formData.append("imagen_categoria", inputFile.files[0]);
     }
@@ -286,76 +235,45 @@ const actualizarCategoria = async () => {
             method: "PUT",
             headers: {
                 Authorization: "Bearer " + token
-                // NO pongas Content-Type aquí, fetch lo maneja solo con FormData
             },
             body: formData
         });
 
         if (!res.ok) {
-            throw new Error(`Error ${res.status}`);
+            const errorText = await res.text();
+            throw new Error(errorText || "Error al actualizar");
         }
 
-        Swal.fire({
-            icon: "success",
-            title: "¡Actualizado!",
-            text: "La categoría se actualizó correctamente",
-            timer: 2000
-        });
-
-        setTimeout(() => {
-            window.location.href = "ListadoCategoriasView.html";
-        }, 2000);
+        Swal.fire("¡Éxito!", "Categoría actualizada correctamente", "success");
+        setTimeout(() => window.location.href = "ListadoCategoriasView.html", 1500);
 
     } catch (error) {
-        console.error("Error actualizando categoría:", error);
-        Swal.fire("Error", "No se pudo actualizar la categoría", "error");
+        console.error("Error actualizando:", error);
+        Swal.fire("Error", error.message || "No se pudo actualizar", "error");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = textoOriginal;
     }
 };
 
 // Cancelar
-const cancelarActualizacion = () => {
-    Swal.fire({
-        title: "¿Cancelar?",
-        text: "Los cambios no se guardarán",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Sí, cancelar",
-        cancelButtonText: "Seguir editando"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = "ListadoCategoriasView.html";
-        }
-    });
+const cancelar = () => {
+    window.location.href = "ListadoCategoriasView.html";
 };
 
-window.actualizarCategoria = actualizarCategoria;
-window.cancelarActualizacion = cancelarActualizacion;
-window.previsualizarImagen = previsualizarImagen;
+// ================================================
+// INICIO SIMPLE (sin bucle)
+// ================================================
+cargarCategorias();  // ← para ListadoCategoriasView.html
 
-
-
-/* ===================== PAGINACIÓN ===================== */
-const anterior = () => {
-    if (paginaActual > 0) {
-        paginaActual--;
-        cargarCategorias();
-    }
-};
-
-const siguiente = () => {
-    paginaActual++;
-    cargarCategorias();
-};
-
-/* ===================== INICIO ===================== */
-
-const tbody = document.querySelector("tbody");
-if (tbody) {
-    cargarCategorias();
-}
-
-const id = getCategoriaId();
+// Para Actualizar.html → se ejecuta solo si existe el ID
+const id = new URLSearchParams(window.location.search).get("id");
 if (id) {
     obtenerDatosCategoria(id);
 }
 
+// Exponer funciones para onclick en HTML
+window.eliminarCategoria = eliminarCategoria;
+window.actualizarCategoria = actualizarCategoria;
+window.cancelar = cancelar;
+window.previsualizarImagen = previsualizarImagen;
