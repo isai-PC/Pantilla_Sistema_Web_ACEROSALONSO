@@ -1,4 +1,4 @@
-const urlApi = "https://repo-copia-vercel.vercel.app/api/preguntas";
+const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
 const token = localStorage.getItem("token");
 
 window.onload = function() {
