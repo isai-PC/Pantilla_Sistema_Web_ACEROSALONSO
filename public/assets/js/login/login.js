@@ -1,6 +1,7 @@
 const token = localStorage.getItem("token");
 const rol = localStorage.getItem("rol");
 const nombre = localStorage.getItem("nombre");
+const id = localStorage.getItem("id");
 
 if(token){
 
@@ -14,7 +15,7 @@ window.location.replace("pages/VistaPrivada/UsuariosLimit/perfil.html");
     }
 
 }
-
+ 
 
 
 
@@ -50,11 +51,12 @@ const verficarSesion = () => {
     const token= data.token
     const usuario = data.usuario
     const nombre = usuario.nombre
+    const id = usuario.id
 
     localStorage.setItem("token", token);
-    localStorage.setItem("usuarioId", usuario.id);
     localStorage.setItem("rol", usuario.rol);
     localStorage.setItem("nombre", nombre);
+    localStorage.setItem("id", id);
 
 
      // alert("Datos recibidos:"+ usuario.id); // Debugging en consola
