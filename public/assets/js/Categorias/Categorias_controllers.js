@@ -242,12 +242,14 @@ const obtenerDatosCategoria = async (id) => {
         console.error("Error al obtener datos de la categoría:", error);
 
         Swal.fire({
-            icon: "error",
-            title: "Error de conexión",
-            text: "No se pudo cargar la información de la categoría."
-
-        });
+    icon: "error",
+    title: "Error de conexión",
+    text: "No se pudo cargar la información de la categoría."
+}).then(() => {
+    setTimeout(() => {
         window.location.replace("ListadoCategoriasView.html");
+    }, 2000); // 2000 milisegundos = 2 segundos
+});
     }
 };
 // ]=================== ACTUALIZAR CATEGORIA ================   
