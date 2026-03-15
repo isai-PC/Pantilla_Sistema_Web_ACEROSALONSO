@@ -1,246 +1,214 @@
 <!doctype html>
 <html lang="ee">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Pregunta</title>
-        <link rel="icon" href="ACASALogoAcerosA.png" type="image/png" sizes="16px">
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Pregunta</title>
+  <link rel="icon" href="ACASALogoAcerosA.png" type="image/png" sizes="16px">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 
 
- <body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
-    <header
-      class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
-      <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
-      <div
-        class="flex flex-col md:flex-row justify-between items-center w-full">
-        <!-- Div logo -->
-        <div class="flex justify-between items-center w-full md:w-auto">
-          <section class="flex items-center gap-3 md:gap-4">
-            <img
-              src="ACASALogoAcerosA.png"
-              alt="Logo de Aceros Alonso"
-              class="w-10 md:w-20" />
-            <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
-          </section>
+<body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
+  <header class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
+    <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
+    <div class="flex flex-col md:flex-row justify-between items-center w-full">
+      <!-- Div logo -->
+      <div class="flex justify-between items-center w-full md:w-auto">
+        <section class="flex items-center gap-3 md:gap-4">
+          <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
+          <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+        </section>
 
-          <button
-            id="btn-menu"
-            class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
-            <svg
-              class="w-7 h-7"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Div usuario -->
-        <div
-          id="menu-principal"
-          class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
-          <ul
-            class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
-            <li class="w-full md:w-auto">
-              <a
-                href="paginaPrincipal.html"
-                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-                Usuario: Carlos
-              </a>
-            </li>
-
-            <li class="w-full md:w-auto">
-              <a
-                href="Login/Login.html"
-                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
-                Cerrar Sesión
-              </a>
-            </li>
-          </ul>
-        </div>
+        <button id="btn-menu"
+          class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
-      <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
-      <nav
-        id="nav-principal"
-        class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
-        <ul
-          class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
+
+      <!-- Div usuario -->
+      <div id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
+        <ul class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
           <li class="w-full md:w-auto">
-            <a
-              href="../Productos/listadoProductos.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
-              Productos
+            <a href="paginaPrincipal.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+              Usuario: Carlos
             </a>
           </li>
 
           <li class="w-full md:w-auto">
-            <a
-              href="../Categorias/ListadoCategoriasView.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Categorias
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto relative group">
-            <a
-              href="#"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
-              Mision Vision
-            </a>
-
-            <ul
-              class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
-              <li class="w-full block">
-                <a
-                  href="../Mision-Vision/actualizarMision.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Misión</a
-                >
-                <a
-                  href="../Mision-Vision/actualizarVision.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Visión</a
-                >
-                <a
-                  href="../Mision-Vision/actualizarPorQueElegirnos.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Por qué elegirnos</a
-                >
-              </li>
-            </ul>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="listadoUsuarios.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Usuarios
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Ubicaciones/listadoUbicaciones.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Ubicaciones
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Preguntas-Frecuentes/listadoPreguntasFrecuentes.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Preguntas frecuentes
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Contacto/actualizarContacto.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Contacto
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-               href="../TyC/actualizarTyC.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Terminos y Condiciones
-            </a>
-          </li>
-
-                <li class="w-full md:w-auto relative group"> <a href="#"
-        class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
-       Consultas
-    </a>
-    
-    
-    <ul class="md:absolute md:top-full left-0 bg-slate-900 min-w-[215px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
-        <li class="w-full block">
-            <a href="../consultas/consultasE.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Empleado</a>
-            <a href="../consultas/consultasD.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Departamento</a>
-
-        </li>
-    </ul>
-</li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../../../index.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Inicio
+            <a href="Login/Login.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
+              Cerrar Sesión
             </a>
           </li>
         </ul>
-      </nav>
-    </header>
-    <aside class="relative z-[9999]">
-      <script src="Accesibilidad/accesi.js"></script>
-      <div
-        id="btnAccesibilidad"
-        class="fixed right-3 md:right-5 bottom-5 bg-white text-white text-[22px] md:text-[28px] w-[50px] md:w-[60px] h-[50px] md:h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400"
-        onclick="
+      </div>
+    </div>
+    <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
+    <nav id="nav-principal"
+      class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
+      <ul class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
+        <li class="w-full md:w-auto">
+          <a href="../Productos/listadoProductos.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
+            Productos
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../Categorias/ListadoCategoriasView.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Categorias
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto relative group">
+          <a href="#"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+            Mision Vision
+          </a>
+
+          <ul
+            class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+            <li class="w-full block">
+              <a href="../Mision-Vision/actualizarMision.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Misión</a>
+              <a href="../Mision-Vision/actualizarVision.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Visión</a>
+              <a href="../Mision-Vision/actualizarPorQueElegirnos.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Por
+                qué elegirnos</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="listadoUsuarios.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Usuarios
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../Ubicaciones/listadoUbicaciones.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Ubicaciones
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../Preguntas-Frecuentes/listadoPreguntasFrecuentes.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Preguntas frecuentes
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../Contacto/actualizarContacto.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Contacto
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../TyC/actualizarTyC.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Terminos y Condiciones
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto relative group"> <a href="#"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+            Consultas
+          </a>
+
+
+          <ul
+            class="md:absolute md:top-full left-0 bg-slate-900 min-w-[215px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+            <li class="w-full block">
+              <a href="../consultas/consultasE.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta
+                por Empleado</a>
+              <a href="../consultas/consultasD.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta
+                por Departamento</a>
+
+            </li>
+          </ul>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../../../index.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Inicio
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <aside class="relative z-[9999]">
+    <script src="Accesibilidad/accesi.js"></script>
+    <div id="btnAccesibilidad"
+      class="fixed right-3 md:right-5 bottom-5 bg-white text-white text-[22px] md:text-[28px] w-[50px] md:w-[60px] h-[50px] md:h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400"
+      onclick="
           event.stopPropagation();
           toggleMenuAccesibilidad();
         ">
-        <img
-          src="Accesibilidad/accesibilidad.png"
-          class="w-full h-full object-cover"
-          alt="Menú de accesibilidad" />
-      </div>
-      <iframe
-        id="menuAccesibilidad"
-        src="Accesibilidad/MenuAccesibilidad.html"
-        class="fixed right-2.5 md:right-[4%] bottom-[90px] w-[260px] md:w-auto h-[350px] md:h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
-    </aside>
+      <img src="Accesibilidad/accesibilidad.png" class="w-full h-full object-cover" alt="Menú de accesibilidad" />
+    </div>
+    <iframe id="menuAccesibilidad" src="Accesibilidad/MenuAccesibilidad.html"
+      class="fixed right-2.5 md:right-[4%] bottom-[90px] w-[260px] md:w-auto h-[350px] md:h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
+  </aside>
 
 
-<br>
-     <main class="bg-white rounded-lg shadow-md p-6 w-[95%] md:w-[60%] max-w-4xl mx-auto mt-10">
-       <div class="mb-8 border-b-2 border-orange-400 pb-4 text-center md:text-left">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 uppercase">Editar Preguntas frecuentes</h1>
+  <br>
+  <main class="bg-white rounded-lg shadow-md p-6 w-[95%] md:w-[60%] max-w-4xl mx-auto mt-10">
+    <div >
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 border-b-2 border-orange-400 pb-2 inline-block">Editar Preguntas frecuentes</h1>
+    </div>
+
+    <form id="form-editar">
+      <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Editar pregunta</h2>
+
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1" for="titulo_1col">Pregunta</label>
+            <input type="text" id="titulo_1col" required
+              class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1" for="desc_1col">Respuesta</label>
+            <textarea id="desc_1col" rows="4" required
+              class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
+          </div>
         </div>
-       <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Editar pregunta</h2>
+      </section>
 
-                    <div class="grid grid-cols-1 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="titulo_1col">Pregunta</label>
-                            <input type="text" id="titulo_1col"
-                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="desc_1col">Respuesta</label>
-                            <textarea id="desc_1col" rows="4"
-                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
-                        </div>
-                    </div>
-        </section>
-          <section class="pt-4 border-t border-slate-200 flex flex-wrap items-center gap-3">
-             <a href="listadoPreguntasFrecuentes.html">
-                    <button type="submit" id="btnGuardarFinal"
-                        class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
-                        Actualizar Pregunta
-                    </button>
-             </a>
-                    <button type="reset" onclick="resetFormulario()"
-                        class="bg-red-500 border border-slate-300 text-white hover:bg-red-600 font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
-                        Cancelar
-                    </button>
-            </section>
-    </main> 
-<br>
-    <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
-        <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
-    </footer>
-  </body>
+      <section class="pt-4 border-t border-slate-200 mt-6">
+        <button type="submit" id="btnGuardarFinal"
+          class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+          Actualizar Pregunta
+        </button>
+        <a href="listadoPreguntasFrecuentes.html"
+          class="bg-red-500 border border-slate-300 text-white hover:bg-red-600 font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+          Cancelar
+        </a>
+
+      </section>
+    </form>
+  </main>
+  <br>
+  <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
+    <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
+  </footer>
+  <script src="../../../assets/js/preguntasFrecuentes/editarpregunta.js"></script>
+</body>
+
 </html>
