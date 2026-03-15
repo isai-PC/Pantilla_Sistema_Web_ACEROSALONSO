@@ -71,9 +71,9 @@ const cargarCategorias = async () => {
 
             fila.innerHTML = `
                 <td class="py-3 px-4">
-                    ${cat.imagen_categoria 
-                        ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">` 
-                        : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`}
+                    ${cat.imagen_categoria
+                    ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`
+                    : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`}
                 </td>
                 <td class="py-3 px-4 font-medium">${cat.nombre_categoria}</td>
                 <td class="py-3 px-4 text-center">
@@ -212,6 +212,7 @@ const actualizarCategoria = async () => {
     const texto = document.getElementById("texto_secundario")?.value?.trim();
     const inputFile = document.getElementById("imagenInput");
 
+    // Validaciones obligatorias
     if (!id || !nombre || !texto) {
         Swal.fire("Campos incompletos", "Nombre y descripción son obligatorios", "warning");
         return;
@@ -230,41 +231,137 @@ const actualizarCategoria = async () => {
     btn.disabled = true;
     btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path></svg> Actualizando...';
 
-    const formData = new FormData();
-    formData.append("nombre_categoria", nombre);
-    formData.append("texto_secundario", texto);
+    let urlImagen = null;
 
-    /* if (inputFile?.files?.[0]) {
-        formData.append("imagen_categoria", inputFile.files[0]);
-    } */
+    // Subir imagen a Cloudinary y devolver la URL
+    const subirImagenCloudinary = async (file) => {
+        if (!file) return null;
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!res.ok) {
+                throw new Error("Error al subir imagen a Cloudinary");
+            }
+
+            const data = await res.json();
+            return data.secure_url;  // ← esta es la URL que guardas en la BD
+
+        } catch (error) {
+            console.error("Error subiendo a Cloudinary:", error);
+            Swal.fire("Error", "No se pudo subir la imagen", "error");
+            return null;
+        }
+    };
+    // Previsualizar imagen nueva (sin subir todavía)
+    const previsualizarImagen = () => {
+        const inputFile = document.getElementById("imagenInput");
+        const preview = document.getElementById("imagenPreview");
+
+        // Si no existe el input o la imagen de previsualización → salir
+        if (!inputFile || !preview) {
+            console.warn("No se encontraron elementos para previsualizar imagen");
+            return;
+        }
+
+        const file = inputFile.files[0];
+
+        // Validación: no hay archivo seleccionado
+        if (!file) {
+            Swal.fire({
+                icon: "info",
+                title: "Selecciona una imagen",
+                text: "No has elegido ningún archivo aún",
+                timer: 2000
+            });
+            return;
+        }
+
+        // Validación: debe ser imagen
+        if (!file.type.startsWith("image/")) {
+            Swal.fire({
+                icon: "error",
+                title: "Formato inválido",
+                text: "Solo se permiten imágenes (jpg, png, webp)",
+                timer: 2500
+            });
+            inputFile.value = ""; // limpiar input
+            return;
+        }
+
+        // Liberar memoria de la imagen anterior (si existe y no es placeholder)
+        if (preview.src && !preview.src.includes("placeholder")) {
+            URL.revokeObjectURL(preview.src);
+        }
+
+        // Mostrar previsualización
+        preview.src = URL.createObjectURL(file);
+        preview.alt = file.name;
+    };
+    // Si hay nueva imagen, subirla a Cloudinary primero
+    if (inputFile?.files?.[0]) {
+        const file = inputFile.files[0];
+        if (!file.type.startsWith("image/")) {
+            Swal.fire("Error", "Selecciona una imagen válida", "error");
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return;
+        }
+
+        urlImagen = await subirImagenCloudinary(file);
+        if (!urlImagen) {
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return; // ya mostró error Swal
+        }
+    }
+
+    // Preparar payload (solo JSON)
+    const payload = {
+        nombre_categoria: nombre,
+        texto_secundario: texto
+    };
+
+    // Si subimos imagen nueva, incluir la URL
+    if (urlImagen) {
+        payload.imagen_categoria = urlImagen;
+    }
 
     try {
-        console.log("Enviando PUT a:", `${API_URL}/${id}`); // para depurar
+        console.log("Enviando PUT:", payload);
 
         const res = await fetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: {
+                "Content-Type": "application/json",
                 Authorization: "Bearer " + token
             },
-            body: formData
+            body: JSON.stringify(payload)
         });
 
-        console.log("Status recibido:", res.status); // clave para depurar
+        console.log("Status:", res.status);
 
         if (!res.ok) {
             const errorText = await res.text();
-            console.log("Respuesta de error:", errorText);
+            console.log("Error del servidor:", errorText);
             throw new Error(errorText || `Error ${res.status}`);
         }
 
         const respuesta = await res.json();
-        console.log("Respuesta éxito:", respuesta);
+        console.log("Éxito:", respuesta);
 
         Swal.fire("¡Éxito!", respuesta.message || "Categoría actualizada", "success");
         setTimeout(() => window.location.href = "ListadoCategoriasView.html", 1500);
 
     } catch (error) {
-        console.error("Error completo al actualizar:", error);
+        console.error("Error al actualizar:", error);
         Swal.fire("Error", error.message || "No se pudo actualizar la categoría", "error");
     } finally {
         btn.disabled = false;
