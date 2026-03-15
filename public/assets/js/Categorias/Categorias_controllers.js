@@ -98,7 +98,18 @@ const cargarCategorias = async () => {
 /* =================ELIMINAR CATEGORIA ================*/
 const eliminarCategoria = async (id) => {
     /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
-    if (!confirm("¿Estás seguro de eliminar esta categoría?")) return;
+    const confirmacion = await Swal.fire({
+        title: "¿Eliminar empleado?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) {
+        return;
+    }
 
     const token = obtenerToken();
     if (!token) {
@@ -117,13 +128,28 @@ const eliminarCategoria = async (id) => {
 
         if (!res.ok) throw new Error("No se pudo eliminar");
 
-        alert("Categoría eliminada correctamente");/* MODIFICAR A ALA ALERTA  */
+        Swal.fire({
+            icon: "success",
+            title: "Categoria eliminado",
+            text: "La categoria fue eliminado correctamente"
+        }).then(() => {
+            //redirigir al listado
+            window.location.href = "ListadoCategoriasView.html";
+        });
         cargarCategorias(); // RECINICIAR LA TABLA
 
     } catch (error) {
-        alert("Error al eliminar la categoría");
+        Swal.fire({
+            icon: "error",
+            title: "Fallo al eliminar",
+            text: "Ubo un error al eliminar la categoria"
+        }).then(() => {
+            //redirigir al listado
+            window.location.href = "ListadoCategoriasView.html";
+        });
         console.error(error);
     }
+
 };
 /* ===================== PAGINACIÓN ===================== */
 const anterior = () => {
@@ -140,4 +166,4 @@ const siguiente = () => {
 
 /* ===================== INICIO ===================== */
 
-    cargarCategorias();
+cargarCategorias();
