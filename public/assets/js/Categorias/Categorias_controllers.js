@@ -113,7 +113,7 @@ const eliminarCategoria = async (id) => {
 
     const token = getToken();
     if (!token) {
-        redirigirAlLogin();
+        redirigirIndex();
         return;
     }
 
@@ -167,3 +167,4 @@ const siguiente = () => {
 /* ===================== INICIO ===================== */
 
 cargarCategorias();
+window.eliminarCategoria = eliminarCategoria;
