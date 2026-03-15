@@ -1,4 +1,4 @@
-const urlApi = "https://repo-copia-vercel.vercel.app/api/terminos";
+const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/terminos";
 
 document.addEventListener('DOMContentLoaded', cargarTerminos);
 

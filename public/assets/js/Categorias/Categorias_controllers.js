@@ -1,190 +1,411 @@
-// categorias_Controller.js
-// Listado dinámico de categorías con manejo completo de token y errores
+// Categorias_controllers.js - Versión FINAL corregida
 
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
-const TOKEN_KEY = "token_admin_aceros"; // misma clave que usas en login
+const TOKEN_KEY = "token";
+
+let paginaActual = 0;
+const resultadosPorPagina = 10;
 
 // ================================================
-// FUNCIONES AUXILIARES
+// AUXILIARES
 // ================================================
+const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
-}
+const mostrarMensaje = (tipo, titulo, texto) => {
+    Swal.fire({
+        icon: tipo,
+        title: titulo,
+        text: texto,
+        timer: 3000,
+        showConfirmButton: false
+    });
+};
 
-function mostrarMensaje(tipo, texto) {
-    const success = document.querySelector('.bg-green-100');
-    const error = document.querySelector('.bg-red-100');
-
-    if (!success || !error) return;
-
-    success.classList.add('hidden');
-    error.classList.add('hidden');
-
-    if (tipo === 'success') {
-        success.textContent = texto;
-        success.classList.remove('hidden');
-    } else {
-        error.textContent = texto;
-        error.classList.remove('hidden');
-    }
-
-    setTimeout(() => {
-        success.classList.add('hidden');
-        error.classList.add('hidden');
-    }, 5000);
-}
-
-// Redirige a login y limpia token
-function redirigirAlLogin(mensaje = "Sesión expirada. Inicia sesión nuevamente.") {
-    mostrarMensaje('error', mensaje);
-    localStorage.removeItem(TOKEN_KEY);
-    setTimeout(() => {
-        window.location.href = "../Login/Login.html";
-    }, 1500);
-}
+// Constantes para Cloudinary
+const CLOUD_NAME = "dq63gma00";
+const UPLOAD_PRESET = "AcerosAlonso";
 
 // ================================================
-// CARGAR Y MOSTRAR CATEGORÍAS
+// CARGAR LISTADO
 // ================================================
-async function cargarCategorias() {
-    const tbody = document.querySelector('tbody');
-    if (!tbody) {
-        console.error("No se encontró <tbody> en la página");
-        return;
-    }
-
-    // Limpiar tabla
-    tbody.innerHTML = '<tr><td colspan="3" class="py-8 text-center">Cargando categorías...</td></tr>';
+const cargarCategorias = async () => {
+    const tbody = document.querySelector("tbody");
+    if (!tbody) return;
 
     const token = getToken();
-
-    // 1. No hay token → redirigir
     if (!token) {
-        redirigirAlLogin("No estás autenticado. Inicia sesión.");
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para ver las categorías");
         return;
     }
 
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>';
+
     try {
-        const response = await fetch(API_URL, {
-            method: 'GET',
+        const url = `${API_URL}?limit=${resultadosPorPagina}&start=${paginaActual * resultadosPorPagina}`;
+
+        const response = await fetch(url, {
+            method: "GET",
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
             }
         });
 
-        // 2. Manejo de códigos de error comunes
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
-                redirigirAlLogin("Token inválido o expirado.");
+                mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
                 return;
             }
-            const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.error || `Error ${response.status}`);
+            throw new Error(`Error ${response.status}`);
         }
 
-        const categorias = await response.json();
+        const data = await response.json();
+        const categorias = data.data || data;
 
-        // 3. Tabla vacía
         if (!categorias || categorias.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="3" class="py-8 text-center text-slate-500">
-                        No hay categorías registradas aún.
-                    </td>
-                </tr>
-            `;
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-slate-500">No hay categorías registradas</td></tr>';
             return;
         }
 
-        // 4. Renderizar filas
-        tbody.innerHTML = ''; // limpiar mensaje de carga
+        tbody.innerHTML = "";
 
         categorias.forEach(cat => {
-            const tr = document.createElement('tr');
-            tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
+            const fila = document.createElement("tr");
+            fila.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
 
-            tr.innerHTML = `
+            fila.innerHTML = `
                 <td class="py-3 px-4">
-                    ${cat.imagen_categoria ? `
-                        <img src="${cat.imagen_categoria}" alt="${cat.nombre_categoria}"
-                             class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
-                    ` : `
-                        <div class="w-12 h-12 bg-slate-200 rounded flex items-center justify-center text-slate-500 text-xs">
-                            Sin imagen
-                        </div>
-                    `}
+                    ${cat.imagen_categoria
+                    ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`
+                    : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`}
                 </td>
-                <td class="py-3 px-4 text-slate-600 font-medium">
-                    ${cat.nombre_categoria}
-                    ${cat.texto_secundario ? `<br><small class="text-slate-500">${cat.texto_secundario}</small>` : ''}
-                </td>
-                <td class="py-3 px-4 text-center flex gap-2 justify-center">
-                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded font-bold transition">
-                            Editar
-                        </button>
+                <td class="py-3 px-4 font-medium">${cat.nombre_categoria}</td>
+                <td class="py-3 px-4 text-center">
+                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold text-sm">Editar</button>
                     </a>
-                    <button onclick="eliminarCategoria(${cat.id_categoria})"
-                            class="bg-red-500 hover:bg-red-700 text-white px-4 py-1.5 rounded font-bold transition">
+                    <button onclick="eliminarCategoria(${cat.id_categoria})" 
+                            class="bg-red-500 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm">
                         Borrar
                     </button>
                 </td>
             `;
-
-            tbody.appendChild(tr);
+            tbody.appendChild(fila);
         });
 
+        const paginaSpan = document.getElementById("pagina-actual");
+        if (paginaSpan) paginaSpan.textContent = paginaActual + 1;
+
     } catch (error) {
-        console.error("Error al cargar categorías:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="3" class="py-8 text-center text-red-600">
-                    Error al cargar las categorías
-                </td>
-            </tr>
-        `;
-        mostrarMensaje('error', `No se pudieron cargar las categorías: ${error.message}`);
+        console.error("Error cargando categorías:", error);
+        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar categorías</td></tr>`;
     }
-}
+};
 
 // ================================================
-// ELIMINAR CATEGORÍA (ejemplo básico)
+// ELIMINAR CATEGORÍA
 // ================================================
-async function eliminarCategoria(id) {
-    if (!confirm("¿Seguro que deseas eliminar esta categoría?")) return;
+const eliminarCategoria = async (id) => {
+    const confirmacion = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) return;
 
     const token = getToken();
     if (!token) {
-        redirigirAlLogin();
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para eliminar");
         return;
     }
 
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'DELETE',
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
             }
         });
 
-        if (!response.ok) {
-            throw new Error("No se pudo eliminar la categoría");
+        if (!res.ok) {
+            if (res.status === 401 || res.status === 403) {
+                mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
+                return;
+            }
+            const errorText = await res.text();
+            throw new Error(errorText || `Error ${res.status}`);
         }
 
-        mostrarMensaje('success', "Categoría eliminada correctamente");
-        cargarCategorias(); // recargar tabla
+        Swal.fire("Eliminado", "Categoría eliminada correctamente", "success");
+        cargarCategorias();
 
     } catch (error) {
-        mostrarMensaje('error', `Error al eliminar: ${error.message}`);
+        Swal.fire("Error", error.message || "No se pudo eliminar la categoría", "error");
+        console.error(error);
     }
-}
+};
+
+// ================================================
+// OBTENER DATOS PARA ACTUALIZAR
+// ================================================
+const obtenerDatosCategoria = async (id) => {
+    const token = getToken();
+    if (!token) {
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para editar");
+        return null;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            }
+        });
+
+        if (!res.ok) {
+            if (res.status === 404) {
+                Swal.fire("No encontrada", "La categoría no existe", "warning");
+                return null;
+            }
+            throw new Error(`Error ${res.status}`);
+        }
+
+        const data = await res.json();
+        const categoria = data.data || data;
+
+        if (!categoria || !categoria.id_categoria) {
+            Swal.fire("Error", "Datos inválidos de la categoría", "error");
+            return null;
+        }
+
+        // Llenar campos (IDs corregidos)
+        const idHidden = document.getElementById("id_categoria_hidden");
+        const nombreInput = document.getElementById("nombre_categoria");
+        const textoInput = document.getElementById("texto_secundario");
+        const preview = document.getElementById("imagenPreview");
+        const imagenActualInput = document.getElementById("imagen_actual");
+
+        if (idHidden) idHidden.value = categoria.id_categoria;
+        if (nombreInput) nombreInput.value = categoria.nombre_categoria || "";
+        if (textoInput) textoInput.value = categoria.texto_secundario || "";
+        if (preview) preview.src = categoria.imagen_categoria || "https://via.placeholder.com/150?text=Sin+Imagen";
+        if (imagenActualInput) imagenActualInput.value = categoria.imagen_categoria || "";
+
+        return categoria;
+
+    } catch (error) {
+        console.error("Error al obtener categoría:", error);
+        Swal.fire("Error", "No se pudo cargar la categoría", "error");
+        return null;
+    }
+};
+
+// ================================================
+// PREVISUALIZAR IMAGEN
+// ================================================
+const previsualizarImagen = () => {
+    const inputFile = document.getElementById("imagenInput");
+    const preview = document.getElementById("imagenPreview");
+
+    // Si no existe el input o la imagen de previsualización → salir
+    if (!inputFile || !preview) {
+        console.warn("No se encontraron elementos para previsualizar imagen");
+        return;
+    }
+
+    const file = inputFile.files[0];
+
+    // Validación: no hay archivo seleccionado
+    if (!file) {
+        Swal.fire({
+            icon: "info",
+            title: "Selecciona una imagen",
+            text: "No has elegido ningún archivo aún",
+            timer: 2000
+        });
+        return;
+    }
+
+    // Validación: debe ser imagen
+    if (!file.type.startsWith("image/")) {
+        Swal.fire({
+            icon: "error",
+            title: "Formato inválido",
+            text: "Solo se permiten imágenes (jpg, png, webp)",
+            timer: 2500
+        });
+        inputFile.value = ""; // limpiar input
+        return;
+    }
+
+    // Liberar memoria de la imagen anterior (si existe y no es placeholder)
+    if (preview.src && !preview.src.includes("placeholder")) {
+        URL.revokeObjectURL(preview.src);
+    }
+
+    // Mostrar previsualización
+    preview.src = URL.createObjectURL(file);
+    preview.alt = file.name;
+};
+
+// ================================================
+// ACTUALIZAR CATEGORÍA
+// ================================================
+const actualizarCategoria = async () => {
+    const id = document.getElementById("id_categoria_hidden")?.value;
+    const nombre = document.getElementById("nombre_categoria")?.value?.trim();
+    const texto = document.getElementById("texto_secundario")?.value?.trim();
+    const inputFile = document.getElementById("imagenInput");
+
+    // Validaciones obligatorias
+    if (!id || !nombre || !texto) {
+        Swal.fire("Campos incompletos", "Nombre y descripción son obligatorios", "warning");
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para actualizar");
+        return;
+    }
+
+    const btn = document.getElementById("btnActualizar");
+    if (!btn) return;
+
+    const textoBtn = document.getElementById("textoBtn");
+    const spinner = document.getElementById("spinner");
+
+    btn.disabled = true;
+    if (textoBtn) textoBtn.textContent = "Actualizando...";
+    if (spinner) spinner.classList.remove("hidden");
+
+    let urlImagen = null;
+
+    // Subir imagen a Cloudinary y devolver la URL
+    const subirImagenCloudinary = async (file) => {
+        if (!file) return null;
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!res.ok) {
+                throw new Error("Error al subir imagen a Cloudinary");
+            }
+
+            const data = await res.json();
+            return data.secure_url;  // ← esta es la URL que guardas en la BD
+
+        } catch (error) {
+            console.error("Error subiendo a Cloudinary:", error);
+            Swal.fire("Error", "No se pudo subir la imagen", "error");
+            return null;
+        }
+    };
+    // Si hay nueva imagen, subirla a Cloudinary primero
+    if (inputFile?.files?.[0]) {
+        const file = inputFile.files[0];
+        if (!file.type.startsWith("image/")) {
+            Swal.fire("Error", "Selecciona una imagen válida", "error");
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return;
+        }
+
+        urlImagen = await subirImagenCloudinary(file);
+        if (!urlImagen) {
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return; // ya mostró error Swal
+        }
+    }
+
+    // Preparar payload (solo JSON)
+    const imagenActual = document.getElementById("imagen_actual")?.value || "";
+    const payload = {
+        nombre_categoria: nombre,
+        texto_secundario: texto,
+        imagen_categoria: urlImagen || imagenActual
+    };
+
+    try {
+        console.log("Enviando PUT:", payload);
+
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify(payload)
+        });
+
+        console.log("Status:", res.status);
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.log("Error del servidor:", errorText);
+            throw new Error(errorText || `Error ${res.status}`);
+        }
+
+        const respuesta = await res.json();
+        console.log("Éxito:", respuesta);
+
+        Swal.fire("¡Éxito!", respuesta.message || "Categoría actualizada", "success");
+        setTimeout(() => window.location.href = "ListadoCategoriasView.html", 1500);
+
+    } catch (error) {
+        console.error("Error al actualizar:", error);
+        Swal.fire("Error", error.message || "No se pudo actualizar la categoría", "error");
+    } finally {
+        btn.disabled = false;
+        if (textoBtn) textoBtn.textContent = "Actualizar Categoría";
+        if (spinner) spinner.classList.add("hidden");
+    }
+};
+
+// ================================================
+// PAGINACIÓN Y OTRAS FUNCIONES
+// ================================================
+const anterior = () => {
+    if (paginaActual > 0) {
+        paginaActual--;
+        cargarCategorias();
+    }
+};
+
+const siguiente = () => {
+    paginaActual++;
+    cargarCategorias();
+};
 
 // ================================================
 // INICIO
 // ================================================
-document.addEventListener('DOMContentLoaded', () => {
-    cargarCategorias();
-});
+cargarCategorias();  // Listado
+
+const id = new URLSearchParams(window.location.search).get("id");
+if (id) {
+    obtenerDatosCategoria(id);
+}
+
+// Exponer funciones
+window.eliminarCategoria = eliminarCategoria;
+window.actualizarCategoria = actualizarCategoria;
+window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
+window.previsualizarImagen = previsualizarImagen;
