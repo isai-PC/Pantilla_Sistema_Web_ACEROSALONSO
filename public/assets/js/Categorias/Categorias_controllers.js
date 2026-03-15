@@ -93,79 +93,77 @@ const cargarCategorias = async () => {
         console.error("Error cargando categorías:", error);
         tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar categorías</td></tr>`;
     }
-
 }
-/* =================ELIMINAR CATEGORIA ================*/
-/* const eliminarCategoria = async (id) => { */
-async function eliminarCategoria(id) {
-    /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
-    const confirmacion = await Swal.fire({
-        title: "¿Esta seguro de eliminar esta categoria?",
-        text: "Esta acción no se puede deshacer",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
-    });
 
-    if (!confirmacion.isConfirmed) {
-        return;
-    }
+    /* =================ELIMINAR CATEGORIA ================*/
+    async function eliminarCategoria(id) {
+        /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
+        const confirmacion = await Swal.fire({
+            title: "¿Esta seguro de eliminar esta categoria?",
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        });
 
-    const token = getToken();
-    if (!token) {
-        redirigirIndex();
-        return;
-    }
+        if (!confirmacion.isConfirmed) {
+            return;
+        }
 
-    try {
-        const res = await fetch(`${API_URL}/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token
+        const token = getToken();
+        if (!token) {
+            redirigirIndex();
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token
+                }
+            });
+
+            if (!res.ok) {
+                // Obtener detalles del error para mejor diagnóstico
+                const errorText = await res.text();
+                throw new Error(`Error ${res.status}: ${res.statusText}. ${errorText}`);
             }
-        });
 
-        if (!res.ok) throw new Error("No se pudo eliminar");
+            Swal.fire({
+                icon: "success",
+                title: "Categoria eliminado",
+                text: "La categoria fue eliminado correctamente"
+            });
+            // Recargar la tabla localmente sin redirigir
+            cargarCategorias();
 
-        Swal.fire({
-            icon: "success",
-            title: "Categoria eliminado",
-            text: "La categoria fue eliminado correctamente"
-        }).then(() => {
-            //redirigir al listado
-            window.location.href = "ListadoCategoriasView.html";
-        });
-        cargarCategorias(); // RECINICIAR LA TABLA
-
-    } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Fallo al eliminar",
-            text: "Ubo un error al eliminar la categoria"
-        }).then(() => {
-            //redirigir al listado
-            window.location.href = "ListadoCategoriasView.html";
-        });
-        console.error(error);
+        } catch (error) {
+            console.error("Error al eliminar categoría:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Fallo al eliminar",
+                text: `Hubo un error al eliminar la categoria: ${error.message}`
+            });
+        }
     }
+    window.eliminarCategoria = eliminarCategoria;
+    /* ===================== PAGINACIÓN ===================== */
+    const anterior = () => {
+        if (paginaActual > 0) {
+            paginaActual--;
+            cargarCategorias();
+        }
+    };
 
-};
-/* ===================== PAGINACIÓN ===================== */
-const anterior = () => {
-    if (paginaActual > 0) {
-        paginaActual--;
+    const siguiente = () => {
+        paginaActual++;
         cargarCategorias();
-    }
-};
+    };
 
-const siguiente = () => {
-    paginaActual++;
+    /* ===================== INICIO ===================== */
+
     cargarCategorias();
-};
 
-/* ===================== INICIO ===================== */
-
-cargarCategorias();
-window.eliminarCategoria = eliminarCategoria;
