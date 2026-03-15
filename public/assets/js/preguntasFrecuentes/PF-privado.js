@@ -1,4 +1,4 @@
-const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/preguntas";
 const token = localStorage.getItem("token");
 
 window.onload = function() {
@@ -32,22 +32,27 @@ async function cargarPreguntas() {
             const fila = document.createElement('tr');
             fila.className = "hover:bg-slate-50 transition border-b border-slate-200";
             
+            // Usamos || para que busque tanto en minúscula como en mayúscula
+            const textoPregunta = item.pregunta || item.Pregunta || "Sin texto";
+            const textoRespuesta = item.respuesta || item.Respuesta || "Sin respuesta";
+            const idReal = item.id || item.Id || item.Id_Pregunta;
+
             fila.innerHTML = `
                 <td class="py-5 px-6 text-slate-700 font-medium">
-                    ${item.pregunta}
+                    ${textoPregunta}
                 </td>
                 <td class="py-5 px-6 text-slate-600">
-                    ${item.respuesta}
+                    ${textoRespuesta}
                 </td>
                 <td class="py-5 px-6">
                     <div class="flex justify-center items-center gap-4">
-                        <a href="editarPregunta.html?id=${item.id}">
+                        <a href="editarPregunta.html?id=${idReal}">
                             <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition">
                                 Editar
                             </button>
                         </a>
                         
-                        <button onclick="borrarPregunta(${item.id})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition">
+                        <button onclick="borrarPregunta(${idReal})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition">
                             Borrar
                         </button>
                     </div>
@@ -62,7 +67,7 @@ async function cargarPreguntas() {
     }
 }
 
-// --- 2. BORRAR PREGUNTA (DELETE) ---
+// ---BORRAR PREGUNTA (DELETE) ---
 async function borrarPregunta(id) {
     // Mostramos la alerta de confirmación con SweetAlert2
     const confirmacion = await Swal.fire({
