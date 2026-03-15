@@ -1,21 +1,30 @@
 const urlBaseApi = "https://repositorio-para-vercel-tawny.vercel.app/api/perfil";
+
+// Obtenemos los datos de la sesión
 const token = localStorage.getItem("token");
 const usuarioId = localStorage.getItem("usuarioId");
 
 window.onload = function() {
-    // Verificamos si hay sesión
+    // Si no hay sesión, mostramos alerta y mandamos al login
     if (!token || !usuarioId) {
-        alert("No hay sesión activa. Por favor inicia sesión.");
-        window.location.replace("../../Login/Login.html");
+        Swal.fire({ toast: true, position: "bottom-end", icon: "warning", title: "Inicia sesión para continuar", showConfirmButton: false, timer: 3000 }).then(() => {
+            window.location.replace("../../Login/Login.html");
+        });
         return;
     }
     
-    // Llamamos a la función
+    // Cargar los datos al abrir la página
     cargarDatosPerfil();
+
+    // Conectar el formulario para guardar
+    const form = document.getElementById('form-perfil');
+    if (form) {
+        form.onsubmit = guardarPerfil;
+    }
 };
 
+// --- OBTENER DATOS ---
 async function cargarDatosPerfil() {
-    
     try {
         const respuesta = await fetch(`${urlBaseApi}/${usuarioId}`, {
             method: 'GET',
@@ -24,56 +33,30 @@ async function cargarDatosPerfil() {
             }
         });
 
-
-        if (!respuesta.ok) {
-            alert("El servidor respondió con error: " + respuesta.status);
-            return;
-        }
+        if (!respuesta.ok) throw new Error("Error al obtener los datos");
         
         const perfil = await respuesta.json();
-        console.log("4. Datos que llegaron de la base de datos:", perfil);
         
-        // Llenamos los campos si todo salió bien
+        // Llenamos los campos si todo salió bien 
         if(perfil) {
             document.getElementById('nombre_perfil').value = `${perfil.Nombre} ${perfil.Apellido_Paterno} ${perfil.Apellido_Materno}`;
             document.getElementById('telefono_perfil').value = perfil.Telefono;
             document.getElementById('correo_perfil').value = perfil.Correo;
-            alert("¡Datos cargados con éxito!");
         }
 
     } catch (error) {
-        console.error("--- ERROR DETECTADO ---");
-        console.error(error);
-        alert("La petición falló. Mira la consola (F12) para ver por qué Vercel rechazó la conexión.");
+        console.error("Error al cargar:", error);
+        Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No pudimos cargar tus datos", showConfirmButton: false, timer: 4000 });
     }
 }
 
-// Actualiza tu window.onload para agregar el evento del formulario
-window.onload = function() {
-    if (!token || !usuarioId) {
-        alert("No hay sesión activa. Por favor inicia sesión.");
-        window.location.replace("../../Login/Login.html");
-        return;
-    }
-    cargarDatosPerfil();
-
-    // NUEVO: Conectamos el botón de guardar
-    const form = document.getElementById('form-perfil');
-    if (form) {
-        form.onsubmit = guardarPerfil;
-    }
-};
-
-// ... (Aquí va tu función cargarDatosPerfil que ya funciona) ...
-
-// --- NUEVA FUNCIÓN PARA GUARDAR (PUT) ---
+// --- ACTUALIZAR DATOS  ---
 async function guardarPerfil(evento) {
     evento.preventDefault(); 
-    console.log("--- INICIANDO GUARDADO ---");
 
     const btnGuardar = document.getElementById('btn-guardar');
     
-    // Sacamos los datos que escribiste en las cajitas
+    // Sacamos los datos de las cajitas
     const correo = document.getElementById('correo_perfil').value;
     const telefono = document.getElementById('telefono_perfil').value;
     const contrasena = document.getElementById('contrasena_perfil').value;
@@ -81,13 +64,12 @@ async function guardarPerfil(evento) {
     const payload = {
         correo: correo,
         telefono: telefono,
-        // Si dejaste la contraseña en blanco, no la enviamos
+        // Si el usuario no escribió contraseña, no la mandamos
         contrasena: contrasena.trim() !== "" ? contrasena : undefined 
     };
 
-    console.log("1. Datos que vamos a enviar a Vercel:", payload);
-
     try {
+        // Bloqueamos el botón mientras guarda
         btnGuardar.textContent = "Actualizando...";
         btnGuardar.disabled = true;
         
@@ -100,20 +82,19 @@ async function guardarPerfil(evento) {
             body: JSON.stringify(payload)
         });
 
-        console.log("2. Status de respuesta al guardar:", response.status);
-
+        // Evaluamos la respuesta de la API
         if (response.ok) {
-            alert("¡Tus datos se actualizaron correctamente!");
-            document.getElementById('contrasena_perfil').value = ""; // Limpiamos la contraseña
+            Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: "Perfil actualizado correctamente", showConfirmButton: false, timer: 3000 });
+            
+            document.getElementById('contrasena_perfil').value = ""; 
         } else {
-            const errorData = await response.json();
-            console.error("Error del backend:", errorData);
-            alert("No se pudo actualizar: " + (errorData.message || "Revisa la consola"));
+            Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo actualizar el perfil", showConfirmButton: false, timer: 4000 });
         }
     } catch (error) {
-        console.error("--- ERROR AL GUARDAR ---", error);
-        alert("Fallo la conexión al intentar guardar los datos.");
+        console.error("Error al guardar:", error);
+        Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Fallo de conexión", showConfirmButton: false, timer: 4000 });
     } finally {
+        // Restauramos el botón
         btnGuardar.disabled = false;
         btnGuardar.textContent = "Actualizar Datos";
     }
