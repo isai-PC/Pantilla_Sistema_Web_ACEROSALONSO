@@ -245,9 +245,9 @@ const obtenerDatosCategoria = async (id) => {
             icon: "error",
             title: "Error de conexión",
             text: "No se pudo cargar la información de la categoría."
-            window.location.replace("ListadoCategoriasView.html");
-        });
 
+        });
+        window.location.replace("ListadoCategoriasView.html");
     }
 };
 // ]=================== ACTUALIZAR CATEGORIA ================   
