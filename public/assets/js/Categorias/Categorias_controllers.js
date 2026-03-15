@@ -170,7 +170,9 @@ window.eliminarCategoria = eliminarCategoria;
 const cloudname = "dq63gma00";
 const present = "AcerosAlonso";
 /* }==================================== */
-const previsualizar = () => {
+const previsualizarImagen = () => {
+    const inpuntform = document.getElementById("imagenInput");
+    const image = document.getElementById("imagenPreview");
     if (!inpuntform) return;
     const foto = inpuntform.files[0];
     if (!foto) return;
@@ -231,10 +233,10 @@ const obtenerDatosCategoria = async (id) => {
         const categoria = data.data || data;
 
         document.getElementById("id_categoria_hidden").value = categoria.id_categoria;
-        document.getElementById("nombre_Categoria").value = categoria.nombre_categoria;
-        document.getElementById("descripcion_Categoria").value = categoria.texto_secundario;
+        document.getElementById("nombre_categoria").value = categoria.nombre_categoria;
+        document.getElementById("texto_secundario").value = categoria.texto_secundario;
 
-        const imagen = document.getElementById("imagen");
+        const imagen = document.getElementById("imagenPreview");
         if (imagen) imagen.src = categoria.imagen_categoria;
 
     } catch (error) {
@@ -254,8 +256,8 @@ const obtenerDatosCategoria = async (id) => {
 };
 // ]=================== ACTUALIZAR CATEGORIA ================   
 const actualizarCategoria = async () => {
-    const id = document.getElementById("id_categoria").value;
-    const nombre = document.getElementById("nombre_Categoria").value.trim();
+    const id = document.getElementById("id_categoria_hidden").value;
+    const nombre = document.getElementById("nombre_categoria").value.trim();
     const texto = document.getElementById("texto_secundario").value.trim();
     const inputFile = document.getElementById("imagenInput");
 
@@ -266,7 +268,7 @@ const actualizarCategoria = async () => {
 
     const token = getToken();
     if (!token) {
-        redirigirAlLogin();
+        redirigirIndex();
         return;
     }
 
@@ -326,6 +328,10 @@ const cancelarActualizacion = () => {
     });
 };
 
+window.actualizarCategoria = actualizarCategoria;
+window.cancelarActualizacion = cancelarActualizacion;
+window.previsualizarImagen = previsualizarImagen;
+
 
 
 
@@ -349,7 +355,11 @@ const siguiente = () => {
 
 /* ===================== INICIO ===================== */
 
-cargarCategorias();
+const tbody = document.querySelector("tbody");
+if (tbody) {
+    cargarCategorias();
+}
+
 const id = getCategoriaId();
 if (id) {
     obtenerDatosCategoria(id);
