@@ -2,7 +2,7 @@ const urlBaseApi = "https://repositorio-para-vercel-tawny.vercel.app/api/perfil"
 
 // Obtenemos los datos de la sesión
 const token = localStorage.getItem("token");
-const usuarioId = localStorage.getItem("usuarioId");
+const usuarioId = localStorage.getItem("id");
 
 window.onload = function() {
     // Si no hay sesión, mostramos alerta y mandamos al login
