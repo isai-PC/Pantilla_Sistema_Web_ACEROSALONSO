@@ -59,7 +59,7 @@ const cargarCategorias = async () => {
         categorias.forEach((cat) => {
             /* FILAS */
             const fila = document.createElement("tr");
-            fila.className("border-b border-slate-100 hover:bg-slate-50 transition-colors");
+            fila.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
             /* CONTENIDO DE LAS FILAS */
             fila.innerHTML = `
             <td class="py-3 px-4">
