@@ -2,189 +2,144 @@
 // Listado dinámico de categorías con manejo completo de token y errores
 
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
-const TOKEN_KEY = "token_admin_aceros"; // misma clave que usas en login
+const TOKEN_KEY = "token";
+/* PAGINACION */
+let paginaActual = 0;
+const resultadosPorPagina = 10;
 
 // ================================================
 // FUNCIONES AUXILIARES
 // ================================================
-
+/* OBTENER TOKEN */
 function getToken() {
     return localStorage.getItem(TOKEN_KEY);
 }
 
-function mostrarMensaje(tipo, texto) {
-    const success = document.querySelector('.bg-green-100');
-    const error = document.querySelector('.bg-red-100');
-
-    if (!success || !error) return;
-
-    success.classList.add('hidden');
-    error.classList.add('hidden');
-
-    if (tipo === 'success') {
-        success.textContent = texto;
-        success.classList.remove('hidden');
-    } else {
-        error.textContent = texto;
-        error.classList.remove('hidden');
-    }
-
-    setTimeout(() => {
-        success.classList.add('hidden');
-        error.classList.add('hidden');
-    }, 5000);
+/* REDIRIGIR AL LOGIN CUANDO NO HAY TOKEN */
+const redirigirIndex = () => {
+    messages.error("Sesion expirada o no estás autenticado. Inicia sesión nuevamente");
+    localStorage.removeItem(TOKEN_KEY);/* Limpiar token */
+    window.location.href = "../../index.html";
 }
-
-// Redirige a login y limpia token
-function redirigirAlLogin(mensaje = "Sesión expirada. Inicia sesión nuevamente.") {
-    mostrarMensaje('error', mensaje);
-    localStorage.removeItem(TOKEN_KEY);
-    setTimeout(() => {
-        window.location.href = "../Login/Login.html";
-    }, 1500);
-}
-
-// ================================================
-// CARGAR Y MOSTRAR CATEGORÍAS
-// ================================================
-async function cargarCategorias() {
-    const tbody = document.querySelector('tbody');
-    if (!tbody) {
-        console.error("No se encontró <tbody> en la página");
-        return;
-    }
-
-    // Limpiar tabla
-    tbody.innerHTML = '<tr><td colspan="3" class="py-8 text-center">Cargando categorías...</td></tr>';
-
-    const token = getToken();
-
-    // 1. No hay token → redirigir
+/* CARGAR las CATEGORIAS CON PAGINACION */
+const cargarCategorias = async () => {
+    const tbody = document.querySelector("tbody");
+    if (!tbody) return;/* Si no hay tbody, salir */
+    const token = getToken();/* Obtener token */
+    /* SI NO HAY TOKEN */
     if (!token) {
-        redirigirAlLogin("No estás autenticado. Inicia sesión.");
+        redirigirIndex();
         return;
     }
-
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>'; /* Mostrar cragando */
     try {
-        const response = await fetch(API_URL, {
-            method: 'GET',
+        const url = `${API_URL}?limit=${resultadosPorPagina}&start=${paginaActual * resultadosPorPagina}`;/* paginacion */
+        const response = await fetch(url, {
+            method: "GET",
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token   // ← formato exacto que usas
             }
         });
-
-        // 2. Manejo de códigos de error comunes
-        if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                redirigirAlLogin("Token inválido o expirado.");
-                return;
-            }
-            const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.error || `Error ${response.status}`);
-        }
-
-        const categorias = await response.json();
-
-        // 3. Tabla vacía
-        if (!categorias || categorias.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="3" class="py-8 text-center text-slate-500">
-                        No hay categorías registradas aún.
-                    </td>
-                </tr>
-            `;
+        /*  if (!response.ok) {
+             if (response.status === 401 || response.status === 403) {
+                 redirigirIndex();
+                 return;
+             }
+             throw new Error(`Error ${response.status}`);
+         } */
+        const data = await response.json();
+        const categorias = data.data || data; /* Si no hay data, tomar data */
+        if (categorias.length === 0 || !categorias) {
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Sin categorias registradas</td></tr>'; /* Mostrar cragando */
             return;
         }
+        /* SI TODO FUNCI0ONA A EMPEZAR A REALIZAR LA TABLA */
+        tbody.innerHTML = "";
+        categorias.forEach((cat) => {
+            /* FILAS */
+            const fila = document.createElement("tr");
+            fila.className("border-b border-slate-100 hover:bg-slate-50 transition-colors");
+            /* CONTENIDO DE LAS FILAS */
+            fila.innerHTML = `
+            <td class="py-3 px-4">
+            ${cat.imagen_categoria} ? 
+                            <img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200"> : 
+                            <img src="https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800128/190320173-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
+                        </td>                      
+                        <td class="py-3 px-4 text-slate-600">${cat.nombre_categoria}</td>
+                        <td class="py-3 px-4 text-center">
 
-        // 4. Renderizar filas
-        tbody.innerHTML = ''; // limpiar mensaje de carga
+                            <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2">
+                                <button type="button"
+                                    class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
+                                    Editar
+                                </button>
+                            </a>
 
-        categorias.forEach(cat => {
-            const tr = document.createElement('tr');
-            tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
-
-            tr.innerHTML = `
-                <td class="py-3 px-4">
-                    ${cat.imagen_categoria ? `
-                        <img src="${cat.imagen_categoria}" alt="${cat.nombre_categoria}"
-                             class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
-                    ` : `
-                        <div class="w-12 h-12 bg-slate-200 rounded flex items-center justify-center text-slate-500 text-xs">
-                            Sin imagen
-                        </div>
-                    `}
-                </td>
-                <td class="py-3 px-4 text-slate-600 font-medium">
-                    ${cat.nombre_categoria}
-                    ${cat.texto_secundario ? `<br><small class="text-slate-500">${cat.texto_secundario}</small>` : ''}
-                </td>
-                <td class="py-3 px-4 text-center flex gap-2 justify-center">
-                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded font-bold transition">
-                            Editar
-                        </button>
-                    </a>
-                    <button onclick="eliminarCategoria(${cat.id_categoria})"
-                            class="bg-red-500 hover:bg-red-700 text-white px-4 py-1.5 rounded font-bold transition">
+                            <button onclick="eliminarCategoria(${cat.id_categoria})" 
+                            class="bg-red-500 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm">
                         Borrar
                     </button>
-                </td>
-            `;
 
-            tbody.appendChild(tr);
+                        </td>
+        `;
+            tbody.appendChild(fila);
         });
+        /* ACTUALKIZAR Y NU,MEROS DE PAGINAS */
+        const paginacionSpan = document.getElementById("pagina-actual");
+        if (paginacionSpan) paginacionSpan.textContent = paginaActual + 1;
+
 
     } catch (error) {
-        console.error("Error al cargar categorías:", error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="3" class="py-8 text-center text-red-600">
-                    Error al cargar las categorías
-                </td>
-            </tr>
-        `;
-        mostrarMensaje('error', `No se pudieron cargar las categorías: ${error.message}`);
+        console.error("Error cargando categorías:", error);
+        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar categorías</td></tr>`;
     }
+
 }
+/* =================ELIMINAR CATEGORIA ================*/
+const eliminarCategoria = async (id) => {
+    /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
+    if (!confirm("¿Estás seguro de eliminar esta categoría?")) return;
 
-// ================================================
-// ELIMINAR CATEGORÍA (ejemplo básico)
-// ================================================
-async function eliminarCategoria(id) {
-    if (!confirm("¿Seguro que deseas eliminar esta categoría?")) return;
-
-    const token = getToken();
+    const token = obtenerToken();
     if (!token) {
         redirigirAlLogin();
         return;
     }
 
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'DELETE',
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
             }
         });
 
-        if (!response.ok) {
-            throw new Error("No se pudo eliminar la categoría");
-        }
+        if (!res.ok) throw new Error("No se pudo eliminar");
 
-        mostrarMensaje('success', "Categoría eliminada correctamente");
-        cargarCategorias(); // recargar tabla
+        alert("Categoría eliminada correctamente");/* MODIFICAR A ALA ALERTA  */
+        cargarCategorias(); // RECINICIAR LA TABLA
 
     } catch (error) {
-        mostrarMensaje('error', `Error al eliminar: ${error.message}`);
+        alert("Error al eliminar la categoría");
+        console.error(error);
     }
-}
+};
+/* ===================== PAGINACIÓN ===================== */
+const anterior = () => {
+    if (paginaActual > 0) {
+        paginaActual--;
+        cargarCategorias();
+    }
+};
 
-// ================================================
-// INICIO
-// ================================================
-document.addEventListener('DOMContentLoaded', () => {
+const siguiente = () => {
+    paginaActual++;
     cargarCategorias();
-});
+};
+
+/* ===================== INICIO ===================== */
+
+    cargarCategorias();

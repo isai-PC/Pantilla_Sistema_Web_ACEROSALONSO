@@ -2,292 +2,246 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8">
-    <title>Admin | Listado de Productos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../../ACASALogoAcerosA.png" type="image/png" sizes="16px">
+  <meta charset="utf-8">
+  <title>Admin | Listado de Productos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../ACASALogoAcerosA.png" type="image/png" sizes="16px">
 
-     <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
 </head>
 
 <body class="bg-slate-300 text-neutral-900 font-sans ">
 
-  <header
-      class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
-      <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
-      <div
-        class="flex flex-col md:flex-row justify-between items-center w-full">
-        <!-- Div logo -->
-        <div class="flex justify-between items-center w-full md:w-auto">
-          <section class="flex items-center gap-3 md:gap-4">
-            <img
-              src="ACASALogoAcerosA.png"
-              alt="Logo de Aceros Alonso"
-              class="w-10 md:w-20" />
-            <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
-          </section>
+  <header class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
+    <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
+    <div class="flex flex-col md:flex-row justify-between items-center w-full">
+      <!-- Div logo -->
+      <div class="flex justify-between items-center w-full md:w-auto">
+        <section class="flex items-center gap-3 md:gap-4">
+          <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
+          <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
+        </section>
 
-          <button
-            id="btn-menu"
-            class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
-            <svg
-              class="w-7 h-7"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Div usuario -->
-        <div
-          id="menu-principal"
-          class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
-          <ul
-            class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
-            <li class="w-full md:w-auto">
-              <a
-                href="paginaPrincipal.html"
-                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-                Usuario: Carlos
-              </a>
-            </li>
-
-            <li class="w-full md:w-auto">
-              <a
-                href="Login/Login.html"
-                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
-                Cerrar Sesión
-              </a>
-            </li>
-          </ul>
-        </div>
+        <button id="btn-menu"
+          class="md:hidden text-white focus:outline-none p-2 rounded-md hover:bg-orange-400 transition-colors">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
-      <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
-      <nav
-        id="nav-principal"
-        class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
-        <ul
-          class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
+
+      <!-- Div usuario -->
+      <div id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
+        <ul class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
           <li class="w-full md:w-auto">
-            <a
-              href="../Productos/listadoProductos.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
-              Productos
+            <a href="paginaPrincipal.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+              Usuario: Carlos
             </a>
           </li>
 
           <li class="w-full md:w-auto">
-            <a
-              href="../Categorias/ListadoCategoriasView.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Categorias
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto relative group">
-            <a
-              href="../Mision-Vision/actualizarMision.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
-              Mision Vision
-            </a>
-
-            <ul
-              class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
-              <li class="w-full block">
-                <a
-                  href="../Mision-Vision/actualizarMision.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Misión</a
-                >
-                <a
-                  href="../Mision-Vision/actualizarVision.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Visión</a
-                >
-                <a
-                  href="../Mision-Vision/actualizarPorQueElegirnos.html"
-                  class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline"
-                  >Por qué elegirnos</a
-                >
-              </li>
-            </ul>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Usuarios/listadoUsuarios.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Usuarios
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Ubicaciones/listadoUbicaciones.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Ubicaciones
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Preguntas-Frecuentes/listadoPreguntasFrecuentes.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Preguntas frecuentes
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../Contacto/actualizarContacto.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
-              Contacto
-            </a>
-          </li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../TyC/actualizarTyC.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Terminos y Condiciones
-            </a>
-          </li>
-                <li class="w-full md:w-auto relative group"> <a href="#"
-        class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
-       Consultas
-    </a>  
-    <ul class="md:absolute md:top-full left-0 bg-slate-900 min-w-[215px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
-        <li class="w-full block">
-            <a href="../consultas/consultasE.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Empleado</a>
-            <a href="../consultas/consultasD.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta por Departamento</a>
-
-        </li>
-    </ul>
-</li>
-
-          <li class="w-full md:w-auto">
-            <a
-              href="../../../index.html"
-              class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
-              Inicio
+            <a href="Login/Login.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
+              Cerrar Sesión
             </a>
           </li>
         </ul>
-      </nav>
-    </header>
-
-    <script src="../../Accesibilidad/accesi.js"></script>
-    <div id="btnAccesibilidad"
-        class="fixed right-5 bottom-5 bg-white text-white text-[28px] w-[60px] h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400 z-[9999]"
-        onclick="event.stopPropagation(); toggleMenuAccesibilidad()">
-        <img src="../../Accesibilidad/accesibilidad.png" class="w-full h-full object-cover" alt="Menú de accesibilidad">
+      </div>
     </div>
-    <iframe id="menuAccesibilidad" src="../../Accesibilidad/MenuAccesibilidad.html"
-        class="fixed right-[4%] bottom-[90px] w-[260px] h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
-        <br>
+    <!-- NAV EXACTAMENTE COMO LA TENÍAS -->
+    <nav id="nav-principal"
+      class="flex flex-col md:flex-row justify-start items-center bg-slate-900 pl-2 md:pl-0 py-3 text-white sticky top-0 z-50 shadow-md">
+      <ul class="flex flex-col md:flex-row gap-2 md:gap-4 m-0 p-0 items-start md:items-center list-none w-full">
+        <li class="w-full md:w-auto">
+          <a href="../Productos/listadoProductos.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full min-h-[3rem] md:min-h-0">
+            Productos
+          </a>
+        </li>
 
-    <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto"> 
+        <li class="w-full md:w-auto">
+          <a href="../Categorias/ListadoCategoriasView.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Categorias
+          </a>
+        </li>
 
-        <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 border-b-2 border-orange-400 pb-2 inline-block">
-            Administrar Categorias</h1>
+        <li class="w-full md:w-auto relative group">
+          <a href="../Mision-Vision/actualizarMision.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+            Mision Vision
+          </a>
 
-        <div
-            class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
-            ¡Producto registrado exitosamente!
-        </div>
+          <ul
+            class="md:absolute md:top-full left-0 bg-slate-900 min-w-[240px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+            <li class="w-full block">
+              <a href="../Mision-Vision/actualizarMision.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Misión</a>
+              <a href="../Mision-Vision/actualizarVision.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Visión</a>
+              <a href="../Mision-Vision/actualizarPorQueElegirnos.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Por
+                qué elegirnos</a>
+            </li>
+          </ul>
+        </li>
 
-        <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
-            Ocurrió un error al procesar la solicitud.
-        </div>
+        <li class="w-full md:w-auto">
+          <a href="../Usuarios/listadoUsuarios.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Usuarios
+          </a>
+        </li>
 
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <h2 class="text-xl font-semibold text-slate-700 m-0">Listado de Categorias</h2>
-            <a href="Crear.html" class="inline-block">
-                <button
-                    class="bg-orange-400 text-white font-bold py-2 px-4 rounded-md shadow hover:bg-orange-600 transition-all">
-                    + Agregar Nueva Categoria
-                </button>
-            </a>
-        </div>
+        <li class="w-full md:w-auto">
+          <a href="../Ubicaciones/listadoUbicaciones.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Ubicaciones
+          </a>
+        </li>
 
-        <div
-            class="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-slate-200">
+        <li class="w-full md:w-auto">
+          <a href="../Preguntas-Frecuentes/listadoPreguntasFrecuentes.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Preguntas frecuentes
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../Contacto/actualizarContacto.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0">
+            Contacto
+          </a>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../TyC/actualizarTyC.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Terminos y Condiciones
+          </a>
+        </li>
+        <li class="w-full md:w-auto relative group"> <a href="#"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full whitespace-nowrap">
+            Consultas
+          </a>
+          <ul
+            class="md:absolute md:top-full left-0 bg-slate-900 min-w-[215px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col max-h-[300px] overflow-y-auto hidden group-hover:flex overflow-x-hidden w-full md:w-auto mt-1 md:mt-0 pl-4 md:pl-0 border-l-2 border-white/10 md:border-none">
+            <li class="w-full block">
+              <a href="../consultas/consultasE.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta
+                por Empleado</a>
+              <a href="../consultas/consultasD.html"
+                class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Consulta
+                por Departamento</a>
+
+            </li>
+          </ul>
+        </li>
+
+        <li class="w-full md:w-auto">
+          <a href="../../../index.html"
+            class="flex items-center text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 cursor-pointer w-full min-h-[3rem] md:min-h-0 leading-tight">
+            Inicio
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <script src="../../Accesibilidad/accesi.js"></script>
+  <div id="btnAccesibilidad"
+    class="fixed right-5 bottom-5 bg-white text-white text-[28px] w-[60px] h-[60px] rounded-full flex justify-center items-center cursor-pointer shadow-lg transition-colors hover:bg-orange-400 z-[9999]"
+    onclick="event.stopPropagation(); toggleMenuAccesibilidad()">
+    <img src="../../Accesibilidad/accesibilidad.png" class="w-full h-full object-cover" alt="Menú de accesibilidad">
+  </div>
+  <iframe id="menuAccesibilidad" src="../../Accesibilidad/MenuAccesibilidad.html"
+    class="fixed right-[4%] bottom-[90px] w-[260px] h-[450px] border-none hidden rounded-lg bg-transparent z-[9998]"></iframe>
+  <br>
+
+  <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto">
+
+    <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 border-b-2 border-orange-400 pb-2 inline-block">
+      Administrar Categorias</h1>
+
+    <div
+      class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
+      ¡Producto registrado exitosamente!
+    </div>
+
+    <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-6 text-center font-bold hidden">
+      Ocurrió un error al procesar la solicitud.
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+      <h2 class="text-xl font-semibold text-slate-700 m-0">Listado de Categorias</h2>
+      <a href="Crear.html" class="inline-block">
+        <button
+          class="bg-orange-400 text-white font-bold py-2 px-4 rounded-md shadow hover:bg-orange-600 transition-all">
+          + Agregar Nueva Categoria
+        </button>
+      </a>
+    </div>
+
+    <div
+      class="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-slate-200">
+      <label for="filtro" class="font-semibold text-slate-700">Filtrar por Categoría:</label>
+      <form action="" method="GET" class="m-0 w-full sm:w-auto">
+        <select name="filtro_categoria" id="filtro"
+          class="w-full sm:w-auto border border-slate-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+          <option value="0">-- Ver Todos --</option>
+          <option value="1">Láminas</option>
+          <option value="2">Tubos</option>
+        </select>
+      </form>
+    </div>
+    <!-- =============== FILTRO (POR SI ACADO) ================ -->
+    <!--  <div class="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-slate-200">
             <label for="filtro" class="font-semibold text-slate-700">Filtrar por Categoría:</label>
-            <form action="" method="GET" class="m-0 w-full sm:w-auto">
-                <select name="filtro_categoria" id="filtro"
-                    class="w-full sm:w-auto border border-slate-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                    <option value="0">-- Ver Todos --</option>
-                    <option value="1">Láminas</option>
-                    <option value="2">Tubos</option>
-                </select>
-            </form>
-        </div>
+            <select id="filtro" class="w-full sm:w-auto border border-slate-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                <option value="0">-- Ver Todos --</option>
+            </select>
+        </div> -->
 
-        <div class="bg-white rounded-lg shadow-md overflow-x-auto border border-slate-200">
-            <table class="w-full text-left border-collapse min-w-[600px]">
-                <thead class="bg-slate-100 border-b border-slate-200">
-                    <tr>
-                        <th class="py-3 px-4 font-bold text-slate-700">Imagen</th>                        
-                        <th class="py-3 px-4 font-bold text-slate-700">Categoría</th>
-                        <th class="py-3 px-4 font-bold text-slate-700 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                        <td class="py-3 px-4">
-                            <img src="../../imagenes/placeholder.jpg" alt="Producto"
-                                class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
-                        </td>                      
-                        <td class="py-3 px-4 text-slate-600">Láminas</td>
-                        <td class="py-3 px-4 text-center">
+    <!-- ================ TABLA ================ -->
+    <div class="bg-white rounded-lg shadow-md overflow-x-auto border border-slate-200">
+      <table class="w-full text-left border-collapse min-w-[600px]">
+        <thead class="bg-slate-100 border-b border-slate-200">
+          <tr>
+            <th class="py-3 px-4 font-bold text-slate-700">Imagen</th>
+            <th class="py-3 px-4 font-bold text-slate-700">Categoría</th>
+            <th class="py-3 px-4 font-bold text-slate-700 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-categorias">
 
-                            <a href="Actualizar.html" class="inline-flex mr-2">
-                                <button type="button"
-                                    class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
-                                    Editar
-                                </button>
-                            </a>
+        </tbody>
+      </table>
+    </div>
 
-                            <form action="#" method="post" class="inline">
-                                <button type="submit"
-                                    class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
-                                    Borrar
-                                </button>
-                            </form>
+    <div class="flex justify-center items-center gap-2 mt-8">
+      <button onclick="anterior()"
+        class="px-5 py-2 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">
+        « Anterior
+      </button>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <span id="pagina-actual"
+        class="px-5 py-2 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">1</span>
 
-        <div class="flex justify-center items-center gap-2 mt-8">
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">«
-                Anterior</a>
-            <span
-                class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">1</span>
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">2</a>
-            <a href="#"
-                class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">Siguiente
-                »</a>
-        </div>
+      <button onclick="siguiente()"
+        class="px-5 py-2 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors">
+        Siguiente »
+      </button>
+    </div>
 
-    </main>
+  </main>
 
-    <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
-        <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
-    </footer>
-    <script src="../../../assets/js/Categorias/Categorias_controllers.js"></script>
+  <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
+    <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
+  </footer>
+  <script src="../../../assets/js/Categorias/Categorias_controllers.js"></script>
 
 </body>
 
