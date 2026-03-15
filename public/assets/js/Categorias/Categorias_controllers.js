@@ -334,12 +334,6 @@ window.previsualizarImagen = previsualizarImagen;
 
 
 
-
-
-
-
-
-
 /* ===================== PAGINACIÓN ===================== */
 const anterior = () => {
     if (paginaActual > 0) {
