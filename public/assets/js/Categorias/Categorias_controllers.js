@@ -260,7 +260,79 @@ const obtenerDatosCategoria = async (id) => {
         return null;
     }
 }
+// ]=================== ACTUALIZAR CATEGORIA ================   
+const actualizarCategoria = async () => {
+    const id = document.getElementById("id_categoria_hidden").value;
+    const nombre = document.getElementById("nombre_Categoria").value.trim();
+    const texto = document.getElementById("texto_secundario").value.trim();
+    const inputFile = document.getElementById("imagenInput");
 
+    if (!id || !nombre || !texto) {
+        Swal.fire("Campos incompletos", "Nombre y descripción son obligatorios", "warning");
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        redirigirAlLogin();
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("nombre_categoria", nombre);
+    formData.append("texto_secundario", texto);
+
+    // Si hay nueva imagen, agregarla
+    if (inputFile.files && inputFile.files[0]) {
+        formData.append("imagen_categoria", inputFile.files[0]);
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: "Bearer " + token
+                // NO pongas Content-Type aquí, fetch lo maneja solo con FormData
+            },
+            body: formData
+        });
+
+        if (!res.ok) {
+            throw new Error(`Error ${res.status}`);
+        }
+
+        Swal.fire({
+            icon: "success",
+            title: "¡Actualizado!",
+            text: "La categoría se actualizó correctamente",
+            timer: 2000
+        });
+
+        setTimeout(() => {
+            window.location.href = "ListadoCategoriasView.html";
+        }, 2000);
+
+    } catch (error) {
+        console.error("Error actualizando categoría:", error);
+        Swal.fire("Error", "No se pudo actualizar la categoría", "error");
+    }
+};
+
+// Cancelar
+const cancelarActualizacion = () => {
+    Swal.fire({
+        title: "¿Cancelar?",
+        text: "Los cambios no se guardarán",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, cancelar",
+        cancelButtonText: "Seguir editando"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "ListadoCategoriasView.html";
+        }
+    });
+};
 
 
 
@@ -286,4 +358,5 @@ const siguiente = () => {
 /* ===================== INICIO ===================== */
 
 cargarCategorias();
+obtenerDatosCategoria();
 
