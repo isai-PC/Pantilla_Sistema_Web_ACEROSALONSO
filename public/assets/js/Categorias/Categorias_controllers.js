@@ -95,75 +95,89 @@ const cargarCategorias = async () => {
     }
 }
 
-    /* =================ELIMINAR CATEGORIA ================*/
-    async function eliminarCategoria(id) {
-        /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
-        const confirmacion = await Swal.fire({
-            title: "¿Esta seguro de eliminar esta categoria?",
-            text: "Esta acción no se puede deshacer",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
+/* =================ELIMINAR CATEGORIA ================*/
+async function eliminarCategoria(id) {
+    /* AGREGAR LO QUE SE HIXO EN PRODUCTOS */
+    const confirmacion = await Swal.fire({
+        title: "¿Esta seguro de eliminar esta categoria?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) {
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        redirigirIndex();
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            }
         });
 
-        if (!confirmacion.isConfirmed) {
-            return;
-        }
-
-        const token = getToken();
-        if (!token) {
-            redirigirIndex();
-            return;
-        }
-
-        try {
-            const res = await fetch(`${API_URL}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + token
-                }
-            });
-
-            if (!res.ok) {
-                // Obtener detalles del error para mejor diagnóstico
-                const errorText = await res.text();
-                throw new Error(`Error ${res.status}: ${res.statusText}. ${errorText}`);
+        if (!res.ok) {
+/* ver por que no funciona */
+            if (res.status === 401 || res.status === 403) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Sesión expirada",
+                    text: "Debes iniciar sesión nuevamente"
+                });
+                redirigirIndex();
+                return;
             }
 
-            Swal.fire({
-                icon: "success",
-                title: "Categoria eliminado",
-                text: "La categoria fue eliminado correctamente"
-            });
-            // Recargar la tabla localmente sin redirigir
-            cargarCategorias();
-
-        } catch (error) {
-            console.error("Error al eliminar categoría:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Fallo al eliminar",
-                text: `Hubo un error al eliminar la categoria: ${error.message}`
-            });
+            throw new Error(`Error ${res.status}`);
         }
-    }
-    window.eliminarCategoria = eliminarCategoria;
-    /* ===================== PAGINACIÓN ===================== */
-    const anterior = () => {
-        if (paginaActual > 0) {
-            paginaActual--;
-            cargarCategorias();
+        if (!res.ok) {
+            // Obtener detalles del error para mejor diagnóstico
+            const errorText = await res.text();
+            throw new Error(`Error ${res.status}: ${res.statusText}. ${errorText}`);
         }
-    };
 
-    const siguiente = () => {
-        paginaActual++;
+        Swal.fire({
+            icon: "success",
+            title: "Categoria eliminado",
+            text: "La categoria fue eliminado correctamente"
+        });
+        // Recargar la tabla localmente sin redirigir
         cargarCategorias();
-    };
 
-    /* ===================== INICIO ===================== */
+    } catch (error) {
+        console.error("Error al eliminar categoría:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Fallo al eliminar",
+            text: `Hubo un error al eliminar la categoria: ${error.message}`
+        });
+    }
+}
+window.eliminarCategoria = eliminarCategoria;
+/* ===================== PAGINACIÓN ===================== */
+const anterior = () => {
+    if (paginaActual > 0) {
+        paginaActual--;
+        cargarCategorias();
+    }
+};
 
+const siguiente = () => {
+    paginaActual++;
     cargarCategorias();
+};
+
+/* ===================== INICIO ===================== */
+
+cargarCategorias();
 
