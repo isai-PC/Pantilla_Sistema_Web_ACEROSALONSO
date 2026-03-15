@@ -201,7 +201,7 @@ const obtenerDatosCategoria = async (id) => {
 // ACTUALIZAR CATEGORÍA
 // ================================================
 const actualizarCategoria = async () => {
-    const id = document.getElementById("id_categoria_hidden").value;
+    const id = document.getElementById("id_categoria_hidden").value;/* El id se obtiene de la URL */
     const nombre = document.getElementById("nombre_categoria").value.trim();
     const texto = document.getElementById("texto_secundario").value.trim();
     const inputFile = document.getElementById("imagenInput");
@@ -217,7 +217,7 @@ const actualizarCategoria = async () => {
         return;
     }
 
-    const btn = document.getElementById("btnActualizar");
+    const btn = document.getElementById("btnGuardarFinal");
     const textoOriginal = btn.textContent;
     btn.disabled = true;
     btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path></svg> Actualizando...';
@@ -261,8 +261,36 @@ const cancelar = () => {
     window.location.href = "ListadoCategoriasView.html";
 };
 
+// Previsualizar imagen
+const previsualizarImagen = () => {
+    const inputFile = document.getElementById("imagenInput");
+    const preview = document.getElementById("imagenPreview");
+    if (!inputFile || !preview) return;
+    const file = inputFile.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+        Swal.fire('Error', 'Seleccione un formato de imagen válido', 'error');
+        inputFile.value = "";
+        return;
+    }
+    if (preview.src && !preview.src.includes("placeholder")) {
+        URL.revokeObjectURL(preview.src);
+    }
+    preview.src = URL.createObjectURL(file);
+};
+const anterior = () => {
+    if (paginaActual > 0) {
+        paginaActual--;
+        cargarCategorias();
+    }
+};
+
+const siguiente = () => {
+    paginaActual++;
+    cargarCategorias();
+};
 // ================================================
-// INICIO SIMPLE (sin bucle)
+// INICIO SIMPLE 
 // ================================================
 cargarCategorias();  // ← para ListadoCategoriasView.html
 
@@ -272,7 +300,7 @@ if (id) {
     obtenerDatosCategoria(id);
 }
 
-// Exponer funciones para onclick en HTML
+/* FUNCIONAMENTO DE onclick */
 window.eliminarCategoria = eliminarCategoria;
 window.actualizarCategoria = actualizarCategoria;
 window.cancelar = cancelar;
