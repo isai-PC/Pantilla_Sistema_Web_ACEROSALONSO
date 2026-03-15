@@ -205,45 +205,68 @@
 
 
 <br>
-     <main class="bg-white rounded-lg shadow-md p-6 w-[95%] md:w-[80%] max-w-5xl mx-auto mt-10">
+    <main class="bg-white rounded-xl shadow-lg p-8 w-[95%] md:w-[80%] max-w-5xl mx-auto mt-10">
 
-        <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Lista de Preguntas Frecuentes </h1>
+   <div class="mb-8 border-b-2 border-orange-400 pb-4 text-center md:text-left">
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 uppercase">Lista de pregunta frecuentes</h1>
+    </div>
 
-        <div class="overflow-x-auto">
+    <div class="overflow-x-auto rounded-lg">
 
-            <table class="w-full border-collapse">
+        <table class="w-full text-left">
 
-                <thead class="bg-slate-800 text-white">
+            <thead class="bg-slate-100 text-slate-700">
                 <tr>
-                <th class="p-3">Pregunta</th>
-                <th class="p-3">Respuesta</th>
-                <th class="p-3">Acciones</th>
+                    <th class="py-4 px-6 font-semibold text-lg">Pregunta</th>
+                    <th class="py-4 px-6 font-semibold text-lg">Respuesta</th>
+                    <th class="py-4 px-6 font-semibold text-lg text-center">Acciones</th>
                 </tr>
-                </thead>
+            </thead>
 
-                <tbody class="text-center">
+            <tbody>
 
-                    <td class="p-3">¿Cuáles son los horarios de atención?</td>
-                    <td class="p-3">De lunes a viernes de 9:00 AM a 6:00 PM.</td>
-                    <td class="p-3">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                    Editar
-                    </button>
+                <tr class="hover:bg-slate-50 transition">
+
+                    <td class="py-5 px-6 text-slate-700">
+                        ¿Cuáles son los horarios de atención?
                     </td>
-                    </tr>
 
-                    <tr>
-                    <td colspan="3" class="p-6 text-gray-400">
-                    No hay datos para mostrar
+                    <td class="py-5 px-6 text-slate-600">
+                        De lunes a viernes de 9:00 AM a 6:00 PM.
                     </td>
-                    </tr>
-                </tbody>
 
-            </table>
+                    <td class="py-5 px-6">
 
-        </div>
+                        <div class="flex justify-center items-center gap-4">
 
-    </main>
+                            <a href="editarPregunta.html">
+                                <button
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition">
+                                    Editar
+                                </button>
+                            </a>
+
+                            <form action="#" method="post">
+                                <button
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-sm transition">
+                                    Borrar
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
 <br>
 
     
