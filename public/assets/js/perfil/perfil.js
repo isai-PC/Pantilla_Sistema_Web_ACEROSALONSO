@@ -99,3 +99,15 @@ async function guardarPerfil(evento) {
         btnGuardar.textContent = "Actualizar Datos";
     }
 }
+
+// --- FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA ---
+function togglePassword() {
+    const input = document.getElementById("contrasena_perfil");
+
+    // Cambiamos el tipo de input entre 'contraseña' y 'text'
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
