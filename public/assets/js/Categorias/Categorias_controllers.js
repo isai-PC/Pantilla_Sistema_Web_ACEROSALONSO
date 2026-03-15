@@ -111,7 +111,7 @@ const eliminarCategoria = async (id) => {
         return;
     }
 
-    const token = obtenerToken();
+    const token = getToken();
     if (!token) {
         redirigirAlLogin();
         return;
