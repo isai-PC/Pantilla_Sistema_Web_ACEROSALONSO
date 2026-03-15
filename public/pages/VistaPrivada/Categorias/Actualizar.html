@@ -155,7 +155,8 @@
     <main class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto">
         <div class="mb-8 border-b-2 border-orange-400 pb-4">
             <h1 id="tituloFormulario" class="text-2xl md:text-3xl font-bold">Actualizar Categoría</h1>
-            <p id="descripcionFormulario" class="text-slate-500 text-sm mt-1">Completa los campos para actualizar la categoría</p>
+            <p id="descripcionFormulario" class="text-slate-500 text-sm mt-1">Completa los campos para actualizar la
+                categoría</p>
         </div>
         <form id="formActualizarCategoria" class="space-y-8">
             <input type="hidden" id="id_categoria_hidden">
@@ -202,9 +203,17 @@
 
             <section class="pt-6 border-t border-slate-200">
                 <div class="flex flex-wrap items-center gap-3">
-                    <button type="button" id="btnGuardarFinal" onclick="actualizarCategoria()"
-                        class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
-                        Actualizar Categoría
+                    <button type="button" id="btnActualizar" onclick="actualizarCategoria()"
+                        class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto flex items-center justify-center gap-2 disabled:opacity-50">
+                        <span id="textoBtn">Actualizar Categoría</span>
+                        <svg id="spinner" class="animate-spin h-5 w-5 text-white hidden"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
                     </button>
                     <button type="button" onclick="cancelar()"
                         class="bg-red-500 border border-slate-300 text-white hover:bg-red-600 font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">

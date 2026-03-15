@@ -1,4 +1,4 @@
-// Categorias_controllers.js - Versión corregida sin bucles infinitos
+// Categorias_controllers.js - Versión FINAL corregida
 
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 const TOKEN_KEY = "token";
@@ -7,7 +7,7 @@ let paginaActual = 0;
 const resultadosPorPagina = 10;
 
 // ================================================
-// FUNCIONES AUXILIARES
+// AUXILIARES
 // ================================================
 const getToken = () => localStorage.getItem(TOKEN_KEY);
 
@@ -22,7 +22,7 @@ const mostrarMensaje = (tipo, titulo, texto) => {
 };
 
 // ================================================
-// CARGAR LISTADO DE CATEGORÍAS
+// CARGAR LISTADO
 // ================================================
 const cargarCategorias = async () => {
     const tbody = document.querySelector("tbody");
@@ -31,7 +31,7 @@ const cargarCategorias = async () => {
     const token = getToken();
     if (!token) {
         mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para ver las categorías");
-        return; // NO redirigir automáticamente
+        return;
     }
 
     tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>';
@@ -50,7 +50,7 @@ const cargarCategorias = async () => {
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
                 mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
-                return; // NO redirigir
+                return;
             }
             throw new Error(`Error ${response.status}`);
         }
@@ -135,14 +135,15 @@ const eliminarCategoria = async (id) => {
                 mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
                 return;
             }
-            throw new Error(`Error ${res.status}`);
+            const errorText = await res.text();
+            throw new Error(errorText || `Error ${res.status}`);
         }
 
         Swal.fire("Eliminado", "Categoría eliminada correctamente", "success");
         cargarCategorias();
 
     } catch (error) {
-        Swal.fire("Error", "No se pudo eliminar la categoría", "error");
+        Swal.fire("Error", error.message || "No se pudo eliminar la categoría", "error");
         console.error(error);
     }
 };
@@ -182,11 +183,16 @@ const obtenerDatosCategoria = async (id) => {
             return null;
         }
 
-        // Llenar campos
-        document.getElementById("id_categoria_hidden").value = categoria.id_categoria;
-        document.getElementById("nombre_categoria").value = categoria.nombre_categoria || "";
-        document.getElementById("texto_secundario").value = categoria.texto_secundario || "";
-        document.getElementById("imagenPreview").src = categoria.imagen_categoria || "https://via.placeholder.com/150?text=Sin+Imagen";
+        // Llenar campos (IDs corregidos)
+        const idHidden = document.getElementById("id_categoria_hidden");
+        const nombreInput = document.getElementById("nombre_categoria");
+        const textoInput = document.getElementById("texto_secundario");
+        const preview = document.getElementById("imagenPreview");
+
+        if (idHidden) idHidden.value = categoria.id_categoria;
+        if (nombreInput) nombreInput.value = categoria.nombre_categoria || "";
+        if (textoInput) textoInput.value = categoria.texto_secundario || "";
+        if (preview) preview.src = categoria.imagen_categoria || "https://via.placeholder.com/150?text=Sin+Imagen";
 
         return categoria;
 
@@ -201,9 +207,9 @@ const obtenerDatosCategoria = async (id) => {
 // ACTUALIZAR CATEGORÍA
 // ================================================
 const actualizarCategoria = async () => {
-    const id = document.getElementById("id_categoria_hidden").value;/* El id se obtiene de la URL */
-    const nombre = document.getElementById("nombre_categoria").value.trim();
-    const texto = document.getElementById("texto_secundario").value.trim();
+    const id = document.getElementById("id_categoria_hidden")?.value;
+    const nombre = document.getElementById("nombre_categoria")?.value?.trim();
+    const texto = document.getElementById("texto_secundario")?.value?.trim();
     const inputFile = document.getElementById("imagenInput");
 
     if (!id || !nombre || !texto) {
@@ -217,8 +223,10 @@ const actualizarCategoria = async () => {
         return;
     }
 
-    const btn = document.getElementById("btnGuardarFinal");
-    const textoOriginal = btn.textContent;
+    const btn = document.getElementById("btnActualizar");
+    if (!btn) return;
+
+    const textoOriginal = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-8 8 8 8 0 01-8-8z"></path></svg> Actualizando...';
 
@@ -226,11 +234,13 @@ const actualizarCategoria = async () => {
     formData.append("nombre_categoria", nombre);
     formData.append("texto_secundario", texto);
 
-    if (inputFile.files && inputFile.files[0]) {
+    if (inputFile?.files?.[0]) {
         formData.append("imagen_categoria", inputFile.files[0]);
     }
 
     try {
+        console.log("Enviando PUT a:", `${API_URL}/${id}`); // para depurar
+
         const res = await fetch(`${API_URL}/${id}`, {
             method: "PUT",
             headers: {
@@ -239,45 +249,32 @@ const actualizarCategoria = async () => {
             body: formData
         });
 
+        console.log("Status recibido:", res.status); // clave para depurar
+
         if (!res.ok) {
             const errorText = await res.text();
-            throw new Error(errorText || "Error al actualizar");
+            console.log("Respuesta de error:", errorText);
+            throw new Error(errorText || `Error ${res.status}`);
         }
 
-        Swal.fire("¡Éxito!", "Categoría actualizada correctamente", "success");
+        const respuesta = await res.json();
+        console.log("Respuesta éxito:", respuesta);
+
+        Swal.fire("¡Éxito!", respuesta.message || "Categoría actualizada", "success");
         setTimeout(() => window.location.href = "ListadoCategoriasView.html", 1500);
 
     } catch (error) {
-        console.error("Error actualizando:", error);
-        Swal.fire("Error", error.message || "No se pudo actualizar", "error");
+        console.error("Error completo al actualizar:", error);
+        Swal.fire("Error", error.message || "No se pudo actualizar la categoría", "error");
     } finally {
         btn.disabled = false;
-        btn.textContent = textoOriginal;
+        btn.innerHTML = textoOriginal;
     }
 };
 
-// Cancelar
-const cancelar = () => {
-    window.location.href = "ListadoCategoriasView.html";
-};
-
-// Previsualizar imagen
-const previsualizarImagen = () => {
-    const inputFile = document.getElementById("imagenInput");
-    const preview = document.getElementById("imagenPreview");
-    if (!inputFile || !preview) return;
-    const file = inputFile.files[0];
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-        Swal.fire('Error', 'Seleccione un formato de imagen válido', 'error');
-        inputFile.value = "";
-        return;
-    }
-    if (preview.src && !preview.src.includes("placeholder")) {
-        URL.revokeObjectURL(preview.src);
-    }
-    preview.src = URL.createObjectURL(file);
-};
+// ================================================
+// PAGINACIÓN Y OTRAS FUNCIONES
+// ================================================
 const anterior = () => {
     if (paginaActual > 0) {
         paginaActual--;
@@ -289,19 +286,19 @@ const siguiente = () => {
     paginaActual++;
     cargarCategorias();
 };
-// ================================================
-// INICIO SIMPLE 
-// ================================================
-cargarCategorias();  // ← para ListadoCategoriasView.html
 
-// Para Actualizar.html → se ejecuta solo si existe el ID
+// ================================================
+// INICIO
+// ================================================
+cargarCategorias();  // Listado
+
 const id = new URLSearchParams(window.location.search).get("id");
 if (id) {
     obtenerDatosCategoria(id);
 }
 
-/* FUNCIONAMENTO DE onclick */
+// Exponer funciones
 window.eliminarCategoria = eliminarCategoria;
 window.actualizarCategoria = actualizarCategoria;
-window.cancelar = cancelar;
+window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
 window.previsualizarImagen = previsualizarImagen;
