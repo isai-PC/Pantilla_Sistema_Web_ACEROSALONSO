@@ -5,12 +5,21 @@ const TOKEN_KEY = "token";
 
 let paginaActual = 0;
 const resultadosPorPagina = 10;
-
+/* ELEMENTOS HTML */
+const btn = document.getElementById("btnActualizar");
+const inputFile = document.getElementById("imagenInput");
+const preview = document.getElementById("imagenPreview");
+const nombre = document.getElementById("nombre_categoria")?.value?.trim();
+const texto = document.getElementById("texto_secundario")?.value?.trim();
+const botonFinal = document.getElelemtById("btnGuardarFinal");
+const id = document.getElementById("id_categoria_hidden")?.value;
+ const imagenActual = document.getElementById("imagen_actual")?.value || "";
 // ================================================
 // AUXILIARES
 // ================================================
 const getToken = () => localStorage.getItem(TOKEN_KEY);
 
+// ================================================
 const mostrarMensaje = (tipo, titulo, texto) => {
     Swal.fire({
         icon: tipo,
@@ -21,7 +30,7 @@ const mostrarMensaje = (tipo, titulo, texto) => {
     });
 };
 
-// Constantes para Cloudinary
+// ================================================ DATOS CLUDINARY
 const CLOUD_NAME = "dq63gma00";
 const UPLOAD_PRESET = "AcerosAlonso";
 
@@ -213,8 +222,7 @@ const obtenerDatosCategoria = async (id) => {
 // PREVISUALIZAR IMAGEN
 // ================================================
 const previsualizarImagen = () => {
-    const inputFile = document.getElementById("imagenInput");
-    const preview = document.getElementById("imagenPreview");
+
 
     // Si no existe el input o la imagen de previsualización → salir
     if (!inputFile || !preview) {
@@ -261,10 +269,8 @@ const previsualizarImagen = () => {
 // ACTUALIZAR CATEGORÍA
 // ================================================
 const actualizarCategoria = async () => {
-    const id = document.getElementById("id_categoria_hidden")?.value;
-    const nombre = document.getElementById("nombre_categoria")?.value?.trim();
-    const texto = document.getElementById("texto_secundario")?.value?.trim();
-    const inputFile = document.getElementById("imagenInput");
+    
+
 
     // Validaciones obligatorias
     if (!id || !nombre || !texto) {
@@ -278,7 +284,7 @@ const actualizarCategoria = async () => {
         return;
     }
 
-    const btn = document.getElementById("btnActualizar");
+
     if (!btn) return;
 
     const textoBtn = document.getElementById("textoBtn");
@@ -336,7 +342,7 @@ const actualizarCategoria = async () => {
     }
 
     // Preparar payload (solo JSON)
-    const imagenActual = document.getElementById("imagen_actual")?.value || "";
+   
     const payload = {
         nombre_categoria: nombre,
         texto_secundario: texto,
@@ -378,6 +384,138 @@ const actualizarCategoria = async () => {
         if (spinner) spinner.classList.add("hidden");
     }
 };
+/* ==================================================
+                    CREAR CATEGORIA
+====================================================== */
+const crearCategoria = async () => {
+    // Obtener valores de los campos
+    const nombre = document.getElementById("nombre_categoria")?.value?.trim();
+    const texto = document.getElementById("texto_secundario")?.value?.trim();
+    const inputFile = document.getElementById("imagenInput");
+
+    // Validaciones obligatorias
+    if (!nombre || !texto) {
+        Swal.fire({
+            icon: "warning",
+            title: "Campos incompletos",
+            text: "El nombre y la descripción son obligatorios",
+            timer: 2500
+        });
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para crear una categoría");
+        window.location.href = "../../Login/Login.html"; // o donde tengas tu login
+        return;
+    }
+
+    // Referencia al botón
+    const btn = document.getElementById("btnGuardarFinal");
+    if (!btn) return;
+
+    const textoOriginal = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Creando...';
+
+    let urlImagen = null;
+
+    // Si hay imagen seleccionada → subir a Cloudinary
+    if (inputFile?.files?.[0]) {
+        const file = inputFile.files[0];
+
+        // Validar que sea imagen
+        if (!file.type.startsWith("image/")) {
+            Swal.fire("Error", "Solo se permiten imágenes (jpg, png, webp)", "error");
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return;
+        }
+
+        // Subir a Cloudinary
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        try {
+            const resCloud = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!resCloud.ok) {
+                throw new Error("Error al subir imagen a Cloudinary");
+            }
+
+            const dataCloud = await resCloud.json();
+            urlImagen = dataCloud.secure_url;
+
+        } catch (error) {
+            console.error("Error Cloudinary:", error);
+            Swal.fire("Error", "No se pudo subir la imagen", "error");
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+            return;
+        }
+    }
+
+    // Preparar payload (solo JSON)
+    const payload = {
+        nombre_categoria: nombre,
+        texto_secundario: texto
+    };
+
+    // Si se subió imagen, incluir la URL
+    if (urlImagen) {
+        payload.imagen_categoria = urlImagen;
+    }
+
+    try {
+        console.log("Enviando POST:", payload);
+
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify(payload)
+        });
+
+        console.log("Status POST:", res.status);
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.log("Error del servidor:", errorText);
+            throw new Error(errorText || `Error ${res.status}`);
+        }
+
+        const respuesta = await res.json();
+        console.log("Éxito POST:", respuesta);
+
+        Swal.fire({
+            icon: "success",
+            title: "¡Creada!",
+            text: "La categoría se creó correctamente",
+            timer: 2000
+        });
+
+        // Limpiar formulario y previsualización
+        document.getElementById("formCrearCategoria").reset();
+        if (preview) preview.src = "https://via.placeholder.com/150?text=Cargando...";
+
+        setTimeout(() => window.location.href = "ListadoCategoriasView.html", 2000);
+
+    } catch (error) {
+        console.error("Error al crear categoría:", error);
+        Swal.fire("Error", error.message || "No se pudo crear la categoría", "error");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = textoOriginal;
+    }
+
+
 
 // ================================================
 // PAGINACIÓN Y OTRAS FUNCIONES
