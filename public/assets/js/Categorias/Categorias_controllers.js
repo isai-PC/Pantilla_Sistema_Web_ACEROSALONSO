@@ -532,15 +532,7 @@ const crearCategoria = async () => {
         cargarCategorias();
     };
 
-    // ================================================
-    // INICIO
-    // ================================================
-    cargarCategorias();  // Listado
-/* 
-    const id = new URLSearchParams(window.location.search).get("id"); */
-    if (id) {
-        obtenerDatosCategoria(id);
-    }
+   
 
     // Exponer funciones
     window.eliminarCategoria = eliminarCategoria;
@@ -550,3 +542,12 @@ const crearCategoria = async () => {
     window.previsualizarImagen = previsualizarImagen;
     window.anterior = anterior;
     window.siguiente = siguiente;
+ // ================================================
+    // INICIO
+    // ================================================
+    cargarCategorias();  // Listado
+/* 
+    const id = new URLSearchParams(window.location.search).get("id"); */
+    if (id) {
+        obtenerDatosCategoria(id);
+    }
