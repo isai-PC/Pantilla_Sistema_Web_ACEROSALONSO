@@ -20,7 +20,7 @@ if (token) {
 
 
 /* const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/login"; */
-const urlApi = "https://https://apis-propias-a-vercel.vercel.app/api/grupos/login";
+const urlApi = "https://apis-propias-a-vercel.vercel.app/api/grupos/login";
 
 const verficarSesion = () => {
     // Usamos fetch para hacer la petición HTTP
