@@ -13,7 +13,7 @@ const nombre = document.getElementById("nombre_categoria")?.value?.trim();
 const texto = document.getElementById("texto_secundario")?.value?.trim();
 const botonFinal = document.getElelemtById("btnGuardarFinal");
 const id = document.getElementById("id_categoria_hidden")?.value;
- const imagenActual = document.getElementById("imagen_actual")?.value || "";
+const imagenActual = document.getElementById("imagen_actual")?.value || "";
 // ================================================
 // AUXILIARES
 // ================================================
@@ -269,7 +269,7 @@ const previsualizarImagen = () => {
 // ACTUALIZAR CATEGORÍA
 // ================================================
 const actualizarCategoria = async () => {
-    
+
 
 
     // Validaciones obligatorias
@@ -342,7 +342,7 @@ const actualizarCategoria = async () => {
     }
 
     // Preparar payload (solo JSON)
-   
+
     const payload = {
         nombre_categoria: nombre,
         texto_secundario: texto,
@@ -514,36 +514,39 @@ const crearCategoria = async () => {
         btn.disabled = false;
         btn.innerHTML = textoOriginal;
     }
+};
 
 
+    // ================================================
+    // PAGINACIÓN Y OTRAS FUNCIONES
+    // ================================================
+    const anterior = () => {
+        if (paginaActual > 0) {
+            paginaActual--;
+            cargarCategorias();
+        }
+    };
 
-// ================================================
-// PAGINACIÓN Y OTRAS FUNCIONES
-// ================================================
-const anterior = () => {
-    if (paginaActual > 0) {
-        paginaActual--;
+    const siguiente = () => {
+        paginaActual++;
         cargarCategorias();
+    };
+
+    // ================================================
+    // INICIO
+    // ================================================
+    cargarCategorias();  // Listado
+/* 
+    const id = new URLSearchParams(window.location.search).get("id"); */
+    if (id) {
+        obtenerDatosCategoria(id);
     }
-};
 
-const siguiente = () => {
-    paginaActual++;
-    cargarCategorias();
-};
-
-// ================================================
-// INICIO
-// ================================================
-cargarCategorias();  // Listado
-
-const id = new URLSearchParams(window.location.search).get("id");
-if (id) {
-    obtenerDatosCategoria(id);
-}
-
-// Exponer funciones
-window.eliminarCategoria = eliminarCategoria;
-window.actualizarCategoria = actualizarCategoria;
-window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
-window.previsualizarImagen = previsualizarImagen;
+    // Exponer funciones
+    window.eliminarCategoria = eliminarCategoria;
+    window.actualizarCategoria = actualizarCategoria;
+    window.crearCategoria = crearCategoria;
+    window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
+    window.previsualizarImagen = previsualizarImagen;
+    window.anterior = anterior;
+    window.siguiente = siguiente;
