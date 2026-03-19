@@ -643,3 +643,87 @@ document.getElementById("busqueda").addEventListener("keyup", e => {
     });
 
 });
+
+
+
+
+const calcularModelo8 = () => {
+    //FECHA ACTUAL
+    const fecha = new Date();
+    const diaActual = fecha.getDate();
+    const mes = fecha.getMonth() + 1;
+    const anio = fecha.getFullYear();
+
+    const diasMesAnterior = diasMes(anio, mes - 1);
+    const diasMesActual = diasMes(anio, mes);
+
+    //  VALIDACIÓN
+    // Evita división por 0
+    if (mesAnterior === 0) {
+        pred1 = pred2 = pred3 = pred4 = 0;
+        return;
+    }
+
+ // PUNTOS REALES DEL MODELO
+    // NO usamos tiempo 
+
+
+    // Punto 1 (mes anterior completo)
+    const t1 = diasMesAnterior;
+    const x1 = mesAnterior;
+
+    // Punto 2 (mes actual acumulado)
+    const t2 = diasMesAnterior + diaActual;
+    const x2 = mesAnterior + mesActual;
+
+
+    //CALCULO DE k
+    // k = ln(x2/x1) / (t2 - t1)
+    const k = Math.log(x2 / x1) / (t2 - t1);
+
+    // CALCULO DE C
+    // C = x1 / e^(k*t1)
+
+    const C = x1 / Math.exp(k * t1);
+
+    // =========================
+    //TIEMPOS FUTUROS
+    // =========================
+
+    const diasRestantes = diasMesActual - diaActual;
+
+    const diasMes1 = diasMes(anio, mes + 1);
+    const diasMes2 = diasMes(anio, mes + 2);
+    const diasMes3 = diasMes(anio, mes + 3);
+    const diasMes4 = diasMes(anio, mes + 4);
+
+    // Tiempo base = tiempo actual acumulado
+    const tBase = t2;
+
+    const tP1 = tBase + diasRestantes + diasMes1;
+    const tP2 = tP1 + diasMes2;
+    const tP3 = tP2 + diasMes3;
+    const tP4 = tP3 + diasMes4;
+
+    // =========================
+    // 🔹 MODELO EXPONENCIAL
+    // x(t) = C * e^(k*t)
+    // =========================
+
+    const acumuladoActual = x2;
+
+    const acumuladoP1 = C * Math.exp(k * tP1);
+    const acumuladoP2 = C * Math.exp(k * tP2);
+    const acumuladoP3 = C * Math.exp(k * tP3);
+    const acumuladoP4 = C * Math.exp(k * tP4);
+
+    // =========================
+    // 🔹 RESULTADO FINAL
+    // Convertimos acumulado → mensual
+    // =========================
+
+    pred1 = Math.max(0, Math.round(acumuladoP1 - acumuladoActual));
+    pred2 = Math.max(0, Math.round(acumuladoP2 - acumuladoP1));
+    pred3 = Math.max(0, Math.round(acumuladoP3 - acumuladoP2));
+    pred4 = Math.max(0, Math.round(acumuladoP4 - acumuladoP3));
+};
