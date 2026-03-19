@@ -19,7 +19,8 @@ if (token) {
 
 
 
-const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/login";
+/* const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/login"; */
+const urlApi = "https://https://apis-propias-a-vercel.vercel.app/api/grupos/login";
 
 const verficarSesion = () => {
     // Usamos fetch para hacer la petición HTTP
@@ -137,7 +138,8 @@ function handleGoogleSignIn(response) {
     const idTokenGoogle = response.credential;  // Este es el ID token JWT de Google
 
     // Enviar al repositorio
-    fetch("https://repositorio-para-vercel-tawny.vercel.app/api/grupos/google-login", {
+    /* fetch("https://repositorio-para-vercel-tawny.vercel.app/api/grupos/google-login", { */
+    fetch("https://https://apis-propias-a-vercel.vercel.app/api/grupos/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
