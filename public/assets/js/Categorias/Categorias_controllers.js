@@ -545,5 +545,8 @@ const crearCategoria = async () => {
     // Exponer funciones
     window.eliminarCategoria = eliminarCategoria;
     window.actualizarCategoria = actualizarCategoria;
+    window.crearCategoria = crearCategoria;
     window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
     window.previsualizarImagen = previsualizarImagen;
+    window.anterior = anterior;
+    window.siguiente = siguiente;
