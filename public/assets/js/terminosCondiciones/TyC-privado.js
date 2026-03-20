@@ -121,7 +121,7 @@ function guardarTerminos(evento) {
         })
         .finally(() => {
             btnGuardarFinal.disabled = false;
-            btnGuardarFinal.textContent = "actualizar Cambios";
+            btnGuardarFinal.textContent = "Actualizar Cambios";
         });
 
     return false; // Evita envío por defecto
