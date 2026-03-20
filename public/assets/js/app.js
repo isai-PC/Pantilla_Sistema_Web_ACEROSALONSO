@@ -58,7 +58,7 @@ const cargarCategoriasCarrusel = async () => {
             article.className = "min-w-full md:min-w-[calc(50%-20px)] lg:min-w-[calc(33.333%-20px)] mx-2 md:mx-[10px] h-auto md:h-[250px] relative bg-white rounded-lg shadow-md transition-all duration-300 hover:scale-105 hover:z-10 md:hover:h-[400px] text-center box-border group/card overflow-hidden md:hover:overflow-visible";
 
             article.innerHTML = `
-                <a href="pages/VistaPublica/CatalogoProductosWiew/CatalogoProductosxCategoria.html?id=${cat.id_categoria}"
+                <a href="pages/VistaPublica/CatalogoProductosWiew/catalogoProductosxCategoria.html?id=${cat.id_categoria}"
                    class="block no-underline text-inherit h-full relative z-10">
                     <img src="${cat.imagen_categoria || 'https://via.placeholder.com/300x200?text=Sin+Imagen'}" 
                          alt="${cat.nombre_categoria}"
