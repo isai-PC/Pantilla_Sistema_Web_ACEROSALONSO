@@ -1,38 +1,23 @@
-// Categorias_controllers.js - Versión FINAL corregida
+// ==================== Categorias_controllers.js - VERSIÓN CORREGIDA ====================
 
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 const TOKEN_KEY = "token";
 
 let paginaActual = 0;
 const resultadosPorPagina = 10;
-/* ELEMENTOS HTML */
-const btn = document.getElementById("btnActualizar");
-const inputFile = document.getElementById("imagenInput");
-const preview = document.getElementById("imagenPreview");
-const nombre = document.getElementById("nombre_categoria")?.value?.trim();
-const texto = document.getElementById("texto_secundario")?.value?.trim();
-const botonFinal = document.getElelemtById("btnGuardarFinal");
-const id = document.getElementById("id_categoria_hidden")?.value;
-const imagenActual = document.getElementById("imagen_actual")?.value || "";
+
+// Constantes Cloudinary
+const CLOUD_NAME = "dq63gma00";
+const UPLOAD_PRESET = "AcerosAlonso";
+
 // ================================================
 // AUXILIARES
 // ================================================
 const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-// ================================================
 const mostrarMensaje = (tipo, titulo, texto) => {
-    Swal.fire({
-        icon: tipo,
-        title: titulo,
-        text: texto,
-        timer: 3000,
-        showConfirmButton: false
-    });
+    Swal.fire({ icon: tipo, title: titulo, text: texto, timer: 3000, showConfirmButton: false });
 };
-
-// ================================================ DATOS CLUDINARY
-const CLOUD_NAME = "dq63gma00";
-const UPLOAD_PRESET = "AcerosAlonso";
 
 // ================================================
 // CARGAR LISTADO
@@ -43,60 +28,37 @@ const cargarCategorias = async () => {
 
     const token = getToken();
     if (!token) {
-        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para ver las categorías");
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión");
         return;
     }
 
-    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando categorías...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8">Cargando...</td></tr>';
 
     try {
         const url = `${API_URL}?limit=${resultadosPorPagina}&start=${paginaActual * resultadosPorPagina}`;
-
         const response = await fetch(url, {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token
-            }
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }
         });
 
-        if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                mostrarMensaje("warning", "Sesión expirada", "Inicia sesión nuevamente");
-                return;
-            }
-            throw new Error(`Error ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Error ${response.status}`);
 
         const data = await response.json();
         const categorias = data.data || data;
-
-        if (!categorias || categorias.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-slate-500">No hay categorías registradas</td></tr>';
-            return;
-        }
 
         tbody.innerHTML = "";
 
         categorias.forEach(cat => {
             const fila = document.createElement("tr");
             fila.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
-
             fila.innerHTML = `
                 <td class="py-3 px-4">
-                    ${cat.imagen_categoria
-                    ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`
-                    : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">`}
+                    ${cat.imagen_categoria ? `<img src="${cat.imagen_categoria}" class="w-12 h-12 object-cover rounded shadow-sm border">` : `<img src="https://via.placeholder.com/48x48?text=Sin+Img" class="w-12 h-12 object-cover rounded shadow-sm border">`}
                 </td>
                 <td class="py-3 px-4 font-medium">${cat.nombre_categoria}</td>
                 <td class="py-3 px-4 text-center">
-                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold text-sm">Editar</button>
-                    </a>
-                    <button onclick="eliminarCategoria(${cat.id_categoria})" 
-                            class="bg-red-500 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm">
-                        Borrar
-                    </button>
+                    <a href="Actualizar.html?id=${cat.id_categoria}" class="inline-flex mr-2"><button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold text-sm">Editar</button></a>
+                    <button onclick="eliminarCategoria(${cat.id_categoria})" class="bg-red-500 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold text-sm">Borrar</button>
                 </td>
             `;
             tbody.appendChild(fila);
@@ -106,8 +68,8 @@ const cargarCategorias = async () => {
         if (paginaSpan) paginaSpan.textContent = paginaActual + 1;
 
     } catch (error) {
-        console.error("Error cargando categorías:", error);
-        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar categorías</td></tr>`;
+        console.error(error);
+        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-600">Error al cargar</td></tr>`;
     }
 };
 
@@ -388,32 +350,21 @@ const actualizarCategoria = async () => {
                     CREAR CATEGORIA
 ====================================================== */
 const crearCategoria = async () => {
-    // Obtener valores de los campos
     const nombre = document.getElementById("nombre_categoria")?.value?.trim();
     const texto = document.getElementById("texto_secundario")?.value?.trim();
     const inputFile = document.getElementById("imagenInput");
+    const btn = document.getElementById("btnGuardarFinal");
 
-    // Validaciones obligatorias
     if (!nombre || !texto) {
-        Swal.fire({
-            icon: "warning",
-            title: "Campos incompletos",
-            text: "El nombre y la descripción son obligatorios",
-            timer: 2500
-        });
+        Swal.fire({ icon: "warning", title: "Campos incompletos", text: "Nombre y descripción son obligatorios" });
         return;
     }
 
     const token = getToken();
     if (!token) {
-        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión para crear una categoría");
-        window.location.href = "../../Login/Login.html"; // o donde tengas tu login
+        mostrarMensaje("warning", "Sesión requerida", "Inicia sesión");
         return;
     }
-
-    // Referencia al botón
-    const btn = document.getElementById("btnGuardarFinal");
-    if (!btn) return;
 
     const textoOriginal = btn.innerHTML;
     btn.disabled = true;
@@ -421,38 +372,24 @@ const crearCategoria = async () => {
 
     let urlImagen = null;
 
-    // Si hay imagen seleccionada → subir a Cloudinary
     if (inputFile?.files?.[0]) {
         const file = inputFile.files[0];
-
-        // Validar que sea imagen
         if (!file.type.startsWith("image/")) {
-            Swal.fire("Error", "Solo se permiten imágenes (jpg, png, webp)", "error");
+            Swal.fire("Error", "Solo imágenes", "error");
             btn.disabled = false;
             btn.innerHTML = textoOriginal;
             return;
         }
 
-        // Subir a Cloudinary
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", UPLOAD_PRESET);
 
         try {
-            const resCloud = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-                method: "POST",
-                body: formData
-            });
-
-            if (!resCloud.ok) {
-                throw new Error("Error al subir imagen a Cloudinary");
-            }
-
-            const dataCloud = await resCloud.json();
-            urlImagen = dataCloud.secure_url;
-
-        } catch (error) {
-            console.error("Error Cloudinary:", error);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: formData });
+            const data = await res.json();
+            urlImagen = data.secure_url;
+        } catch (e) {
             Swal.fire("Error", "No se pudo subir la imagen", "error");
             btn.disabled = false;
             btn.innerHTML = textoOriginal;
@@ -460,94 +397,62 @@ const crearCategoria = async () => {
         }
     }
 
-    // Preparar payload (solo JSON)
-    const payload = {
-        nombre_categoria: nombre,
-        texto_secundario: texto
-    };
-
-    // Si se subió imagen, incluir la URL
-    if (urlImagen) {
-        payload.imagen_categoria = urlImagen;
-    }
+    const payload = { nombre_categoria: nombre, texto_secundario: texto };
+    if (urlImagen) payload.imagen_categoria = urlImagen;
 
     try {
-        console.log("Enviando POST:", payload);
-
         const res = await fetch(API_URL, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token
-            },
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
             body: JSON.stringify(payload)
         });
 
-        console.log("Status POST:", res.status);
+        if (!res.ok) throw new Error("Error del servidor");
 
-        if (!res.ok) {
-            const errorText = await res.text();
-            console.log("Error del servidor:", errorText);
-            throw new Error(errorText || `Error ${res.status}`);
-        }
-
-        const respuesta = await res.json();
-        console.log("Éxito POST:", respuesta);
-
-        Swal.fire({
-            icon: "success",
-            title: "¡Creada!",
-            text: "La categoría se creó correctamente",
-            timer: 2000
-        });
-
-        // Limpiar formulario y previsualización
+        Swal.fire({ icon: "success", title: "¡Creada!", text: "Categoría guardada correctamente", timer: 2000 });
         document.getElementById("formCrearCategoria").reset();
-        if (preview) preview.src = "https://via.placeholder.com/150?text=Cargando...";
+        document.getElementById("imagenPreview").src = "https://via.placeholder.com/150?text=Cargando...";
 
-        setTimeout(() => window.location.href = "ListadoCategoriasView.html", 2000);
+        setTimeout(() => window.location.href = "ListadoCategoriasView.html", 1800);
 
     } catch (error) {
-        console.error("Error al crear categoría:", error);
-        Swal.fire("Error", error.message || "No se pudo crear la categoría", "error");
+        Swal.fire("Error", "No se pudo crear la categoría", "error");
+        console.error(error);
     } finally {
         btn.disabled = false;
         btn.innerHTML = textoOriginal;
     }
 };
 
+// ================================================
+// INICIO + EXPOSICIÓN
+// ================================================
+cargarCategorias();
 
-    // ================================================
-    // PAGINACIÓN Y OTRAS FUNCIONES
-    // ================================================
-    const anterior = () => {
-        if (paginaActual > 0) {
-            paginaActual--;
-            cargarCategorias();
-        }
-    };
+const idEditar = new URLSearchParams(window.location.search).get("id");
+if (idEditar) obtenerDatosCategoria(idEditar);
 
-    const siguiente = () => {
-        paginaActual++;
+// Exponer todo al HTML
+window.eliminarCategoria = eliminarCategoria;
+window.actualizarCategoria = actualizarCategoria;
+window.crearCategoria = crearCategoria;
+window.previsualizarImagen = previsualizarImagen;
+window.anterior = anterior;
+window.siguiente = siguiente;
+window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
+
+// ================================================
+// PAGINACIÓN Y OTRAS FUNCIONES
+// ================================================
+const anterior = () => {
+    if (paginaActual > 0) {
+        paginaActual--;
         cargarCategorias();
-    };
-
-   
-
-    // Exponer funciones
-    window.eliminarCategoria = eliminarCategoria;
-    window.actualizarCategoria = actualizarCategoria;
-    window.crearCategoria = crearCategoria;
-    window.cancelar = () => window.location.href = "ListadoCategoriasView.html";
-    window.previsualizarImagen = previsualizarImagen;
-    window.anterior = anterior;
-    window.siguiente = siguiente;
- // ================================================
-    // INICIO
-    // ================================================
-    cargarCategorias();  // Listado
-/* 
-    const id = new URLSearchParams(window.location.search).get("id"); */
-    if (id) {
-        obtenerDatosCategoria(id);
     }
+};
+
+const siguiente = () => {
+    paginaActual++;
+    cargarCategorias();
+};
+
