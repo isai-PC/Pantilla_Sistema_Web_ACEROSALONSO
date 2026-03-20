@@ -139,11 +139,10 @@ function handleGoogleSignIn(response) {
 
     // Enviar al repositorio
     /* fetch("https://repositorio-para-vercel-tawny.vercel.app/api/grupos/google-login", { */
-    fetch("https://apis-propias-a-vercel.vercel.app/api/grupos/login", {
+    // En handleGoogleSignIn reemplaza el fetch por esto:
+    fetch("https://apis-propias-a-vercel.vercel.app/api/grupos/google-login", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id_token: idTokenGoogle })
     })
         .then(respuesta => respuesta.json())
