@@ -238,10 +238,11 @@ const actualizarEmpleado = async () => {
     const apellidoM = document.getElementById('apellidoMaterno').value.trim();
     const correo = document.getElementById('correo').value.trim();
     const telefono = document.getElementById('telefono').value.trim();
+    const contrasena = document.getElementById('contrasena').value.trim();
     const departamento = document.getElementById('comboDepartamento').value;
     const puesto = document.getElementById('comboPuesto').value;
     const tipoUsuario = document.getElementById('comboTipoUsuario').value;
-    const contrasena = document.getElementById('contrasena').value.trim();
+    
 
     if(!nombre || !apellidoP || !apellidoM || !correo || !telefono || !departamento || !puesto || !tipoUsuario){
         
@@ -295,6 +296,7 @@ const actualizarEmpleado = async () => {
         });
 
         console.log("Respuesta API:", data);
+        limpiarCampos()
 
     } catch(error){
 
@@ -446,6 +448,7 @@ const crearEmpleado = async () => {
         });
 
         console.log("Respuesta API:", data);
+        limpiarCampos()
 
     } catch(error){
 
@@ -458,4 +461,17 @@ const crearEmpleado = async () => {
         console.error(error);
     }
 
+};
+
+
+
+
+
+const limpiarCampos = () => {
+  document.getElementById('name').value = '';
+  document.getElementById('apellidoPaterno').value = '';
+  document.getElementById('apellidoMaterno').value = '';
+  document.getElementById('correo').value = '';
+  document.getElementById('telefono').value = '';
+  document.getElementById('contrasena').value = '';
 };
