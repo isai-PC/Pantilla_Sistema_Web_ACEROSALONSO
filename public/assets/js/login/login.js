@@ -139,7 +139,7 @@ function handleGoogleSignIn(response) {
 
     // Enviar al repositorio
     /* fetch("https://repositorio-para-vercel-tawny.vercel.app/api/grupos/google-login", { */
-    fetch("https://https://apis-propias-a-vercel.vercel.app/api/grupos/login", {
+    fetch("https://apis-propias-a-vercel.vercel.app/api/grupos/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
