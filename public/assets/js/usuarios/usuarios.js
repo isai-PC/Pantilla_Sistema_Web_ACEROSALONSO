@@ -108,6 +108,7 @@ const mostrar = (usuarios) => {
 };
 
 const urlValues= "https://repositorio-para-vercel-tawny.vercel.app/api/grupos/empleado-value/"
+
 const cargarDatosEmpleado = () => {
     if(!id) return;
     fetch(urlValues + id, {

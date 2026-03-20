@@ -12,31 +12,48 @@ const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/grupos";
 
 
 const cargarReporte = () => {
- const params = new URLSearchParams({
-  id: document.getElementById("idEmpleado").value,
-  inicio: document.getElementById("fechaInicio").value,
-  fin: document.getElementById("fechaFin").value
-});
+  const id = document.getElementById("idEmpleado").value.trim();
+  const inicio = document.getElementById("fechaInicio").value.trim();
+  const fin = document.getElementById("fechaFin").value.trim();
 
-  fetch(urlApi+"/reporte-empleado?"+params.toString(), {
+  //  Validación básica
+  if (!id || !inicio || !fin) {
+    Swal.fire({
+      icon: "warning",
+      title: "Campos requeridos",
+      text: "Debes completar todos los campos"
+    });
+    return; //  detiene la ejecución
+  }
+
+  //  Si todo está lleno, sigue normal
+  const params = new URLSearchParams({
+    id,
+    inicio,
+    fin
+  });
+
+  fetch(urlApi + "/reporte-empleado?" + params.toString(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
-  }
-  )
-    .then((respuesta) => respuesta.json()) // Convertimos la respuesta cruda a formato JSON
+  })
+    .then((respuesta) => respuesta.json())
     .then((data) => {
-      // La API devuelve un objeto con una propiedad 'items' que contiene el array
-      const reporte = data.reporte
-       
+      const reporte = data.reporte;
       mostrar(reporte);
+      cargarDatos()
     })
     .catch((error) => {
-      // Buena práctica: Manejar errores por si falla la red o la API
       console.error("Error al cargar los reportes:", error);
-      alert("Hubo un error al cargar los datos. Revisa la consola.");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al cargar los datos"
+      });
     });
 };
 
@@ -65,4 +82,29 @@ const fecha = new Date(dato.Fecha).toLocaleDateString("es-MX");
             </tr>
     `;
   });
+};
+
+
+const cargarDatos = () => {
+
+const id = localStorage.getItem("id");
+  //  Si todo está lleno, sigue normal
+  fetch("https://repositorio-para-vercel-tawny.vercel.app/api/grupos/empleados/" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then(res => res.json())
+    .then(respuesta=> {
+      const empleado = respuesta
+    
+        document.getElementById('NOMBRE').value = empleado.Nombre +" "+empleado.Apellido_Paterno+" "+empleado.Apellido_Materno || '';
+        document.getElementById('PUESTO').value = empleado.Puesto || '';
+        document.getElementById('DEPARTAMENTO').value = empleado.Departamento || '';
+    
+    })
+    .catch(err => console.error('Error al cargar producto', err));
+
 };
