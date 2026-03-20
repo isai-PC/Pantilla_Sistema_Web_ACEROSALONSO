@@ -103,11 +103,26 @@ const calcularModelo = () => {
     const acumuladoP3 = C * Math.exp(k * tP3);
     const acumuladoP4 = C * Math.exp(k * tP4);
 
-    // RESULTADO FINAL
-    pred1 = Math.max(0, Math.round(acumuladoP1 - xK));
-    pred2 = Math.max(0, Math.round(acumuladoP2 - acumuladoP1));
-    pred3 = Math.max(0, Math.round(acumuladoP3 - acumuladoP2));
-    pred4 = Math.max(0, Math.round(acumuladoP4 - acumuladoP3));
+     // DIFERENCIAS REALES (SIN REDONDEO)
+    const real1 = acumuladoP1 - xK;
+    const real2 = acumuladoP2 - acumuladoP1;
+    const real3 = acumuladoP3 - acumuladoP2;
+    const real4 = acumuladoP4 - acumuladoP3;
+
+    // 🔍 ALERT CON VALORES REALES
+    alert(
+        "VALORES REALES:\n\n" +
+        "Abril: " + acumuladoP1 + "\n" +
+        "Mayo: " + acumuladoP2 + "\n" +
+        "Junio: " + acumuladoP3 + "\n" +
+        "Julio: " + acumuladoP4
+    );
+
+    // ✅ REDONDEO CORREGIDO (evita error de precisión)
+    pred1 = Math.max(0, Math.round(real1 + 1e-10));
+    pred2 = Math.max(0, Math.round(real2 + 1e-10));
+    pred3 = Math.max(0, Math.round(real3 + 1e-10));
+    pred4 = Math.max(0, Math.round(real4 + 1e-10));
 };
 
 const mostrar = () => {
