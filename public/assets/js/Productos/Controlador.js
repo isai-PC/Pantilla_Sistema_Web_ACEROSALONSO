@@ -5,14 +5,14 @@ const API_URL = "https://repositorio-para-vercel-tawny.vercel.app/api/productos"
 const CATEGORIAS_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 
 /* ======================================================
-OBTENER PARAMETROS DE URL
+OBTENER PARAMETROS DE URL tiene que servir
 ====================================================== */
 const params = new URLSearchParams(window.location.search);
 const idProducto = params.get("id");
 const modoEditar = idProducto !== null;
 
 /* ======================================================
-ELEMENTOS HTML
+ELEMENTOS HTML 
 ====================================================== */
 const titulo = document.getElementById("tituloFormulario");
 const descripcion = document.getElementById("descripcionFormulario");
