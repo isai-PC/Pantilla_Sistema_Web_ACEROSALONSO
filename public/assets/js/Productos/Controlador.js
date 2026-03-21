@@ -24,6 +24,7 @@ const inpuntform = document.getElementById("inputfile");
 const image = document.getElementById("imagen");
 const categoriaSelect = document.getElementById("categoria_select");
 const idCategoriaHidden = document.getElementById("id_categoria_hidden");
+const filtroCategoria = document.getElementById("filtroCategoria");
 
 /* ======================================================
 VARIABLES DE PAGINACIÓN
@@ -60,15 +61,16 @@ if (titulo && descripcion) {
 }
 
 /* ======================================================
-CARGAR CATEGORÍAS EN EL SELECT
+CARGAR CATEGORÍAS EN LOS SELECTS
 ====================================================== */
 async function cargarCategorias() {
     try {
         const res = await fetch(CATEGORIAS_URL);
-        const data = await res.json();
-        const categorias = data; 
+        const categorias = await res.json(); 
 
+        // Llenar el select del formulario (Crear/Editar)
         if (categoriaSelect) {
+            categoriaSelect.innerHTML = '<option value="">-- Seleccione una categoría --</option>';
             categorias.forEach(cat => {
                 const option = document.createElement("option");
                 option.value = cat.id_categoria;
@@ -76,9 +78,19 @@ async function cargarCategorias() {
                 categoriaSelect.appendChild(option);
             });
         }
+
+        // Llenar el select del filtro en el listado
+        if (filtroCategoria) {
+            filtroCategoria.innerHTML = '<option value="">-- Ver Todos --</option>';
+            categorias.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id_categoria;
+                option.textContent = cat.nombre_categoria;
+                filtroCategoria.appendChild(option);
+            });
+        }
     } catch (error) {
         console.error("Error al cargar categorías:", error);
-        Swal.fire('Error', 'No se pudieron cargar las categorías', 'error');
     }
 }
 
@@ -192,6 +204,57 @@ const cargarProductos = (pagina) => {
     });
 };
 
+// ======================================================
+    // EVENTO PARA EL FILTRO DE CATEGORÍAS
+    // ======================================================
+    if (filtroCategoria) {
+        filtroCategoria.addEventListener("change", async (e) => {
+            const idCategoria = e.target.value;
+
+            // Si el usuario elige "-- Ver Todos --"
+            if (!idCategoria) {
+                cargarProductos(0); // Recargamos la página 1 normal
+                return;
+            }
+
+            // Si elige una categoría, llamamos a tu endpoint específico
+            try {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-500">Cargando productos...</td></tr>`;
+                
+                const response = await fetch(`${API_URL}/categoria/${idCategoria}`);
+                if (!response.ok) throw new Error("Error al filtrar");
+
+                const data = await response.json();
+                // Tu backend devuelve la lista dentro de "productos"
+                const productosFiltrados = data.productos || []; 
+
+                // Mostrar los productos en la tabla
+                mostrarProductos(productosFiltrados);
+
+                // Actualizar el título con el total
+                if (tituloTotal) {
+                    tituloTotal.textContent = `Listado de Productos (Total: ${data.total_productos})`;
+                }
+
+                // Importante: Como esta búsqueda trae todos los productos de la categoría de golpe (sin paginación), 
+                // bloqueamos los botones de Siguiente/Anterior para evitar errores visuales
+                if (btnAnterior) btnAnterior.disabled = true;
+                if (btnSiguiente) btnSiguiente.disabled = true;
+
+            } catch (error) {
+                console.error("Error filtrando:", error);
+                Swal.fire({
+                    toast: true,
+                    position: "bottom-end",
+                    icon: "error",
+                    title: "No se pudo cargar el filtro",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-red-600">Error al filtrar.</td></tr>`;
+            }
+        });
+    }
 /* ======================================================
 RENDERIZAR LOS PRODUCTOS EN LA TABLA
 ====================================================== */
@@ -316,6 +379,7 @@ const previsualizar = () => {
     }
     image.src = URL.createObjectURL(foto);
 };
+
 
 /* ======================================================
 RESET FORMULARIO
