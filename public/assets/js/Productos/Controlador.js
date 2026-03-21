@@ -211,13 +211,13 @@ const cargarProductos = (pagina) => {
         filtroCategoria.addEventListener("change", async (e) => {
             const idCategoria = e.target.value;
 
-            // Si el usuario elige "-- Ver Todos --"
+            // Si el usuario elige ver Todos
             if (!idCategoria) {
-                cargarProductos(0); // Recargamos la página 1 normal
+                cargarProductos(0); 
                 return;
             }
 
-            // Si elige una categoría, llamamos a tu endpoint específico
+            // Si elige una categoría, llamamos al enpoint
             try {
                 tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-500">Cargando productos...</td></tr>`;
                 
@@ -225,19 +225,14 @@ const cargarProductos = (pagina) => {
                 if (!response.ok) throw new Error("Error al filtrar");
 
                 const data = await response.json();
-                // Tu backend devuelve la lista dentro de "productos"
                 const productosFiltrados = data.productos || []; 
 
-                // Mostrar los productos en la tabla
                 mostrarProductos(productosFiltrados);
 
-                // Actualizar el título con el total
                 if (tituloTotal) {
                     tituloTotal.textContent = `Listado de Productos (Total: ${data.total_productos})`;
                 }
 
-                // Importante: Como esta búsqueda trae todos los productos de la categoría de golpe (sin paginación), 
-                // bloqueamos los botones de Siguiente/Anterior para evitar errores visuales
                 if (btnAnterior) btnAnterior.disabled = true;
                 if (btnSiguiente) btnSiguiente.disabled = true;
 
