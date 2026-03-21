@@ -1,15 +1,15 @@
 /* ======================================================
-SEGURIDAD Y SESIÓN el token
+SEGURIDAD Y SESIÓN (TOKEN JWT)
 ====================================================== */
-// Asegurarnos de que el usuario esté autenticado antes de mostrar la página
 if (!localStorage.getItem("token")) {
-    window.location.href = "../../../index.html";
+    window.location.href = "../../../index.html"; 
 }
+
 const nombre = localStorage.getItem("nombre");
 const token = localStorage.getItem("token");
 
 if (nombre) {
-    const elementoNombre = document.getElementById("nombre");
+    const elementoNombre = document.getElementById("nombre"); 
     if (elementoNombre) {
         elementoNombre.textContent = "Usuario: " + nombre;
     }
@@ -85,8 +85,7 @@ async function cargarCategorias() {
         const res = await fetch(CATEGORIAS_URL, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Content-Type": "application/json"
             }
         });
         const categorias = await res.json(); 
@@ -116,7 +115,7 @@ async function cargarCategorias() {
 }
 
 /* ======================================================
-FUNCIONES API (CON TOKEN INCLUIDO)
+FUNCIONES API 
 ====================================================== */
 const crearProducto = async (payload) => {
     return await fetch(API_URL, {
@@ -136,7 +135,7 @@ const actualizarProducto = async (id, payload) => {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + token 
         },
         body: JSON.stringify(payload)
     });
@@ -161,7 +160,7 @@ const eliminarProducto = async (id) => {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token 
                 }
             });
             
@@ -205,7 +204,7 @@ const cargarProductos = (pagina) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token 
             },
         }
     )
@@ -379,11 +378,11 @@ const resetFormulario = () => {
 };
 
 /* ======================================================
-SUBMIT FORMULARIO
+SUBMIT FORMULARIO (NUEVO ESTILO .onsubmit)
 ====================================================== */
 if (form) {
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
+    form.onsubmit = async function (e) {
+        e.preventDefault(); // Evitamos que la página se recargue
 
         btnGuardarFinal.disabled = true;
         let urlImagenFinal = "https://via.placeholder.com/150";
@@ -487,13 +486,13 @@ if (form) {
             btnGuardarFinal.disabled = false;
             btnGuardarFinal.textContent = modoEditar ? "Actualizar Producto" : "Guardar";
         }
-    });
+    };
 }
 
 /* ======================================================
-INICIALIZACIÓN AL CARGAR LA PÁGINA
+INICIALIZACIÓN AL CARGAR LA PÁGINA (NUEVO ESTILO window.onload)
 ====================================================== */
-document.addEventListener("DOMContentLoaded", async () => { 
+window.onload = async function() { 
 
     if (tbody) {
         cargarProductos(0);
@@ -505,14 +504,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         await cargarProducto();
     }
 
+    // Asignamos los eventos "onchange" en lugar de "addEventListener"
     if (categoriaSelect && idCategoriaHidden) {
-        categoriaSelect.addEventListener("change", () => {
+        categoriaSelect.onchange = function() {
             idCategoriaHidden.value = categoriaSelect.value;
-        });
+        };
     }
 
     if (filtroCategoria) {
-        filtroCategoria.addEventListener("change", async (e) => {
+        filtroCategoria.onchange = async function(e) {
             const idCategoria = e.target.value;
 
             if (!idCategoria) {
@@ -557,6 +557,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-red-600">Error al filtrar.</td></tr>`;
             }
-        });
+        };
     }
-});
+};
