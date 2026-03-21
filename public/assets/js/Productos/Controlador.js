@@ -301,7 +301,13 @@ const previsualizar = () => {
     const foto = inpuntform.files[0];
     if (!foto) return;
     if (!foto.type.startsWith("image/")) {
-        Swal.fire('Error', 'Seleccione un formato de imagen válido', 'error');
+        // --- ALERTA TIPO WARNING ACTUALIZADA ---
+        Swal.fire({
+            icon: "warning",
+            title: "Formato inválido",
+            text: "Seleccione un formato de imagen válido (JPG, PNG, WEBP)",
+            confirmButtonText: "Entendido"
+        });
         inpuntform.value = "";
         return;
     }
@@ -331,7 +337,12 @@ if (form) {
 
         // Validación de categoría
         if (!idCategoriaHidden.value) {
-            Swal.fire('Error', 'Debes seleccionar una categoría', 'error');
+            Swal.fire({
+                icon: "warning",
+                title: "Campos requeridos",
+                text: "Debes seleccionar una categoría antes de continuar",
+                confirmButtonText: "Entendido"
+            });
             btnGuardarFinal.disabled = false;
             btnGuardarFinal.textContent = "Actualizar Producto";
             return;
@@ -387,17 +398,38 @@ if (form) {
             const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
 
             if (response.ok) {
-                Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: mensajeExito, showConfirmButton: false, timer: 3000 });
+                Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "success", 
+                    title: mensajeExito, 
+                    showConfirmButton: false, 
+                    timer: 3000 
+                });
                 if (!modoEditar) {
                     form.reset();
                     resetFormulario();
                     if (idCategoriaHidden) idCategoriaHidden.value = "";
                 }
             } else {
-                Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo guardar el producto", showConfirmButton: false, timer: 4000 });
+                Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "No se pudo guardar el producto", 
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
             }
         } catch (error) {
-            Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Fallo de conexión", showConfirmButton: false, timer: 4000 });
+            Swal.fire({ 
+                toast: true, 
+                position: "bottom-end", 
+                icon: "error", 
+                title: "Fallo de conexión", 
+                showConfirmButton: false, 
+                timer: 4000 
+            });
         } finally {
             btnGuardarFinal.disabled = false;
             btnGuardarFinal.textContent = "Actualizar Producto";
