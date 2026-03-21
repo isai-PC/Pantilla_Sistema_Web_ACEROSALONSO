@@ -408,21 +408,21 @@ if (form) {
 /* ======================================================
 INICIALIZACIÓN AL CARGAR LA PÁGINA
 ====================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-    // Si hay tabla → listado → cargamos paginado
+document.addEventListener("DOMContentLoaded", async () => { 
+
     if (tbody) {
         cargarProductos(0);
     }
 
-    // Cargar categorías siempre (para crear o editar)
-    cargarCategorias();
+    // ESPERAMOS a que las categorías se carguen por completo en el select
+    await cargarCategorias();
 
-    // Si estamos editando → cargamos el producto
+    // si estamos editando, cargamos el producto y asignamos el valor
     if (modoEditar) {
-        cargarProducto();
+        await cargarProducto();
     }
 
-    // NUEVO: Sincronizar el select con el input hidden al cambiar de opción
+    // Sincronizar el select con el input hidden al cambiar de opción
     if (categoriaSelect && idCategoriaHidden) {
         categoriaSelect.addEventListener("change", () => {
             idCategoriaHidden.value = categoriaSelect.value;
