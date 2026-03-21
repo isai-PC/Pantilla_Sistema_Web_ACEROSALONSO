@@ -2,6 +2,7 @@
 API BASE
 ====================================================== */
 const API_URL = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+const CATEGORIAS_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 
 /* ======================================================
 OBTENER PARAMETROS DE URL
@@ -18,12 +19,14 @@ const descripcion = document.getElementById("descripcionFormulario");
 const form = document.getElementById("formCrearProducto");
 const btnGuardarFinal = document.getElementById("btnGuardarFinal");
 const tbody = document.querySelector("tbody");
-const tituloTotal = document.querySelector("h2.text-xl"); // Total de productos
+const tituloTotal = document.querySelector("h2.text-xl");
 const inpuntform = document.getElementById("inputfile");
 const image = document.getElementById("imagen");
+const categoriaSelect = document.getElementById("categoria_select");
+const idCategoriaHidden = document.getElementById("id_categoria_hidden");
 
 /* ======================================================
-VARIABLES DE PAGINACIÓN (igual que tu lógica que ya funciona)
+VARIABLES DE PAGINACIÓN
 ====================================================== */
 let hayresultados = true;
 let paginaActual = 0;
@@ -53,6 +56,29 @@ if (titulo && descripcion) {
     } else {
         titulo.textContent = "Crear Nuevo Producto";
         descripcion.textContent = "Completa los campos para registrar un nuevo producto";
+    }
+}
+
+/* ======================================================
+CARGAR CATEGORÍAS EN EL SELECT
+====================================================== */
+async function cargarCategorias() {
+    try {
+        const res = await fetch(CATEGORIAS_URL);
+        const data = await res.json();
+        const categorias = data; 
+
+        if (categoriaSelect) {
+            categorias.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id_categoria;
+                option.textContent = cat.nombre_categoria;
+                categoriaSelect.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error("Error al cargar categorías:", error);
+        Swal.fire('Error', 'No se pudieron cargar las categorías', 'error');
     }
 }
 
@@ -98,7 +124,7 @@ const eliminarProducto = async (id) => {
             const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
             if (response.ok) {
                 Swal.fire('¡Borrado!', 'El producto ha sido eliminado.', 'success');
-                cargarProductos(0);  // ← Recargamos la página actual (no toda la lista)
+                cargarProductos(paginaActual);
             } else {
                 throw new Error("No se pudo eliminar el producto");
             }
@@ -110,17 +136,15 @@ const eliminarProducto = async (id) => {
 };
 
 /* ======================================================
-CARGAR PRODUCTOS PAGINADOS (adaptado de tu lógica que ya funciona)
+CARGAR PRODUCTOS PAGINADOS
 ====================================================== */
 const cargarProductos = (pagina) => {
     let paginaConsulta = paginaActual;
 
-    // Avanzar
     if (pagina === 1) {
         paginaConsulta = paginaActual + 1;
     }
 
-    // Retroceder
     if (pagina === 0 && paginaActual > 0) {
         paginaConsulta = paginaActual - 1;
     }
@@ -131,7 +155,6 @@ const cargarProductos = (pagina) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // Authorization: "Bearer " + token,   // descomenta si necesitas token
             },
         }
     )
@@ -142,30 +165,23 @@ const cargarProductos = (pagina) => {
     .then((data) => {
         const productos = data.data || [];
 
-        // Si intentamos avanzar pero no hay resultados → no cambiamos página
         if (pagina === 1 && productos.length === 0) {
             hayresultados = false;
             actualizarBotones();
             return;
         }
 
-        // Actualizamos página
         paginaActual = paginaConsulta;
         hayresultados = productos.length === resultadosPorPagina;
 
-        // Actualizar números de página visibles
         if (pagina1) pagina1.textContent = paginaActual + 1;
         if (pagina2) pagina2.textContent = paginaActual + 2;
 
-        // Actualizar total si la API lo envía (opcional pero útil)
         if (data.total !== undefined && tituloTotal) {
             tituloTotal.textContent = `Listado de Productos (Total: ${data.total})`;
         }
 
-        // Mostrar los productos
         mostrarProductos(productos);
-
-        // Actualizar estado de botones
         actualizarBotones();
     })
     .catch((error) => {
@@ -200,7 +216,7 @@ const mostrarProductos = (productos) => {
                 <img src="${imagenSrc}" alt="${p.nombre_producto}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
             </td>
             <td class="py-3 px-4 font-semibold text-slate-800">${p.nombre_producto}</td>
-            <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Cat: ' + p.id_categoria}</td>
+            <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Categoría desconocida'}</td>
             <td class="py-3 px-4 text-center">
                 <a href="../../../pages/VistaPrivada/Productos/FormularioActualizar.html?id=${id}" class="inline-flex mr-2">
                     <button type="button" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
@@ -217,7 +233,7 @@ const mostrarProductos = (productos) => {
 };
 
 /* ======================================================
-ACTUALIZAR ESTADO VISUAL DE LOS BOTONES
+ACTUALIZAR ESTADO DE LOS BOTONES
 ====================================================== */
 const actualizarBotones = () => {
     if (btnAnterior) {
@@ -229,47 +245,51 @@ const actualizarBotones = () => {
 };
 
 /* ======================================================
-CARGAR PRODUCTO POR ID (PARA EDITAR) - sin cambios
+CARGAR PRODUCTO POR ID (PARA EDITAR)
 ====================================================== */
 const cargarProducto = async () => {
     try {
-        let response = await fetch(`${API_URL}/${idProducto}`);
-        let p = null;
+        const response = await fetch(`${API_URL}/${idProducto}`);
 
-        if (response.ok) {
-            const data = await response.json();
-            p = data.data || data;
-        } else {
-            console.warn("La API no soporta búsqueda por ID. Aplicando Plan B...");
-            const resLista = await fetch(API_URL);
-            const listaData = await resLista.json();
-            const productos = listaData.data || listaData;
-            p = productos.find(item => (item.id_producto || item.id).toString() === idProducto.toString());
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}`);
         }
 
-        if (p && form) {
-            console.log("Producto encontrado para editar:", p);
+        const data = await response.json();
+        const p = data.data || data;
 
-            if (document.getElementById('nombre_producto')) document.getElementById('nombre_producto').value = p.nombre_producto || "";
-            if (document.getElementById('id_categoria')) document.getElementById('id_categoria').value = p.id_categoria || "";
-            if (document.getElementById('precio')) document.getElementById('precio').value = p.precio || "";
-            if (document.getElementById('unidad_medida')) document.getElementById('unidad_medida').value = p.unidad_medida || "";
-            if (document.getElementById('calibre')) document.getElementById('calibre').value = p.calibre || "";
-            if (document.getElementById('metros')) document.getElementById('metros').value = p.metros || "";
-            if (document.getElementById('kg')) document.getElementById('kg').value = p.kg || "";
-            if (document.getElementById('cm')) document.getElementById('cm').value = p.cm || "";
-            if (document.getElementById('ton')) document.getElementById('ton').value = p.ton || "";
-            if (document.getElementById('ced')) document.getElementById('ced').value = p.ced || "";
-            if (document.getElementById('color')) document.getElementById('color').value = p.color || "";
+        if (!p) throw new Error("Producto no encontrado");
 
-            if (p.ImagenesProducto && image) {
-                image.src = p.ImagenesProducto;
-            }
-        } else {
-            console.error("No se encontró el producto con ID:", idProducto);
+        console.log("Producto cargado:", p);
+
+        document.getElementById('nombre_producto').value = p.nombre_producto || "";
+        document.getElementById('precio').value = p.precio || "";
+        document.getElementById('unidad_medida').value = p.unidad_medida || "";
+        document.getElementById('calibre').value = p.calibre || "";
+        document.getElementById('metros').value = p.metros || "";
+        document.getElementById('kg').value = p.kg || "";
+        document.getElementById('cm').value = p.cm || "";
+        document.getElementById('ton').value = p.ton || "";
+        document.getElementById('ced').value = p.ced || "";
+        document.getElementById('color').value = p.color || "";
+
+        if (p.ImagenesProducto && image) {
+            image.src = p.ImagenesProducto;
         }
+
+        if (categoriaSelect && p.id_categoria) {
+            categoriaSelect.value = p.id_categoria;
+            if (idCategoriaHidden) idCategoriaHidden.value = p.id_categoria;
+        }
+
     } catch (error) {
-        console.error("Error crítico en cargarProducto:", error);
+        console.error("Error al cargar producto:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error al cargar",
+            text: error.message || "No se pudo cargar el producto. Verifica el ID o intenta de nuevo.",
+            confirmButtonText: "OK"
+        });
     }
 };
 
@@ -304,9 +324,18 @@ SUBMIT FORMULARIO
 if (form) {
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
+
         btnGuardarFinal.disabled = true;
         let urlImagenFinal = "https://via.placeholder.com/150";
         const foto = inpuntform.files[0];
+
+        // Validación de categoría
+        if (!idCategoriaHidden.value) {
+            Swal.fire('Error', 'Debes seleccionar una categoría', 'error');
+            btnGuardarFinal.disabled = false;
+            btnGuardarFinal.textContent = "Actualizar Producto";
+            return;
+        }
 
         if (foto) {
             btnGuardarFinal.textContent = "Subiendo imagen...";
@@ -324,7 +353,7 @@ if (form) {
             } catch (error) {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo subir la imagen", showConfirmButton: false, timer: 4000 });
                 btnGuardarFinal.disabled = false;
-                btnGuardarFinal.textContent = "Guardar";
+                btnGuardarFinal.textContent = "Actualizar Producto";
                 return;
             }
         } else if (modoEditar && image && image.src !== "") {
@@ -332,7 +361,7 @@ if (form) {
         }
 
         const payload = {
-            id_categoria: parseInt(document.getElementById('id_categoria').value) || 1,
+            id_categoria: parseInt(idCategoriaHidden.value) || 0,
             nombre_producto: document.getElementById('nombre_producto').value,
             ImagenesProducto: urlImagenFinal,
             precio: parseFloat(document.getElementById('precio').value) || 0,
@@ -362,6 +391,7 @@ if (form) {
                 if (!modoEditar) {
                     form.reset();
                     resetFormulario();
+                    if (idCategoriaHidden) idCategoriaHidden.value = "";
                 }
             } else {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo guardar el producto", showConfirmButton: false, timer: 4000 });
@@ -370,23 +400,32 @@ if (form) {
             Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Fallo de conexión", showConfirmButton: false, timer: 4000 });
         } finally {
             btnGuardarFinal.disabled = false;
-            btnGuardarFinal.textContent = "Guardar";
+            btnGuardarFinal.textContent = "Actualizar Producto";
         }
     });
 }
-
 
 /* ======================================================
 INICIALIZACIÓN AL CARGAR LA PÁGINA
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-    // Si hay tabla → estamos en el listado → cargamos paginado
+    // Si hay tabla → listado → cargamos paginado
     if (tbody) {
-        cargarProductos(0);  // primera página
+        cargarProductos(0);
     }
+
+    // Cargar categorías siempre (para crear o editar)
+    cargarCategorias();
 
     // Si estamos editando → cargamos el producto
     if (modoEditar) {
         cargarProducto();
+    }
+
+    // NUEVO: Sincronizar el select con el input hidden al cambiar de opción
+    if (categoriaSelect && idCategoriaHidden) {
+        categoriaSelect.addEventListener("change", () => {
+            idCategoriaHidden.value = categoriaSelect.value;
+        });
     }
 });
