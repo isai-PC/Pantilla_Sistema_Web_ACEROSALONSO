@@ -329,7 +329,7 @@ const actualizarEmpleado = async () => {
 const borrarEmpleado = async (id) => {
 
     if(!id){
-                Swal.fire({ 
+            Swal.fire({ 
             toast: true, 
             position: "bottom-end",         
             icon: "error", 
@@ -342,13 +342,15 @@ const borrarEmpleado = async (id) => {
     }
 
     //confirmación antes de borrar
-    const confirmacion = await Swal.fire({
+        const result = await Swal.fire({
         title: "¿Eliminar empleado?",
         text: "Esta acción no se puede deshacer",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
     });
 
     if(!confirmacion.isConfirmed){
@@ -367,14 +369,11 @@ const borrarEmpleado = async (id) => {
         const data = await response.json();
 
         if(!response.ok){
-            Swal.fire({ 
-                toast: true, 
-                position: "bottom-end", 
-                icon: "error", 
-                title: "error", 
-                showConfirmButton: false, 
-                timer: 4000 
-                });
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al borrar',
+                text: error.message
+            });
             return;
         }
 
