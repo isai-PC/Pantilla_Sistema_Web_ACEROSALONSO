@@ -281,30 +281,42 @@ const actualizarEmpleado = async () => {
         const data = await response.json();
 
         if(!response.ok){
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
-            });
+            Swal.fire({ 
+                toast: true, 
+                position: "bottom-end", 
+                icon: "error", 
+                title: "error", 
+                showConfirmButton: false, 
+                timer: 4000 
+                });
             return;
+            
+            
         }
 
-        Swal.fire({
-            icon: "success",
+            Swal.fire({ 
+            toast: true, 
+            position: "bottom-end", 
+            icon: "success", 
             title: "Empleado actualizado",
-            text: "El empleado fue actualizado correctamente"
-        });
+            text:"El empleado fue actualizado correctamente", 
+            showConfirmButton: false, 
+            timer: 3000 
+            });
 
         console.log("Respuesta API:", data);
         limpiarCampos()
 
     } catch(error){
-
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",         
+            icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo actualizar el empleado"
-        });
+            text: "No se pudo actualizar el empleado",
+            showConfirmButton: false, 
+            timer: 4000 
+            });
 
         console.error(error);
     }
@@ -317,30 +329,35 @@ const actualizarEmpleado = async () => {
 const borrarEmpleado = async (id) => {
 
     if(!id){
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",        
+            icon: "error", 
             title: "Error",
-            text: "No se encontró el id del empleado"
+            text: "No se encontró el id del empleado",
+            showConfirmButton: false, 
+            timer: 4000 
         });
         return;
     }
 
-    //confirmación antes de borrar
-    const confirmacion = await Swal.fire({
+    // confirmación antes de borrar
+    const result = await Swal.fire({ 
         title: "¿Eliminar empleado?",
         text: "Esta acción no se puede deshacer",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
     });
 
-    if(!confirmacion.isConfirmed){
+    if(!result.isConfirmed){ 
         return;
     }
 
     try{
-
         const response = await fetch(urlApi + "/" + id, {
             method: "DELETE",
             headers:{
@@ -348,13 +365,13 @@ const borrarEmpleado = async (id) => {
             }
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if(!response.ok){
             Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
+                icon: 'error',
+                title: 'Error al borrar',
+                text: data.message || data.error || "No se pudo eliminar el empleado" 
             });
             return;
         }
@@ -364,23 +381,27 @@ const borrarEmpleado = async (id) => {
             title: "Empleado eliminado",
             text: "El empleado fue eliminado correctamente"
         }).then(()=>{
-            //redirigir al listado
+            // redirigir al listado
             window.location.href = "listadoUsuarios.html";
+            
         });
 
     }catch(error){
-
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",        
+            icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo eliminar el empleado"
+            text: "No se pudo eliminar el empleado",
+            showConfirmButton: false, 
+            timer: 4000 
         });
 
         console.error(error);
     }
-
 };
 
+window.borrarEmpleado = borrarEmpleado;
 
 
 
@@ -398,12 +419,15 @@ const crearEmpleado = async () => {
 
     if(!nombre || !apellidoP || !apellidoM || !correo || !telefono || !departamento || !puesto || !tipoUsuario || !contrasena){
         
-        Swal.fire({
-            icon: "warning",
+                    Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",         
+            icon: "warning", 
             title: "Campos requeridos",
-            text: "Debes completar todos los campos obligatorios"
-        });
-
+            text: "Debes completar todos los campos obligatorios",
+            showConfirmButton: false, 
+            timer: 4000 
+            });
         return;
     }
 
@@ -433,30 +457,38 @@ const crearEmpleado = async () => {
         const data = await response.json();
 
         if(!response.ok){
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
-            });
+            Swal.fire({ 
+                toast: true, 
+                position: "bottom-end", 
+                icon: "error", 
+                title: "error", 
+                showConfirmButton: false, 
+                timer: 4000 
+                });
             return;
         }
-
-        Swal.fire({
-            icon: "success",
+            Swal.fire({ 
+            toast: true, 
+            position: "bottom-end", 
+            icon: "success", 
             title: "Empleado Creado",
-            text: "El empleado fue creado correctamente"
-        });
-
+            text:"El empleado fue creado correctamente", 
+            showConfirmButton: false, 
+            timer: 3000 
+            });
         console.log("Respuesta API:", data);
         limpiarCampos()
 
     } catch(error){
-
-        Swal.fire({
-            icon: "error",
+            Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",         
+            icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo crear el empleado"
-        });
+            text: "No se pudo crear el empleado",
+            showConfirmButton: false, 
+            timer: 4000 
+            });
 
         console.error(error);
     }

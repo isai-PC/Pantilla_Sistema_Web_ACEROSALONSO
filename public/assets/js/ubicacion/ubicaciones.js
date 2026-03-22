@@ -1,5 +1,5 @@
-const urlApi = "https://repo-vercel-m3tb-a98m2v5ue-20241048-svgs-projects.vercel.app/api/ubicaciones";
-const nombre = localStorage.getItem("nombre");
+const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/ubicaciones";
+const token = localStorage.getItem("token");
 
 // ================= INICIO =================
 window.onload = function () {
