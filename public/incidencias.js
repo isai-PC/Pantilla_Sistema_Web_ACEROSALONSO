@@ -15,6 +15,50 @@ let paginaActual = 0;
 const resultadosPorPagina = 10;
 let modoActual = "empleados";
 
+// ==============================
+// FUNCIONES VISUALES 
+// ==============================
+const actualizarPestanas = (modo) => {
+    const btnE = document.getElementById("tab-empleados");
+    const btnD = document.getElementById("tab-departamentos");
+    if(!btnE || !btnD) return;
+
+    if (modo === "empleados") {
+        btnE.className = "px-5 py-2 rounded-md font-semibold text-sm transition-all bg-white text-slate-800 shadow-sm border border-slate-200";
+        btnD.className = "px-5 py-2 rounded-md font-medium text-sm transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent";
+    } else {
+        btnD.className = "px-5 py-2 rounded-md font-semibold text-sm transition-all bg-white text-slate-800 shadow-sm border border-slate-200";
+        btnE.className = "px-5 py-2 rounded-md font-medium text-sm transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent";
+    }
+};
+
+const actualizarBotonesPeriodoModal = (modo) => {
+    const btnMes = document.getElementById("btnMes");
+    const btnSemana = document.getElementById("btnSemana");
+    if(!btnMes || !btnSemana) return;
+
+    if (modo === "mes") {
+        btnMes.className = "px-4 py-2 text-sm font-semibold rounded-md transition-all bg-white border border-slate-200 text-slate-800 shadow-sm";
+        btnSemana.className = "px-4 py-2 text-sm font-medium rounded-md transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-200/50";
+    } else {
+        btnSemana.className = "px-4 py-2 text-sm font-semibold rounded-md transition-all bg-white border border-slate-200 text-slate-800 shadow-sm";
+        btnMes.className = "px-4 py-2 text-sm font-medium rounded-md transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-200/50";
+    }
+};
+
+const actualizarBotonesGraficaModal = (modo) => {
+    const btnBarras = document.getElementById("btnBarrasModal");
+    const btnLineal = document.getElementById("btnLinealModal");
+    if(!btnBarras || !btnLineal) return;
+
+    if (modo === "barras") {
+        btnBarras.className = "px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-md shadow-sm transition-colors";
+        btnLineal.className = "px-4 py-2 bg-white border border-slate-300 text-slate-700 text-sm font-semibold rounded-md hover:bg-slate-50 shadow-sm transition-colors";
+    } else {
+        btnLineal.className = "px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-md shadow-sm transition-colors";
+        btnBarras.className = "px-4 py-2 bg-white border border-slate-300 text-slate-700 text-sm font-semibold rounded-md hover:bg-slate-50 shadow-sm transition-colors";
+    }
+};
 
 // CREAR TABLA DINÁMICA
 const crearTabla = (columnasHTML) => {
@@ -24,12 +68,12 @@ const crearTabla = (columnasHTML) => {
 
     contenedor.innerHTML = `
         <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead class="bg-slate-100 border-b border-slate-200">
+            <thead class="bg-slate-50 border-b border-slate-200">
                 <tr>
                     ${columnasHTML}
                 </tr>
             </thead>
-            <tbody id="tabla-empleados"></tbody>
+            <tbody id="tabla-empleados" class="divide-y divide-slate-100"></tbody>
         </table>
     `;
 };
@@ -61,7 +105,6 @@ const labelsMeses = () => [
     obtenerMesRelativo(4)
 ];
 
-
 // MODELO MATEMÁTICO DE PREDICCIÓN
 const calcularModelo = () => {
 
@@ -83,7 +126,7 @@ const calcularModelo = () => {
         return;
     }
 
-    // BASE DEL MODELO (igual que el original)
+    // BASE DEL MODELO 
     const C = mesAnterior;
     const xK = mesAnterior + mesActual;
     const tK = diasMesAnterior + diaActual;
@@ -91,7 +134,7 @@ const calcularModelo = () => {
     // k ORIGINAL
     const k = Math.log(xK / C) / tK;
 
-    //  TIEMPOS CORREGIDOS (AQUÍ ESTABA EL ERROR)
+    //  TIEMPOS CORREGIDOS 
     const tP1 = tK + diasMes1;
     const tP2 = tP1 + diasMes2;
     const tP3 = tP2 + diasMes3;
@@ -103,13 +146,13 @@ const calcularModelo = () => {
     const acumuladoP3 = C * Math.exp(k * tP3);
     const acumuladoP4 = C * Math.exp(k * tP4);
 
-     // DIFERENCIAS REALES (SIN REDONDEO)
+     // DIFERENCIAS REALES 
     const real1 = acumuladoP1 - xK;
     const real2 = acumuladoP2 - acumuladoP1;
     const real3 = acumuladoP3 - acumuladoP2;
     const real4 = acumuladoP4 - acumuladoP3;
 
-    // 🔍 ALERT CON VALORES REALES
+    // ALERT CON VALORES REALES
     alert(
         "VALORES REALES:\n\n" +
         "Abril: " + acumuladoP1 + "\n" +
@@ -118,7 +161,7 @@ const calcularModelo = () => {
         "Julio: " + acumuladoP4
     );
 
-    // ✅ REDONDEO CORREGIDO (evita error de precisión)
+    //REDONDEO CORREGIDO
     pred1 = Math.max(0, Math.round(real1 + 1e-10));
     pred2 = Math.max(0, Math.round(real2 + 1e-10));
     pred3 = Math.max(0, Math.round(real3 + 1e-10));
@@ -172,7 +215,6 @@ const generarEmpleado = async () => {
     }
 };
 
-
 const generarDepartamento = async () => {
     try {
         mostrarMensajeCargando(true);
@@ -208,6 +250,7 @@ const generarDepartamento = async () => {
         mostrarMensajeCargando(false);
     }
 };
+
 // ==============================
 // MENSAJE EMERGENTE CARGANDO
 // ==============================
@@ -216,7 +259,7 @@ const mostrarMensajeCargando = (estado) => {
     if(!div) {
         div = document.createElement("div");
         div.id = "mensaje-cargando";
-        div.className = "fixed top-4 right-4 bg-yellow-400 text-black px-4 py-2 rounded shadow z-50";
+        div.className = "fixed top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded shadow-lg z-50 font-bold transition-all";
         div.innerText = "Cargando...";
         document.body.appendChild(div);
     }
@@ -234,6 +277,7 @@ const predecirSeleccion = (id, tipo) => {
 
 const cargarEmpleados = (direccion = 0) => {
     modoActual = "empleados";
+    actualizarPestanas("empleados"); 
 
     let paginaConsulta = paginaActual;
 
@@ -250,26 +294,25 @@ const cargarEmpleados = (direccion = 0) => {
             paginaActual = paginaConsulta;
             document.getElementById("paginaActual").textContent = paginaActual + 1;
 
-            mostrarEmpleados(empleados); // 👈 solo pinta
+            mostrarEmpleados(empleados); 
         })
         .catch(err => console.error(err));
 };
-
 
 const mostrarEmpleados = (empleados) => {
     const contenedor = document.getElementById("contenedor-tabla");
 
     contenedor.innerHTML = `
         <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead class="bg-slate-100 border-b border-slate-200">
+            <thead class="bg-slate-50 border-b border-slate-200">
                 <tr>
-                    <th class="py-3 px-4 font-bold text-slate-700">Nombre</th>
-                    <th class="py-3 px-4 font-bold text-slate-700">Faltas del mes</th>
-                    <th class="py-3 px-4 font-bold text-slate-700">Faltas del año</th>
-                    <th class="py-3 px-4 font-bold text-slate-700 text-center">Acciones</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Nombre</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Faltas del mes</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Faltas del año</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs text-center">Acciones</th>
                 </tr>
             </thead>
-            <tbody id="tabla-empleados"></tbody>
+            <tbody id="tabla-empleados" class="divide-y divide-slate-100"></tbody>
         </table>
     `;
 
@@ -277,21 +320,21 @@ const mostrarEmpleados = (empleados) => {
 
     empleados.forEach(emp => {
         tabla.innerHTML += `
-        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="py-3 px-4 font-semibold text-slate-800">${emp.Nombre_Completo}</td>
-            <td class="py-3 px-4 text-slate-600">${emp.faltas_mes_actual}</td>
-            <td class="py-3 px-4 text-slate-600">${emp.faltas_anio_actual}</td>
+        <tr class="hover:bg-slate-50 transition-colors">
+            <td class="py-3 px-4 font-semibold text-slate-700 text-sm">${emp.Nombre_Completo}</td>
+            <td class="py-3 px-4 text-slate-600 text-sm">${emp.faltas_mes_actual}</td>
+            <td class="py-3 px-4 text-slate-600 text-sm">${emp.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
-                <button onclick="abrirModal(${emp.Id_Empleado}, 'E')" class="bg-blue-600 text-white px-3 py-1 rounded-lg mr-2">Ver</button>
-                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado'); graficaPorDepartamento(${emp.Id_Empleado}, '${emp.Departamento}')" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
+                <button onclick="abrirModal(${emp.Id_Empleado}, 'E')" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">Ver</button>
+                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado'); graficaPorDepartamento(${emp.Id_Empleado}, '${emp.Departamento}')" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
             </td>
         </tr>`;
     });
 };
 
-
 const cargarDepartamentos = () => {
     modoActual = "departamentos";
+    actualizarPestanas("departamentos"); 
 
     fetch(API_DEPARTAMENTOS)
         .then(res => res.json())
@@ -304,15 +347,15 @@ const mostrarDepartamentos = (deps) => {
 
     contenedor.innerHTML = `
         <table class="w-full text-left border-collapse min-w-[600px]">
-            <thead class="bg-slate-100 border-b border-slate-200">
+            <thead class="bg-slate-50 border-b border-slate-200">
                 <tr>
-                    <th class="py-3 px-4 font-bold text-slate-700">Departamento</th>
-                    <th class="py-3 px-4 font-bold text-slate-700">Faltas del mes</th>
-                    <th class="py-3 px-4 font-bold text-slate-700">Faltas del año</th>
-                    <th class="py-3 px-4 font-bold text-slate-700 text-center">Acciones</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Departamento</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Faltas del mes</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Faltas del año</th>
+                    <th class="py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs text-center">Acciones</th>
                 </tr>
             </thead>
-            <tbody id="tabla-empleados"></tbody>
+            <tbody id="tabla-empleados" class="divide-y divide-slate-100"></tbody>
         </table>
     `;
 
@@ -320,13 +363,13 @@ const mostrarDepartamentos = (deps) => {
 
     deps.forEach(dep => {
         tabla.innerHTML += `
-        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="py-3 px-4 font-semibold text-slate-800">${dep.Departamento}</td>
-            <td class="py-3 px-4 text-slate-600">${dep.faltas_mes_actual}</td>
-            <td class="py-3 px-4 text-slate-600">${dep.faltas_anio_actual}</td>
+        <tr class="hover:bg-slate-50 transition-colors">
+            <td class="py-3 px-4 font-semibold text-slate-700 text-sm">${dep.Departamento}</td>
+            <td class="py-3 px-4 text-slate-600 text-sm">${dep.faltas_mes_actual}</td>
+            <td class="py-3 px-4 text-slate-600 text-sm">${dep.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
-                <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="bg-blue-600 text-white px-3 py-1 rounded-lg mr-2">Ver</button>
-                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
+                <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-md font-semibold transition-colors text-sm mr-2 shadow-sm">Ver</button>
+                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})"  class="bg-orange-100 border border-orange-200 text-orange-700 hover:bg-orange-200 px-3 py-1.5 rounded-md font-semibold transition-colors text-sm shadow-sm">Predecir</button>
             </td>
         </tr>`;
     });
@@ -337,7 +380,6 @@ const cambiarPagina = (direccion) => {
         cargarEmpleados(direccion);
     }
 };
-
 
 // ==============================
 // GRÁFICAS
@@ -368,26 +410,9 @@ const graficaBarras = () => {
     });
 };
 
-// ==============================
-// PAGINACIÓN
-// ==============================
-
-
-// ==============================
-// BUSCADOR
-// ==============================
-
-
-
-
-
-
-
-
-
 let seleccionado = {
     id: null,
-    tipo: null // 'E' o 'D'
+    tipo: null 
 }
 
 let datosActuales = []
@@ -460,29 +485,31 @@ const obtenerDatos = async (modo) => {
 
 // ================= LISTADOS =================
 const cargarMes = async () => {
+    actualizarBotonesPeriodoModal("mes"); 
+
     const data = await obtenerDatos("mes")
 
     const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
                    "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 
     let html = `
-    <div class="border border-slate-200 rounded overflow-hidden h-full flex flex-col">
+    <div class="h-full flex flex-col">
         <div class="overflow-y-auto">
-            <table class="w-full text-xs">
-                <thead class="bg-slate-100 sticky top-0">
+            <table class="w-full text-xs text-left">
+                <thead class="bg-slate-100 sticky top-0 border-b border-slate-200">
                     <tr>
-                        <th class="px-2 py-1 text-left text-slate-600">Mes</th>
-                        <th class="px-2 py-1 text-left text-slate-600">Faltas</th>
+                        <th class="px-3 py-2 text-slate-600 font-bold uppercase">Mes</th>
+                        <th class="px-3 py-2 text-slate-600 font-bold uppercase">Faltas</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-slate-100">
     `
 
     data.forEach((v, i) => {
         html += `
         <tr class="hover:bg-slate-50">
-            <td class="px-2 py-1">${meses[i]}</td>
-            <td class="px-2 py-1 font-semibold text-orange-500">${v}</td>
+            <td class="px-3 py-2 font-medium text-slate-700">${meses[i]}</td>
+            <td class="px-3 py-2 font-bold text-orange-500">${v}</td>
         </tr>
         `
     })
@@ -496,26 +523,28 @@ const cargarMes = async () => {
 
 
 const cargarSemana = async () => {
+    actualizarBotonesPeriodoModal("semana"); 
+
     const data = await obtenerDatos("semana")
 
     let html = `
-    <div class="border border-slate-200 rounded overflow-hidden h-full flex flex-col">
+    <div class="h-full flex flex-col">
         <div class="overflow-y-auto">
-            <table class="w-full text-xs">
-                <thead class="bg-slate-100 sticky top-0">
+            <table class="w-full text-xs text-left">
+                <thead class="bg-slate-100 sticky top-0 border-b border-slate-200">
                     <tr>
-                        <th class="px-2 py-1 text-left text-slate-600">Semana</th>
-                        <th class="px-2 py-1 text-left text-slate-600">Faltas</th>
+                        <th class="px-3 py-2 text-slate-600 font-bold uppercase">Semana</th>
+                        <th class="px-3 py-2 text-slate-600 font-bold uppercase">Faltas</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-slate-100">
     `
 
     data.forEach((v, i) => {
         html += `
         <tr class="hover:bg-slate-50">
-            <td class="px-2 py-1">Semana ${i + 1}</td>
-            <td class="px-2 py-1 font-semibold text-orange-500">${v}</td>
+            <td class="px-3 py-2 font-medium text-slate-700">Semana ${i + 1}</td>
+            <td class="px-3 py-2 font-bold text-orange-500">${v}</td>
         </tr>
         `
     })
@@ -534,6 +563,8 @@ const graficaLinealModal = () => {
         alert("Primero carga datos")
         return
     }
+    
+    actualizarBotonesGraficaModal("lineal"); 
 
     if (chartModal) chartModal.destroy()
 
@@ -549,7 +580,9 @@ const graficaLinealModal = () => {
                 data: datosActuales,
                 borderWidth: 2,
                 tension: 0.3,
-                pointRadius: 2
+                pointRadius: 2,
+                borderColor: '#f97316',
+                backgroundColor: '#f97316'
             }]
         },
         options: {
@@ -571,6 +604,8 @@ const graficaBarrasModal = () => {
         return
     }
 
+    actualizarBotonesGraficaModal("barras");
+
     if (chartModal) chartModal.destroy()
 
     const ctx = document.getElementById("graficaModal")
@@ -583,7 +618,8 @@ const graficaBarrasModal = () => {
             ),
             datasets: [{
                 data: datosActuales,
-                borderWidth: 1
+                borderWidth: 1,
+                backgroundColor: '#3b82f6'
             }]
         },
         options: {
@@ -628,27 +664,27 @@ let graficaDepto;
 const generarGraficaDepto = (datos, idEmpleado) => {
 
     const labels = datos.map(e => `${e.Nombre} (${e.TotalFaltas})`); 
-    // 👉 ahora la leyenda incluye faltas
+    //ahora la leyenda incluye faltas
 
     const valores = datos.map(e => e.TotalFaltas);
 
-    // 🎨 colores diferentes (tipo tailwind)
+    // colores diferentes 
     const baseColores = [
-        '#38bdf8', // sky-400
-        '#22c55e', // green-500
-        '#eab308', // yellow-500
-        '#a78bfa', // violet-400
-        '#f43f5e', // rose-500
-        '#14b8a6', // teal-500
-        '#f97316', // orange-500
-        '#6366f1'  // indigo-500
+        '#38bdf8', 
+        '#22c55e', 
+        '#eab308', 
+        '#a78bfa', 
+        '#f43f5e', 
+        '#14b8a6', 
+        '#f97316', 
+        '#6366f1'  
     ];
 
     const colores = datos.map((e, i) => {
 
         let color = baseColores[i % baseColores.length];
 
-        // si NO es el seleccionado → hacerlo más opaco
+        // si no es seleccionado hacerlo opaco
         if (e.Id_Empleado != idEmpleado) {
             color += '80'; // transparencia (hex)
         }
@@ -676,7 +712,7 @@ const generarGraficaDepto = (datos, idEmpleado) => {
         options: {
             responsive: true,
 
-            // 🔽 controla tamaño
+
             maintainAspectRatio: false, // permite altura personalizada
 
             plugins: {
@@ -721,7 +757,7 @@ const graficaDepartamentosGeneral = async (idDepartamento) => {
         const res = await fetch(URL);
         const data = await res.json();
 
-        // mostrar sección (puedes reutilizar la misma)
+        // mostrar sección
         document.getElementById("seccionDeptosGeneral").classList.remove("hidden");
 
         // generar gráfica
@@ -741,7 +777,6 @@ const generarGraficaDeptos = (datos, idDepartamento) => {
     const labels = datos.map(d => `${d.Departamento} (${d.TotalFaltas})`);
     const valores = datos.map(d => d.TotalFaltas);
 
-    // 🎨 colores base
     const baseColores = [
         '#38bdf8',
         '#22c55e',
@@ -756,8 +791,6 @@ const generarGraficaDeptos = (datos, idDepartamento) => {
     const colores = datos.map((d, i) => {
 
         let color = baseColores[i % baseColores.length];
-
-        // 🔥 resaltar departamento seleccionado
         if (d.Id_Departamento != idDepartamento) {
             color += '80'; // opacidad
         }
