@@ -368,8 +368,8 @@ const mostrarDepartamentos = (deps) => {
             <td class="py-3 px-4 text-slate-600 text-sm">${dep.faltas_mes_actual}</td>
             <td class="py-3 px-4 text-slate-600 text-sm">${dep.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
-                <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-md font-semibold transition-colors text-sm mr-2 shadow-sm">Ver</button>
-                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})"  class="bg-orange-100 border border-orange-200 text-orange-700 hover:bg-orange-200 px-3 py-1.5 rounded-md font-semibold transition-colors text-sm shadow-sm">Predecir</button>
+                <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">Ver</button>
+                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
             </td>
         </tr>`;
     });
