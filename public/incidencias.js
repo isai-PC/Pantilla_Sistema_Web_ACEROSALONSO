@@ -283,7 +283,7 @@ const mostrarEmpleados = (empleados) => {
             <td class="py-3 px-4 text-slate-600">${emp.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
                 <button onclick="abrirModal(${emp.Id_Empleado}, 'E')" class="bg-blue-600 text-white px-3 py-1 rounded-lg mr-2">Ver</button>
-                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado')" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
+                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado'); graficaPorDepartamento(${emp.Id_Empleado}, '${emp.Departamento}')" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
             </td>
         </tr>`;
     });
@@ -326,7 +326,7 @@ const mostrarDepartamentos = (deps) => {
             <td class="py-3 px-4 text-slate-600">${dep.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
                 <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="bg-blue-600 text-white px-3 py-1 rounded-lg mr-2">Ver</button>
-                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento')" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
+                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})" class="bg-green-600 text-white px-3 py-1 rounded-lg">Predecir</button>
             </td>
         </tr>`;
     });
@@ -597,3 +597,212 @@ const graficaBarrasModal = () => {
         }
     })
 }
+
+
+
+const graficaPorDepartamento = async (idEmpleado, departamento) => {
+
+    // Por ahora solo mostramos datos
+    alert(`Empleado ID: ${idEmpleado} - Departamento: ${departamento}`);
+
+        try {
+
+        const URL = `https://repositorio-para-vercel-tawny.vercel.app/api/incidencias/faltas/mes/departamento/empleados?departamento=${departamento}`;
+
+        const res = await fetch(URL);
+        const data = await res.json();
+
+        // mostrar sección
+        document.getElementById("seccionDepto").classList.remove("hidden");
+
+        // generar gráfica
+        generarGraficaDepto(data, idEmpleado);
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
+let graficaDepto;
+
+const generarGraficaDepto = (datos, idEmpleado) => {
+
+    const labels = datos.map(e => `${e.Nombre} (${e.TotalFaltas})`); 
+    // 👉 ahora la leyenda incluye faltas
+
+    const valores = datos.map(e => e.TotalFaltas);
+
+    // 🎨 colores diferentes (tipo tailwind)
+    const baseColores = [
+        '#38bdf8', // sky-400
+        '#22c55e', // green-500
+        '#eab308', // yellow-500
+        '#a78bfa', // violet-400
+        '#f43f5e', // rose-500
+        '#14b8a6', // teal-500
+        '#f97316', // orange-500
+        '#6366f1'  // indigo-500
+    ];
+
+    const colores = datos.map((e, i) => {
+
+        let color = baseColores[i % baseColores.length];
+
+        // si NO es el seleccionado → hacerlo más opaco
+        if (e.Id_Empleado != idEmpleado) {
+            color += '80'; // transparencia (hex)
+        }
+
+        return color;
+    });
+
+    const ctx = document.getElementById('graficaDepto');
+
+    if (graficaDepto) graficaDepto.destroy();
+
+    graficaDepto = new Chart(ctx, {
+        type: 'pie',
+
+        data: {
+            labels: labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: colores,
+                borderColor: '#1e293b',
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            // 🔽 controla tamaño
+            maintainAspectRatio: false, // permite altura personalizada
+
+            plugins: {
+
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#1e293b',
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}`;
+                        }
+                    }
+                }
+
+            }
+        }
+    });
+
+};
+
+
+
+
+
+
+
+
+const graficaDepartamentosGeneral = async (idDepartamento) => {
+
+    try {
+
+        const URL = `https://repositorio-para-vercel-tawny.vercel.app/api/incidencias/faltas/mes/departamentos`;
+
+        const res = await fetch(URL);
+        const data = await res.json();
+
+        // mostrar sección (puedes reutilizar la misma)
+        document.getElementById("seccionDeptosGeneral").classList.remove("hidden");
+
+        // generar gráfica
+        generarGraficaDeptos(data, idDepartamento);
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+};
+
+
+let graficaDeptos;
+
+const generarGraficaDeptos = (datos, idDepartamento) => {
+
+    const labels = datos.map(d => `${d.Departamento} (${d.TotalFaltas})`);
+    const valores = datos.map(d => d.TotalFaltas);
+
+    // 🎨 colores base
+    const baseColores = [
+        '#38bdf8',
+        '#22c55e',
+        '#eab308',
+        '#a78bfa',
+        '#f43f5e',
+        '#14b8a6',
+        '#f97316',
+        '#6366f1'
+    ];
+
+    const colores = datos.map((d, i) => {
+
+        let color = baseColores[i % baseColores.length];
+
+        // 🔥 resaltar departamento seleccionado
+        if (d.Id_Departamento != idDepartamento) {
+            color += '80'; // opacidad
+        }
+
+        return color;
+    });
+
+   const ctx = document.getElementById('graficaDeptosGeneral');
+
+    if (graficaDeptos) graficaDeptos.destroy();
+
+    graficaDeptos = new Chart(ctx, {
+        type: 'pie',
+
+        data: {
+            labels: labels,
+            datasets: [{
+                data: valores,
+                backgroundColor: colores,
+                borderColor: '#1e293b',
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#1e293b',
+                        font: { size: 12 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+};
