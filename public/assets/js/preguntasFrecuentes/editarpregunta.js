@@ -1,5 +1,6 @@
 const urlApi = "https://repo-copia-vercel.vercel.app/api/preguntas";
 const token = localStorage.getItem("token");
+const nombre = localStorage.getItem("nombre"); 
 
 // Extraer el ID de la URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -18,6 +19,14 @@ window.onload = function() {
         form.onsubmit = actualizarPregunta;
     }
 };
+
+    if (nombre) {
+        const elementoNombre = document.getElementById("nombre");
+        if (elementoNombre) {
+            elementoNombre.textContent = "Usuario: " + nombre;
+        }
+    }
+
 
 // --- OBTENER LOS DATOS ACTUALES ---
 async function cargarDatosPregunta() {

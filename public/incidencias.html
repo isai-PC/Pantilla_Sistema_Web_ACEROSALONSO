@@ -109,7 +109,7 @@
         </div>
     </header>
 
-
+<br>
 
 
 
@@ -264,7 +264,39 @@
           <canvas id="grafica"></canvas>
         </div>
       </div>
+    <!-- NUEVA SECCION SOLO GRAFICA -->
+<div id="seccionDepto" class="mt-10 hidden">
+
+  <h2 class="text-xl font-bold text-slate-800 mb-4 border-b-2 border-orange-400 pb-2">
+    Faltas por empleados del departamento
+  </h2>
+
+  <div class="bg-white border border-slate-200 rounded-md p-4 shadow-sm h-[300px]">
+    <canvas id="graficaDepto"></canvas>
+  </div>
+
+</div>
+
+<!-- SECCION GRAFICA DEPARTAMENTOS -->
+<div id="seccionDeptosGeneral" class="mt-10 hidden">
+
+  <h2 class="text-xl font-bold text-slate-800 mb-4 border-b-2 border-green-500 pb-2">
+    Faltas por departamentos
+  </h2>
+
+  <div class="bg-white border border-slate-200 rounded-md p-4 shadow-sm h-[300px]">
+    <canvas id="graficaDeptosGeneral"></canvas>
+  </div>
+
+</div>
+
+<!--¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ -->
+
     </div>
+
+
+
+
 
 <div id="modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
 
@@ -333,6 +365,6 @@
   </body>
 
   <script src="incidencias.js"></script>
-  <script src="incidenciasparte2.js"></script>
+  
 
 </html>
