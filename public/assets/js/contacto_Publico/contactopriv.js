@@ -1,101 +1,117 @@
-// ================= VERIFICAR SESIÓN =================
+const urlApi = "https://repo-vercel-m3tb-cuvwdar7m-20241048-svgs-projects.vercel.app/api/contacto";
 const token = localStorage.getItem("token");
 
-if (!token) {
-    window.location.href = "../../../index.html";
-}
+window.onload = function () {
+    cargarContacto();
 
-// ================= URL API CORRECTA =================
-const urlApi = "https://repo-vercel-m3tb-cuvwdar7m-20241048-svgs-projects.vercel.app/api/contacto";
-
-
-// ================= FUNCIÓN SEGURA =================
-const setValue = (id, valor) => {
-    const el = document.getElementById(id);
-    if (el) el.value = valor || "";
+    const form = document.getElementById("form-contacto");
+    if (form) {
+        form.onsubmit = actualizarContacto;
+    }
 };
 
-
-// ================= CARGAR CONTACTO =================
-const cargarContacto = async () => {
+// ================= OBTENER DATOS =================
+async function cargarContacto() {
     try {
+        const respuesta = await fetch(urlApi);
 
-        const res = await fetch(urlApi, {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token
-            }
-        });
+        if (!respuesta.ok) throw new Error("No se pudo obtener el contacto");
 
-        if (!res.ok) {
-            throw new Error("Error en la API");
-        }
-
-        const data = await res.json();
-        console.log("Datos:", data);
-
+        const data = await respuesta.json();
         const contacto = data.contacto;
 
         if (!contacto) return;
 
-        setValue("dias", contacto.dias);
-        setValue("horario", contacto.horario);
-        setValue("telefono", contacto.telefono);
-        setValue("whatsapp", contacto.whatsapp);
-        setValue("correo", contacto.correo);
-        setValue("direccion", contacto.direccion);
-        setValue("red1", contacto.red1);
-        setValue("red2", contacto.red2);
-        setValue("red3", contacto.red3);
+        document.getElementById("dias").value = contacto.dias || "";
+        document.getElementById("horario").value = contacto.horario || "";
+        document.getElementById("telefono").value = contacto.telefono || "";
+        document.getElementById("whatsapp").value = contacto.whatsapp || "";
+        document.getElementById("correo").value = contacto.correo || "";
+        document.getElementById("direccion").value = contacto.direccion || "";
+        document.getElementById("red1").value = contacto.red1 || "";
+        document.getElementById("red2").value = contacto.red2 || "";
+        document.getElementById("red3").value = contacto.red3 || "";
 
     } catch (error) {
-        console.error("Error cargando contacto:", error);
-        alert("Error al cargar datos");
+        console.error("Error al cargar:", error);
+
+        Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            icon: "error",
+            title: "Error al cargar datos",
+            showConfirmButton: false,
+            timer: 3000
+        });
     }
-};
+}
 
-
-// ================= GUARDAR CONTACTO =================
-const guardarContacto = async (e) => {
+// ================= ACTUALIZAR =================
+async function actualizarContacto(e) {
     e.preventDefault();
 
+    const btn = document.getElementById("btnGuardar");
+
+    const payload = {
+        dias: document.getElementById("dias").value,
+        horario: document.getElementById("horario").value,
+        telefono: document.getElementById("telefono").value,
+        whatsapp: document.getElementById("whatsapp").value,
+        correo: document.getElementById("correo").value,
+        direccion: document.getElementById("direccion").value,
+        red1: document.getElementById("red1").value,
+        red2: document.getElementById("red2").value,
+        red3: document.getElementById("red3").value
+    };
+
     try {
+        btn.textContent = "Actualizando...";
+        btn.disabled = true;
 
-        const datos = {
-            dias: document.getElementById("dias").value,
-            horario: document.getElementById("horario").value,
-            telefono: document.getElementById("telefono").value,
-            whatsapp: document.getElementById("whatsapp").value,
-            correo: document.getElementById("correo").value,
-            direccion: document.getElementById("direccion").value,
-            red1: document.getElementById("red1").value,
-            red2: document.getElementById("red2").value,
-            red3: document.getElementById("red3").value
-        };
-
-        const res = await fetch(urlApi, {
+        const response = await fetch(urlApi, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer " + token
+                // ⚠️ SOLO si usas auth real
+                "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify(datos)
+            body: JSON.stringify(payload)
         });
 
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.message || "Error al guardar");
+        if (response.ok) {
+            Swal.fire({
+                toast: true,
+                position: "bottom-end",
+                icon: "success",
+                title: "Contacto actualizado correctamente",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        } else {
+            Swal.fire({
+                toast: true,
+                position: "bottom-end",
+                icon: "error",
+                title: "No se pudo actualizar",
+                showConfirmButton: false,
+                timer: 3000
+            });
         }
 
-        alert("Datos actualizados correctamente");
-
     } catch (error) {
-        console.error("Error guardando:", error);
-        alert("Error al guardar cambios");
+        console.error("Error:", error);
+
+        Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            icon: "error",
+            title: "Fallo de conexión",
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Guardar Cambios";
     }
-};
-
-
-// ================= EVENTO =================
-document.addEventListener("DOMContentLoaded", cargarContacto);
+}
