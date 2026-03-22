@@ -3,7 +3,7 @@ const urlBaseApi = "https://repositorio-para-vercel-tawny.vercel.app/api/perfil"
 // Obtenemos los datos de la sesión
 const token = localStorage.getItem("token");
 const usuarioId = localStorage.getItem("id");
-
+const nombre = localStorage.getItem("nombre"); 
 window.onload = function() {
     // Si no hay sesión, mostramos alerta y mandamos al login
     if (!token || !usuarioId) {
@@ -13,6 +13,14 @@ window.onload = function() {
         return;
     }
     
+    // NUEVO: Mostrar el nombre del usuario en el menú de navegación
+    if (nombre) {
+        const elementoNombre = document.getElementById("nombre");
+        if (elementoNombre) {
+            elementoNombre.textContent = "Usuario: " + nombre;
+        }
+    }
+
     // Cargar los datos al abrir la página
     cargarDatosPerfil();
 
@@ -56,7 +64,7 @@ async function guardarPerfil(evento) {
 
     const btnGuardar = document.getElementById('btn-guardar');
     
-    // Sacamos los datos de las cajitas
+    // Sacamos los datos
     const correo = document.getElementById('correo_perfil').value;
     const telefono = document.getElementById('telefono_perfil').value;
     const contrasena = document.getElementById('contrasena_perfil').value;
@@ -104,7 +112,6 @@ async function guardarPerfil(evento) {
 function togglePassword() {
     const input = document.getElementById("contrasena_perfil");
 
-    // Cambiamos el tipo de input entre 'contraseña' y 'text'
     if (input.type === "password") {
         input.type = "text";
     } else {
