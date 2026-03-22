@@ -329,20 +329,20 @@ const actualizarEmpleado = async () => {
 const borrarEmpleado = async (id) => {
 
     if(!id){
-            Swal.fire({ 
+        Swal.fire({ 
             toast: true, 
-            position: "bottom-end",         
+            position: "bottom-end",        
             icon: "error", 
             title: "Error",
             text: "No se encontró el id del empleado",
             showConfirmButton: false, 
             timer: 4000 
-            });
+        });
         return;
     }
 
-    //confirmación antes de borrar
-        const result = await Swal.fire({
+    // confirmación antes de borrar
+    const result = await Swal.fire({ 
         title: "¿Eliminar empleado?",
         text: "Esta acción no se puede deshacer",
         icon: 'warning',
@@ -353,12 +353,11 @@ const borrarEmpleado = async (id) => {
         cancelButtonText: 'Cancelar'
     });
 
-    if(!confirmacion.isConfirmed){
+    if(!result.isConfirmed){ 
         return;
     }
 
     try{
-
         const response = await fetch(urlApi + "/" + id, {
             method: "DELETE",
             headers:{
@@ -366,13 +365,13 @@ const borrarEmpleado = async (id) => {
             }
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if(!response.ok){
             Swal.fire({
                 icon: 'error',
                 title: 'Error al borrar',
-                text: error.message
+                text: data.message || data.error || "No se pudo eliminar el empleado" 
             });
             return;
         }
@@ -382,26 +381,27 @@ const borrarEmpleado = async (id) => {
             title: "Empleado eliminado",
             text: "El empleado fue eliminado correctamente"
         }).then(()=>{
-            //redirigir al listado
+            // redirigir al listado
             window.location.href = "listadoUsuarios.html";
+            
         });
 
     }catch(error){
-            Swal.fire({ 
+        Swal.fire({ 
             toast: true, 
-            position: "bottom-end",         
+            position: "bottom-end",        
             icon: "error", 
             title: "Error del servidor",
             text: "No se pudo eliminar el empleado",
             showConfirmButton: false, 
             timer: 4000 
-            });
+        });
 
         console.error(error);
     }
-
 };
 
+window.borrarEmpleado = borrarEmpleado;
 
 
 
