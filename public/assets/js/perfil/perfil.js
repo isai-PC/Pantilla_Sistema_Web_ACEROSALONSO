@@ -13,7 +13,7 @@ window.onload = function() {
         return;
     }
     
-    // NUEVO: Mostrar el nombre del usuario en el menú de navegación
+    // Mostrar el nombre del usuario en el menú de navegación
     if (nombre) {
         const elementoNombre = document.getElementById("nombre");
         if (elementoNombre) {
