@@ -1,7 +1,25 @@
 /* ======================================================
+SEGURIDAD Y SESIÓN (TOKEN JWT)
+====================================================== */
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
+
+const nombre = localStorage.getItem("nombre");
+const token = localStorage.getItem("token");
+
+if (nombre) {
+    const elementoNombre = document.getElementById("nombre"); 
+    if (elementoNombre) {
+        elementoNombre.textContent = "Usuario: " + nombre;
+    }
+}
+
+/* ======================================================
 API BASE
 ====================================================== */
 const API_URL = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+const CATEGORIAS_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 
 /* ======================================================
 OBTENER PARAMETROS DE URL
@@ -11,19 +29,22 @@ const idProducto = params.get("id");
 const modoEditar = idProducto !== null;
 
 /* ======================================================
-ELEMENTOS HTML
+ELEMENTOS HTML 
 ====================================================== */
 const titulo = document.getElementById("tituloFormulario");
 const descripcion = document.getElementById("descripcionFormulario");
 const form = document.getElementById("formCrearProducto");
 const btnGuardarFinal = document.getElementById("btnGuardarFinal");
 const tbody = document.querySelector("tbody");
-const tituloTotal = document.querySelector("h2.text-xl"); // Total de productos
+const tituloTotal = document.querySelector("h2.text-xl");
 const inpuntform = document.getElementById("inputfile");
 const image = document.getElementById("imagen");
+const categoriaSelect = document.getElementById("categoria_select");
+const idCategoriaHidden = document.getElementById("id_categoria_hidden");
+const filtroCategoria = document.getElementById("filtroCategoria");
 
 /* ======================================================
-VARIABLES DE PAGINACIÓN (igual que tu lógica que ya funciona)
+VARIABLES DE PAGINACIÓN
 ====================================================== */
 let hayresultados = true;
 let paginaActual = 0;
@@ -57,14 +78,52 @@ if (titulo && descripcion) {
 }
 
 /* ======================================================
-FUNCIONES API
+CARGAR CATEGORÍAS EN LOS SELECTS
+====================================================== */
+async function cargarCategorias() {
+    try {
+        const res = await fetch(CATEGORIAS_URL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const categorias = await res.json(); 
+
+        if (categoriaSelect) {
+            categoriaSelect.innerHTML = '<option value="">-- Seleccione una categoría --</option>';
+            categorias.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id_categoria;
+                option.textContent = cat.nombre_categoria;
+                categoriaSelect.appendChild(option);
+            });
+        }
+
+        if (filtroCategoria) {
+            filtroCategoria.innerHTML = '<option value="">-- Ver Todos --</option>';
+            categorias.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id_categoria;
+                option.textContent = cat.nombre_categoria;
+                filtroCategoria.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error("Error al cargar categorías:", error);
+    }
+}
+
+/* ======================================================
+FUNCIONES API 
 ====================================================== */
 const crearProducto = async (payload) => {
     return await fetch(API_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token 
         },
         body: JSON.stringify(payload)
     });
@@ -75,7 +134,8 @@ const actualizarProducto = async (id, payload) => {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token 
         },
         body: JSON.stringify(payload)
     });
@@ -95,32 +155,45 @@ const eliminarProducto = async (id) => {
 
     if (result.isConfirmed) {
         try {
-            const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            const response = await fetch(`${API_URL}/${id}`, { 
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token 
+                }
+            });
+            
+            const data = await response.json().catch(() => ({})); 
+
             if (response.ok) {
                 Swal.fire('¡Borrado!', 'El producto ha sido eliminado.', 'success');
-                cargarProductos(0);  // ← Recargamos la página actual (no toda la lista)
+                cargarProductos(paginaActual);
             } else {
-                throw new Error("No se pudo eliminar el producto");
+                const mensajeError = data.error || data.message || "No se pudo eliminar el producto en la base de datos";
+                throw new Error(mensajeError);
             }
         } catch (error) {
             console.error("Error eliminando producto:", error);
-            Swal.fire('Error', 'No se pudo conectar con el servidor para eliminar.', 'error');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al borrar',
+                text: error.message
+            });
         }
     }
 };
 
 /* ======================================================
-CARGAR PRODUCTOS PAGINADOS (adaptado de tu lógica que ya funciona)
+CARGAR PRODUCTOS PAGINADOS
 ====================================================== */
 const cargarProductos = (pagina) => {
     let paginaConsulta = paginaActual;
 
-    // Avanzar
     if (pagina === 1) {
         paginaConsulta = paginaActual + 1;
     }
 
-    // Retroceder
     if (pagina === 0 && paginaActual > 0) {
         paginaConsulta = paginaActual - 1;
     }
@@ -131,7 +204,7 @@ const cargarProductos = (pagina) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // Authorization: "Bearer " + token,   // descomenta si necesitas token
+                "Authorization": "Bearer " + token 
             },
         }
     )
@@ -142,30 +215,23 @@ const cargarProductos = (pagina) => {
     .then((data) => {
         const productos = data.data || [];
 
-        // Si intentamos avanzar pero no hay resultados → no cambiamos página
         if (pagina === 1 && productos.length === 0) {
             hayresultados = false;
             actualizarBotones();
             return;
         }
 
-        // Actualizamos página
         paginaActual = paginaConsulta;
         hayresultados = productos.length === resultadosPorPagina;
 
-        // Actualizar números de página visibles
         if (pagina1) pagina1.textContent = paginaActual + 1;
         if (pagina2) pagina2.textContent = paginaActual + 2;
 
-        // Actualizar total si la API lo envía (opcional pero útil)
         if (data.total !== undefined && tituloTotal) {
             tituloTotal.textContent = `Listado de Productos (Total: ${data.total})`;
         }
 
-        // Mostrar los productos
         mostrarProductos(productos);
-
-        // Actualizar estado de botones
         actualizarBotones();
     })
     .catch((error) => {
@@ -200,7 +266,7 @@ const mostrarProductos = (productos) => {
                 <img src="${imagenSrc}" alt="${p.nombre_producto}" class="w-12 h-12 object-cover rounded shadow-sm border border-slate-200">
             </td>
             <td class="py-3 px-4 font-semibold text-slate-800">${p.nombre_producto}</td>
-            <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Cat: ' + p.id_categoria}</td>
+            <td class="py-3 px-4 text-slate-600">${p.nombre_categoria || 'Categoría desconocida'}</td>
             <td class="py-3 px-4 text-center">
                 <a href="../../../pages/VistaPrivada/Productos/FormularioActualizar.html?id=${id}" class="inline-flex mr-2">
                     <button type="button" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
@@ -217,7 +283,7 @@ const mostrarProductos = (productos) => {
 };
 
 /* ======================================================
-ACTUALIZAR ESTADO VISUAL DE LOS BOTONES
+ACTUALIZAR ESTADO DE LOS BOTONES
 ====================================================== */
 const actualizarBotones = () => {
     if (btnAnterior) {
@@ -229,47 +295,55 @@ const actualizarBotones = () => {
 };
 
 /* ======================================================
-CARGAR PRODUCTO POR ID (PARA EDITAR) - sin cambios
+CARGAR PRODUCTO POR ID (PARA EDITAR)
 ====================================================== */
 const cargarProducto = async () => {
     try {
-        let response = await fetch(`${API_URL}/${idProducto}`);
-        let p = null;
-
-        if (response.ok) {
-            const data = await response.json();
-            p = data.data || data;
-        } else {
-            console.warn("La API no soporta búsqueda por ID. Aplicando Plan B...");
-            const resLista = await fetch(API_URL);
-            const listaData = await resLista.json();
-            const productos = listaData.data || listaData;
-            p = productos.find(item => (item.id_producto || item.id).toString() === idProducto.toString());
-        }
-
-        if (p && form) {
-            console.log("Producto encontrado para editar:", p);
-
-            if (document.getElementById('nombre_producto')) document.getElementById('nombre_producto').value = p.nombre_producto || "";
-            if (document.getElementById('id_categoria')) document.getElementById('id_categoria').value = p.id_categoria || "";
-            if (document.getElementById('precio')) document.getElementById('precio').value = p.precio || "";
-            if (document.getElementById('unidad_medida')) document.getElementById('unidad_medida').value = p.unidad_medida || "";
-            if (document.getElementById('calibre')) document.getElementById('calibre').value = p.calibre || "";
-            if (document.getElementById('metros')) document.getElementById('metros').value = p.metros || "";
-            if (document.getElementById('kg')) document.getElementById('kg').value = p.kg || "";
-            if (document.getElementById('cm')) document.getElementById('cm').value = p.cm || "";
-            if (document.getElementById('ton')) document.getElementById('ton').value = p.ton || "";
-            if (document.getElementById('ced')) document.getElementById('ced').value = p.ced || "";
-            if (document.getElementById('color')) document.getElementById('color').value = p.color || "";
-
-            if (p.ImagenesProducto && image) {
-                image.src = p.ImagenesProducto;
+        const response = await fetch(`${API_URL}/${idProducto}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token 
             }
-        } else {
-            console.error("No se encontró el producto con ID:", idProducto);
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}`);
         }
+
+        const data = await response.json();
+        const p = data.data || data;
+
+        if (!p) throw new Error("Producto no encontrado");
+
+        document.getElementById('nombre_producto').value = p.nombre_producto || "";
+        document.getElementById('precio').value = p.precio || "";
+        document.getElementById('unidad_medida').value = p.unidad_medida || "";
+        document.getElementById('calibre').value = p.calibre || "";
+        document.getElementById('metros').value = p.metros || "";
+        document.getElementById('kg').value = p.kg || "";
+        document.getElementById('cm').value = p.cm || "";
+        document.getElementById('ton').value = p.ton || "";
+        document.getElementById('ced').value = p.ced || "";
+        document.getElementById('color').value = p.color || "";
+
+        if (p.ImagenesProducto && image) {
+            image.src = p.ImagenesProducto;
+        }
+
+        if (categoriaSelect && p.id_categoria) {
+            categoriaSelect.value = p.id_categoria;
+            if (idCategoriaHidden) idCategoriaHidden.value = p.id_categoria;
+        }
+
     } catch (error) {
-        console.error("Error crítico en cargarProducto:", error);
+        console.error("Error al cargar producto:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error al cargar",
+            text: error.message || "No se pudo cargar el producto. Verifica el ID o intenta de nuevo.",
+            confirmButtonText: "OK"
+        });
     }
 };
 
@@ -281,7 +355,12 @@ const previsualizar = () => {
     const foto = inpuntform.files[0];
     if (!foto) return;
     if (!foto.type.startsWith("image/")) {
-        Swal.fire('Error', 'Seleccione un formato de imagen válido', 'error');
+        Swal.fire({
+            icon: "warning",
+            title: "Formato inválido",
+            text: "Seleccione un formato de imagen válido (JPG, PNG, WEBP)",
+            confirmButtonText: "Entendido"
+        });
         inpuntform.value = "";
         return;
     }
@@ -299,14 +378,27 @@ const resetFormulario = () => {
 };
 
 /* ======================================================
-SUBMIT FORMULARIO
+SUBMIT FORMULARIO (NUEVO ESTILO .onsubmit)
 ====================================================== */
 if (form) {
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
+    form.onsubmit = async function (e) {
+        e.preventDefault(); // Evitamos que la página se recargue
+
         btnGuardarFinal.disabled = true;
         let urlImagenFinal = "https://via.placeholder.com/150";
         const foto = inpuntform.files[0];
+
+        if (!idCategoriaHidden.value) {
+            Swal.fire({
+                icon: "warning",
+                title: "Campos requeridos",
+                text: "Debes seleccionar una categoría antes de continuar",
+                confirmButtonText: "Entendido"
+            });
+            btnGuardarFinal.disabled = false;
+            btnGuardarFinal.textContent = modoEditar ? "Actualizar Producto" : "Guardar";
+            return;
+        }
 
         if (foto) {
             btnGuardarFinal.textContent = "Subiendo imagen...";
@@ -324,7 +416,7 @@ if (form) {
             } catch (error) {
                 Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo subir la imagen", showConfirmButton: false, timer: 4000 });
                 btnGuardarFinal.disabled = false;
-                btnGuardarFinal.textContent = "Guardar";
+                btnGuardarFinal.textContent = modoEditar ? "Actualizar Producto" : "Guardar";
                 return;
             }
         } else if (modoEditar && image && image.src !== "") {
@@ -332,7 +424,7 @@ if (form) {
         }
 
         const payload = {
-            id_categoria: parseInt(document.getElementById('id_categoria').value) || 1,
+            id_categoria: parseInt(idCategoriaHidden.value) || 0,
             nombre_producto: document.getElementById('nombre_producto').value,
             ImagenesProducto: urlImagenFinal,
             precio: parseFloat(document.getElementById('precio').value) || 0,
@@ -358,35 +450,113 @@ if (form) {
             const mensajeExito = modoEditar ? "Producto actualizado correctamente" : "Producto creado correctamente";
 
             if (response.ok) {
-                Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: mensajeExito, showConfirmButton: false, timer: 3000 });
+                Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "success", 
+                    title: mensajeExito, 
+                    showConfirmButton: false, 
+                    timer: 3000 
+                });
                 if (!modoEditar) {
                     form.reset();
                     resetFormulario();
+                    if (idCategoriaHidden) idCategoriaHidden.value = "";
                 }
             } else {
-                Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo guardar el producto", showConfirmButton: false, timer: 4000 });
+                Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "No se pudo guardar el producto", 
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
             }
         } catch (error) {
-            Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Fallo de conexión", showConfirmButton: false, timer: 4000 });
+            Swal.fire({ 
+                toast: true, 
+                position: "bottom-end", 
+                icon: "error", 
+                title: "Fallo de conexión", 
+                showConfirmButton: false, 
+                timer: 4000 
+            });
         } finally {
             btnGuardarFinal.disabled = false;
-            btnGuardarFinal.textContent = "Guardar";
+            btnGuardarFinal.textContent = modoEditar ? "Actualizar Producto" : "Guardar";
         }
-    });
+    };
 }
 
-
 /* ======================================================
-INICIALIZACIÓN AL CARGAR LA PÁGINA
+INICIALIZACIÓN AL CARGAR LA PÁGINA (NUEVO ESTILO window.onload)
 ====================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-    // Si hay tabla → estamos en el listado → cargamos paginado
+window.onload = async function() { 
+
     if (tbody) {
-        cargarProductos(0);  // primera página
+        cargarProductos(0);
     }
 
-    // Si estamos editando → cargamos el producto
+    await cargarCategorias();
+
     if (modoEditar) {
-        cargarProducto();
+        await cargarProducto();
     }
-});
+
+    // Asignamos los eventos "onchange" en lugar de "addEventListener"
+    if (categoriaSelect && idCategoriaHidden) {
+        categoriaSelect.onchange = function() {
+            idCategoriaHidden.value = categoriaSelect.value;
+        };
+    }
+
+    if (filtroCategoria) {
+        filtroCategoria.onchange = async function(e) {
+            const idCategoria = e.target.value;
+
+            if (!idCategoria) {
+                cargarProductos(0); 
+                return;
+            }
+
+            try {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-500">Cargando productos...</td></tr>`;
+                
+                const response = await fetch(`${API_URL}/categoria/${idCategoria}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token 
+                    }
+                });
+                
+                if (!response.ok) throw new Error("Error al filtrar");
+
+                const data = await response.json();
+                const productosFiltrados = data.productos || []; 
+
+                mostrarProductos(productosFiltrados);
+
+                if (tituloTotal) {
+                    tituloTotal.textContent = `Listado de Productos (Total: ${data.total_productos})`;
+                }
+
+                if (btnAnterior) btnAnterior.disabled = true;
+                if (btnSiguiente) btnSiguiente.disabled = true;
+
+            } catch (error) {
+                console.error("Error filtrando:", error);
+                Swal.fire({
+                    toast: true,
+                    position: "bottom-end",
+                    icon: "error",
+                    title: "No se pudo cargar el filtro",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-red-600">Error al filtrar.</td></tr>`;
+            }
+        };
+    }
+};

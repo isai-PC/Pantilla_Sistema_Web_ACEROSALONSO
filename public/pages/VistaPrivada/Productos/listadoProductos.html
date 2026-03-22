@@ -33,10 +33,11 @@
       <div id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
         <ul class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
           <li class="w-full md:w-auto">
-            <a href="paginaPrincipal.html"
-              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-              Usuario: Carlos
-            </a>
+            <a id="nombre"
+                href="paginaPrincipal.html"
+                class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+                Usuario: Carlos
+              </a>
           </li>
 
           <li class="w-full md:w-auto">
@@ -188,11 +189,8 @@
       class="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-slate-200">
       <label for="filtro" class="font-semibold text-slate-700">Filtrar por Categoría:</label>
       <form action="" method="GET" class="m-0 w-full sm:w-auto">
-        <select name="filtro_categoria" id="filtro"
-          class="w-full sm:w-auto border border-slate-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-          <option value="0">-- Ver Todos --</option>
-          <option value="1">Láminas</option>
-          <option value="2">Tubos</option>
+        <select id="filtroCategoria" class="w-full px-4 py-2 border border-slate-300 rounded-md...">
+          <option value="">-- Ver Todos --</option>
         </select>
       </form>
     </div>
@@ -236,32 +234,32 @@
       </table>
     </div>
 
-<div class="flex justify-center items-center gap-2 mt-8">
-    <button id="btnAnterior" onclick="cargarProductos(0)"
+    <div class="flex justify-center items-center gap-2 mt-8">
+      <button id="btnAnterior" onclick="cargarProductos(0)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         « Anterior
-    </button>
+      </button>
 
-    <button id="pagina1" onclick="cargarProductos(0)"
+      <button id="pagina1" onclick="cargarProductos(0)"
         class="px-3 py-1.5 border border-slate-900 rounded bg-slate-900 text-white font-bold shadow-sm">
         1
-    </button>
+      </button>
 
-    <button id="pagina2" onclick="cargarProductos(1)"
+      <button id="pagina2" onclick="cargarProductos(1)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         2
-    </button>
+      </button>
 
-    <button id="btnSiguiente" onclick="cargarProductos(1)"
+      <button id="btnSiguiente" onclick="cargarProductos(1)"
         class="px-3 py-1.5 border border-slate-300 rounded bg-white text-slate-700 hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         Siguiente »
-    </button>
-</div>
+      </button>
+    </div>
 
   </main>
 
   <br>
-  
+
   <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
     <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
   </footer>
