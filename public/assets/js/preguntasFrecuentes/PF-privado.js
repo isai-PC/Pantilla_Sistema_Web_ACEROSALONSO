@@ -1,10 +1,18 @@
 const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/preguntas";
 const token = localStorage.getItem("token");
+const nombre = localStorage.getItem("nombre"); 
 
 window.onload = function() {
     // Llamamos a la función en cuanto carga la página
     cargarPreguntas();
 };
+
+    if (nombre) {
+        const elementoNombre = document.getElementById("nombre");
+        if (elementoNombre) {
+            elementoNombre.textContent = "Usuario: " + nombre;
+        }
+    }
 
 // --- OBTENER Y MOSTRAR PREGUNTAS ---
 async function cargarPreguntas() {
