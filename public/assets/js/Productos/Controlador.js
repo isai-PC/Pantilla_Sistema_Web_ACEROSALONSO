@@ -371,14 +371,7 @@ const previsualizar = () => {
 };
 
 /* ======================================================
-RESET FORMULARIO
-====================================================== */
-const resetFormulario = () => {
-    if (image) image.src = "https://via.placeholder.com/150";
-};
-
-/* ======================================================
-SUBMIT FORMULARIO (NUEVO ESTILO .onsubmit)
+SUBMIT FORMULARIO 
 ====================================================== */
 if (form) {
     form.onsubmit = async function (e) {
