@@ -1,176 +1,143 @@
+// ================================================
+// CONFIGURACIÓN
+// ================================================
+const API_URL_PRODUCTOS = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+const API_URL_CATEGORIAS = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 
-(function () {
-    const API_URL = "https://repositorio-para-vercel-tawny.vercel.app/api/productos";
+// ================================================
+// FUNCIONES PARA PRODUCTOS
+// ================================================
+const mostrarCargandoProductos = () => {
+    const ul = document.querySelector("#SumenuProductos ul#listaP");
+    if (ul) ul.innerHTML = '<li class="px-5 py-3 text-gray-400 italic">Cargando productos...</li>';
+};
 
-    const menuLi = document.getElementById("SumenuProductos");
+const mostrarErrorProductos = (msg = "Error al cargar productos") => {
+    const ul = document.querySelector("#SumenuProductos ul#listaP");
+    if (ul) ul.innerHTML = `<li class="px-5 py-3 text-red-400">${msg}</li>`;
+};
 
-    if (!menuLi) {
-        console.warn("No se encontró #SumenuProductos en el DOM");
+const renderListaProductos = (productos) => {
+    const ul = document.querySelector("#SumenuProductos ul#listaP");
+    if (!ul) return;
+
+    if (!productos || productos.length === 0) {
+        ul.innerHTML = '<li class="px-5 py-3 text-gray-400">No hay productos disponibles</li>';
         return;
     }
 
-    const ul = menuLi.querySelector("ul#listaP");
+    ul.innerHTML = '';
+    const fragment = document.createDocumentFragment();
 
-    if (!ul) {
-        console.warn("No se encontró <ul id='listaP'> dentro de SumenuProductos");
-        return;
-    }
+    productos.forEach(producto => {
+        const li = document.createElement('li');
+        li.className = 'w-full block';
 
-    const mostrarCargando = () => {
-        ul.innerHTML = '<li class="px-5 py-3 text-gray-400 italic">Cargando productos...</li>';
-    };
+        const a = document.createElement('a');
+        const pagina = window.location.pathname;
 
-    const mostrarError = (msg = "Error al cargar productos") => {
-        ul.innerHTML = `<li class="px-5 py-3 text-red-400">${msg}</li>`;
-    };
-
-    const renderListaProductos = (productos) => {
-        if (!productos || productos.length === 0) {
-            ul.innerHTML = '<li class="px-5 py-3 text-gray-400">No hay productos disponibles</li>';
-            return;
+        if (pagina.endsWith("index.html")) {
+            a.href = `pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;
+        } else {
+            a.href = `../VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;
         }
-        ul.innerHTML = '';
-        const fragment = document.createDocumentFragment();
 
-        productos.forEach(producto => {
-            const li = document.createElement('li');
-            li.className = 'w-full block';
+        a.className = 'block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 hover:pl-6 transition-all duration-200';
+        a.textContent = producto.nombre_producto || '(Sin nombre)';
 
-            const a = document.createElement('a');
-           const pagina = window.location.pathname;
-
-if (pagina.endsWith("index.html")) {
-  
-    a.href = `pages/VistaPublica/VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;
-} 
-else {
-      a.href = `../VistaDetalleProducto/VistaVieew.html?id=${producto.id_producto}`;
-}
-            a.className = 'block px-5 py-3 border-b border-white/10 text-white hover:bg-orange-400 hover:pl-6 transition-all duration-200';
-            a.textContent = producto.nombre_producto || '(Sin nombre)';
-
-            li.appendChild(a);
-            fragment.appendChild(li);
-        });
-
-        ul.appendChild(fragment);
-    };
-
-    const cargarProductos = async () => {
-        mostrarCargando();
-
-        try {
-            const res = await fetch(API_URL);
-
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
-
-            const result = await res.json();
-
-            const productos = result.data || [];
-
-            renderListaProductos(productos);
-
-        } catch (err) {
-            console.error("Error cargando menú productos:", err);
-            mostrarError();
-        }
-    };
-
-    // Ejecutar cuando el DOM esté listo
-    document.addEventListener("DOMContentLoaded", cargarProductos);
-
-})();
-
-/*
-
-document.addEventListener("DOMContentLoaded", () => {
-    const carouselElement = document.getElementById('carousel');
-
-    // 1. Buscamos los items dinámicamente usando el atributo que ya tienen
-    const itemElements = carouselElement.querySelectorAll('[data-carousel-item]');
-    const items = Array.from(itemElements).map((el, index) => {
-        return {
-            position: index,
-            el: el
-        };
+        li.appendChild(a);
+        fragment.appendChild(li);
     });
 
-    // 2. Buscamos los indicadores (los puntitos) dinámicamente
-    const indicatorElements = carouselElement.querySelectorAll('[data-carousel-slide-to]');
-    const indicators = Array.from(indicatorElements).map((el, index) => {
-        return {
-            position: index,
-            el: el
-        };
-    });
+    ul.appendChild(fragment);
+};
 
-    // Opciones del carrusel
-    const options = {
-        defaultPosition: 0, // Posición inicial
-        interval: 5000, // 5 segundos
-        indicators: { // Configuración de los indicadores
-            activeClasses: 'bg-white dark:bg-gray-800',
-            inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
-            items: indicators // Pasamos los indicadores encontrados
-        }
-    };
+const cargarProductosEnMenu = async () => {
+    mostrarCargandoProductos();
 
-    if (typeof Carousel !== 'undefined') {
-        const carousel = new Carousel(carouselElement, items, options);
-
-        carousel.cycle();
-
-        /* // 3. Programar los botones buscando por sus atributos data-
-        const prevButton = carouselElement.querySelector('[data-carousel-prev]');
-        const nextButton = carouselElement.querySelector('[data-carousel-next]');
-
-        if (prevButton) {
-            prevButton.addEventListener('click', () => carousel.prev());
-        }
-        if (nextButton) {
-            nextButton.addEventListener('click', () => carousel.next());
-        } 
-    } else {
-        console.error("No se encontró la librería Flowbite.");
-    }
-});
-
-
-
-
-const API_CATEGORIAS = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
-const submenuUl = document.getElementById("submenu-categorias");
-
-const cargarCategoriasEnMenu = async () => {
     try {
-        const res = await fetch(API_CATEGORIAS);
-        if (!res.ok) throw new Error("Error al cargar categorías");
+        const res = await fetch(API_URL_PRODUCTOS);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const categorias = await res.json();
+        const result = await res.json();
+        const productos = result.data || result;   // por si tu API devuelve directo o en .data
 
-        submenuUl.innerHTML = ""; // limpiar
+        renderListaProductos(productos);
 
-        categorias.forEach(cat => {
-            const li = document.createElement("li");
-            li.className = "w-full block";
-
-            li.innerHTML = `
-                <a href="pages/VistaPublica/CatalogoProductosWiew/catalogoProductosxCategoria.html?id=${cat.id_categoria}"
-                   class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">
-                    ${cat.nombre_categoria}
-                </a>
-            `;
-
-            submenuUl.appendChild(li);
-        });
-
-    } catch (error) {
-        console.error("Error cargando categorías en menú:", error);
-        submenuUl.innerHTML = `<li class="px-5 py-3 text-red-400">Error al cargar categorías</li>`;
+    } catch (err) {
+        console.error("Error productos:", err);
+        mostrarErrorProductos();
     }
 };
 
-// Ejecutar al cargar
-document.addEventListener("DOMContentLoaded", cargarCategoriasEnMenu);*/
+// ================================================
+// FUNCIONES PARA CATEGORÍAS
+// ================================================
+const mostrarCargandoCategorias = () => {
+    const ul = document.getElementById("listarC");
+    if (ul) ul.innerHTML = '<li class="px-5 py-3 text-gray-400 italic">Cargando categorías...</li>';
+};
+
+const mostrarErrorCategorias = (msg = "Error al cargar categorías") => {
+    const ul = document.getElementById("listarC");
+    if (ul) ul.innerHTML = `<li class="px-5 py-3 text-red-400">${msg}</li>`;
+};
+
+const renderListaCategorias = (categorias) => {
+    const ul = document.getElementById("listarC");
+    if (!ul) return;
+
+    if (!categorias || categorias.length === 0) {
+        ul.innerHTML = '<li class="px-5 py-3 text-gray-400">No hay categorías disponibles</li>';
+        return;
+    }
+
+    ul.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+
+    categorias.forEach(cat => {
+        const li = document.createElement('li');
+        li.className = 'w-full block';
+
+        const a = document.createElement('a');
+        const pagina = window.location.pathname;
+
+        if (pagina.endsWith("index.html")) {
+            a.href = `pages/VistaPublica/CatalogoProductosWiew/catalogoProductosxCategoria.html?id=${cat.id_categoria}`;
+        } else {
+            a.href = `../CatalogoProductosWiew/catalogoProductosxCategoria.html?id=${cat.id_categoria}`;
+        }
+
+        a.className = 'block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline';
+        a.textContent = cat.nombre_categoria || '(Sin nombre)';
+
+        li.appendChild(a);
+        fragment.appendChild(li);
+    });
+
+    ul.appendChild(fragment);
+};
+
+const cargarCategoriasEnMenu = async () => {
+    mostrarCargandoCategorias();
+
+    try {
+        const res = await fetch(API_URL_CATEGORIAS);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const result = await res.json();
+        const categorias = result.data || result;   // por si viene envuelto
+
+        renderListaCategorias(categorias);
+
+    } catch (err) {
+        console.error("Error categorías:", err);
+        mostrarErrorCategorias();
+    }
+};
+
+// ================================================
+// EJECUCIÓN DIRECTA
+// ================================================
+cargarProductosEnMenu();
+cargarCategoriasEnMenu();
