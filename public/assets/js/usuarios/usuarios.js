@@ -305,7 +305,7 @@ const actualizarEmpleado = async () => {
             });
 
         console.log("Respuesta API:", data);
-        limpiarCampos()
+       
 
     } catch(error){
         Swal.fire({ 
@@ -405,7 +405,6 @@ window.borrarEmpleado = borrarEmpleado;
 
 
 
-
 const crearEmpleado = async () => {
     const nombre = document.getElementById('name').value.trim();
     const apellidoP = document.getElementById('apellidoPaterno').value.trim();
@@ -417,17 +416,15 @@ const crearEmpleado = async () => {
     const tipoUsuario = document.getElementById('comboTipoUsuario').value;
     const contrasena = document.getElementById('contrasena').value.trim();
 
+    // VALIDACIÓN
     if(!nombre || !apellidoP || !apellidoM || !correo || !telefono || !departamento || !puesto || !tipoUsuario || !contrasena){
         
-                    Swal.fire({ 
-            toast: true, 
-            position: "bottom-end",         
-            icon: "warning", 
+        Swal.fire({
+            icon: "warning",
             title: "Campos requeridos",
-            text: "Debes completar todos los campos obligatorios",
-            showConfirmButton: false, 
-            timer: 4000 
-            });
+            text: "Debes completar todos los campos obligatorios"
+        });
+
         return;
     }
 
@@ -458,43 +455,33 @@ const crearEmpleado = async () => {
 
         if(!response.ok){
             Swal.fire({ 
-                toast: true, 
-                position: "bottom-end", 
                 icon: "error", 
-                title: "error", 
-                showConfirmButton: false, 
-                timer: 4000 
-                });
+                title: "Error", 
+                text: "No se pudo crear el empleado"
+            });
             return;
         }
-            Swal.fire({ 
-            toast: true, 
-            position: "bottom-end", 
+
+        // ÉXITO
+        Swal.fire({ 
             icon: "success", 
-            title: "Empleado Creado",
-            text:"El empleado fue creado correctamente", 
-            showConfirmButton: false, 
-            timer: 3000 
-            });
+            title: "Empleado creado",
+            text: "El empleado fue creado correctamente"
+        });
+
         console.log("Respuesta API:", data);
-        limpiarCampos()
+        limpiarCampos();
 
     } catch(error){
-            Swal.fire({ 
-            toast: true, 
-            position: "bottom-end",         
+        Swal.fire({ 
             icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo crear el empleado",
-            showConfirmButton: false, 
-            timer: 4000 
-            });
+            text: "No se pudo crear el empleado"
+        });
 
         console.error(error);
     }
-
 };
-
 
 
 
@@ -506,4 +493,72 @@ const limpiarCampos = () => {
   document.getElementById('correo').value = '';
   document.getElementById('telefono').value = '';
   document.getElementById('contrasena').value = '';
+};
+
+
+
+const buscarEmpleados = async (pagina) => {
+
+    const texto = document.getElementById("busqueda").value.trim();
+
+    if(!texto){
+        return;
+    }
+
+    let paginaConsulta = paginaActual;
+
+    if (pagina === 1) {
+        paginaConsulta = paginaActual + 1;
+    }
+
+    if (pagina === 0 && paginaActual > 0) {
+        paginaConsulta = paginaActual - 1;
+    }
+
+    if (paginaConsulta < 0) return;
+
+    try {
+
+        const response = await fetch(
+            "https://repositorio-para-vercel-tawny.vercel.app/api/incidencias/empleados/buscar" +
+            "?texto=" + encodeURIComponent(texto) +
+            "&limit=" + resultadosPorPagina +
+            "&start=" + (paginaConsulta * resultadosPorPagina),
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        // ✅ YA USAMOS LOS DATOS REALES
+        const usuarios = data.data.map(emp => ({
+            Id_Empleado: emp.Id_Empleado,
+            Nombre: emp.Nombre_Completo,
+            Correo: emp.Correo,
+            Telefono: emp.Telefono,
+            Departamento: emp.Departamento,
+            Puesto: emp.Puesto
+        }));
+
+        if (pagina === 1 && usuarios.length === 0) return;
+
+        paginaActual = paginaConsulta;
+
+        document.getElementById("pagina1").textContent = paginaActual + 1;
+        document.getElementById("pagina2").textContent = paginaActual + 2;
+
+        mostrar(usuarios);
+
+        if (usuarios.length === 0) {
+            paginaActual = 0;
+        }
+
+    } catch (error) {
+        console.error("Error en búsqueda:", error);
+    }
 };
