@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-slate-300 text-neutral-900 font-sans h-full m-0">
+<body class="bg-slate-300 text-neutral-900 font-sans h-full m-0" >
 
     <header class="flex flex-col bg-slate-900 px-4 md:px-8 py-3 text-white sticky top-0 z-50 shadow-md">
         <!-- CONTENEDOR SOLO PARA LOS DOS DIV -->
@@ -16,7 +16,7 @@
             <!-- Div logo -->
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3 md:gap-4">
-                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOUI5QkE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkxvZ288L3RleHQ+Cjwvc3ZnPgo=" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
                     <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
                 </section>
 
@@ -158,7 +158,7 @@
                 Editar información de contacto
             </h1>
         </div>
-        <form class="space-y-8">
+        <form id="form-contacto" class="space-y-8">
             <!-- ================= HORARIO ================= -->
             <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
                 <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
@@ -166,17 +166,17 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Días
-                        </label>
-                        <input type="text" placeholder="Ejemplo: Lunes a Viernes"
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                    Dias de atención
+                </h2>
+                        <input id="dias" type="text" placeholder="Ejemplo: Lunes a Viernes"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Horario
-                        </label>
-                        <input type="text" placeholder="Ejemplo: 8:00 a.m. - 6:00 p.m."
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
+                    Horas de atención
+                </h2>
+                        <input id="horario" type="text" placeholder="Ejemplo: 8:00 a.m. - 6:00 p.m."
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                 </div>
@@ -188,10 +188,11 @@
                     Teléfonos
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div> <label class="block text-sm font-semibold text-slate-700 mb-1">
+                    <div> 
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Teléfono
                         </label>
-                        <input type="text"
+                        <input id="telefono" type="text"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
 
@@ -199,7 +200,7 @@
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
                             WhatsApp
                         </label>
-                        <input type="text"
+                        <input id="whatsapp" type="text"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                 </div>
@@ -215,12 +216,12 @@
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Correo
                         </label>
-                        <input type="email"
+                        <input id="correo" type="email"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                 </div>
             </section>
-            <!-- ================= IRECCION ================= -->
+            <!-- ================= DIRECCION ================= -->
             <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
 
                 <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
@@ -230,7 +231,8 @@
                     <div> <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Dirección completa
                         </label>
-                        <textarea rows="4"
+
+                        <textarea id="direccion" rows="4"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
                     </div>
                 </div>
@@ -245,29 +247,29 @@
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Red social 1
                         </label>
-                        <input type="text" placeholder="Facebook / @empresa"
+                        <input id="red1" type="text" placeholder="Facebook / @empresa"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Red social 2
                         </label>
-                        <input type="text" placeholder="Instagram / @empresa"
+                        <input id="red2" type="text" placeholder="Instagram / @empresa"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
                             Red social 3
-                        </label>
-                        <input type="text" placeholder="TikTok / X / Otra"
+                        </label>    
+                        <input id="red3" type="text" placeholder="TikTok / X / Otra"
                             class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
                     </div>
                 </div>
             </section>
             <!-- ================= BOTONES ================= -->
             <div class="flex gap-4 pt-4">
-                <button type="submit"
+               <button id="btnGuardar" type="submit"
                     class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition shadow">
                     Guardar cambios
                 </button>
@@ -281,6 +283,10 @@
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
 
+    
+    <script src="../../../assets/js/contacto_Publico/contactopriv.js"></script>
+    <script src="../../../assets/js/login/cerrar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

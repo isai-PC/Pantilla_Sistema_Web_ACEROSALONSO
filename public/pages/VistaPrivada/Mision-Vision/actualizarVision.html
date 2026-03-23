@@ -205,20 +205,62 @@
 
 
 <br>
-     <main class="bg-white rounded-lg shadow-md p-6 w-[95%] md:w-[60%] max-w-4xl mx-auto mt-10">
+     <main
+        class="bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition w-[85%] md:w-[90%] max-w-6xl mx-auto mt-10">
+        <div class="mb-8 border-b-2 border-orange-400 pb-4">
+            <h1 class="text-2xl md:text-3xl font-bold">
+                Editar visión
+            </h1>
+        </div>
 
-        <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">Actualizar Visión</h1>
+        <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Descripción</h2>
 
-        <section>
-
-            <label class="block mb-3 font-semibold">Visión de la empresa</label>
-            <textarea class="w-full border rounded-md p-4 min-h-[180px] focus:ring-orange-400 focus:border-orange-400" placeholder="Escribe la visión de la empresa aquí..."></textarea>
-            <div class="text-center mt-6">
-                <button class="w-full bg-orange-500 text-white py-3 rounded-md hover:bg-orange-600 transition font-semibold shadow-md">Actualizar Visión
-            </button>
-            </div>
-
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="vision"></label>
+                            <textarea id="vision" rows="4"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"></textarea>
+                        </div>
+                    </div>
         </section>
+
+        <section class="p-4 bg-slate-50 border border-slate-200 border-dashed rounded-md">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Imagen</h2>
+
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <!--Este es el que contiene los si agregan uno se pondra abajo de los otros-->
+                        <div class="shrink-0">
+                            <p class="text-[11px] text-slate-500 mb-1">Imagen actual:</p>
+                            <img id="previewImg" src="https://via.placeholder.com/150" alt="Preview"
+                                class="w-20 h-20 md:w-24 md:h-24 object-cover rounded shadow-sm border border-slate-200 bg-white">
+                        </div>
+                        <div class="w-full">
+                               <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">URL de la imagen*</label>
+                                <input type="url" id="url" name="url" required 
+                                value="https://goo.gl/maps/x1y2z3a4b5c6d7e8f9g0"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors bg-white">
+                                <p class="text-[11px] text-slate-400 mt-1 italic">Debe ser una URL válida.</p>
+            
+                    </div>
+        </section>
+         <section class="pt-6 border-t border-slate-200">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 hidden">TIPO 7: Botones de
+                        Acción</h2>
+
+                    <div class="flex flex-wrap items-center gap-3"> <!--Este es el que contiene los botones-->
+                        <button id="btnGuardar" type="button"
+                            class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+                            Guardar
+                        </button>
+                        <button type="button"
+                            class="bg-red-500 border border-slate-300 text-white hover:bg-red-600 font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
+                            Cancelar
+                        </button>
+
+                    </div>
+          </section>
+                
 
     </main>
 <br>
@@ -227,5 +269,8 @@
     <footer class="bg-slate-900 text-white py-4 text-center z-20 mt-auto w-full">
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
+    <script src="../../../assets/js/misionVision/misionvpriv.js"></script>
+    <script src="../../../assets/js/login/cerrar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

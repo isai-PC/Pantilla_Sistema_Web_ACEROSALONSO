@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" type="image/png" sizes="16px">
     <title>Actuaizar Producto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -17,7 +18,7 @@
             <!-- Div logo -->
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3 md:gap-4">
-                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
+                    <img src="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
                     <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
                 </section>
 
@@ -35,14 +36,14 @@
                 <ul
                     class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
                     <li class="w-full md:w-auto">
-                        <a href="paginaPrincipal.html"
-                            class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-                            Usuario: Carlos
-                        </a>
-                    </li>
+            <a id="nombre" href="paginaPrincipal.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+              Usuario: Indefinido
+            </a>
+          </li>
 
                     <li class="w-full md:w-auto">
-                        <a href="Login/Login.html"
+                        <a onclick="cerrarSesion()"
                             class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
                             Cerrar Sesión
                         </a>
@@ -222,6 +223,7 @@
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
     <script src="../../../assets/js/Categorias/Categorias_controllers.js"></script>
+    <script src="../../../assets/js/login/cerrar.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,17 @@
 // ==================== Categorias_controllers.js - VERSIÓN CORREGIDA ====================
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
 
+const nombre = localStorage.getItem("nombre");
+const token = localStorage.getItem("token");
+
+if (nombre) {
+    const elementoNombre = document.getElementById("nombre"); 
+    if (elementoNombre) {
+        elementoNombre.textContent = "Usuario: " + nombre;
+    }
+}
 const API_URL = "https://apis-propias-a-vercel-jtww.vercel.app/api/categorias";
 const TOKEN_KEY = "token";
 

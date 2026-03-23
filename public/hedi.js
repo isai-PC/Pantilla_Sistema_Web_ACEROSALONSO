@@ -46,6 +46,7 @@ const mostrarDatos = () => {
     `Total de faltas registradas hasta ahora: ${faltasActual}`;
 };
 
+
 const calcularP1 = () => {
   const fechaInicial = new Date('2026/01/31');
 

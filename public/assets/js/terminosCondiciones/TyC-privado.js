@@ -1,7 +1,26 @@
+// ======================================================
+// SEGURIDAD Y SESIÓN 
+// ======================================================
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
+
+const nombre = localStorage.getItem("nombre");
+const token = localStorage.getItem("token");
+
+if (nombre) {
+    const elementoNombre = document.getElementById("nombre"); 
+    if (elementoNombre) {
+        elementoNombre.textContent = "Usuario: " + nombre;
+    }
+}
+
+// ======================================================
+// API Y LÓGICA DE TÉRMINOS
+// ======================================================
 const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/terminos";
 
 window.onload = function() {
-    // Cargar los datos al abrir la página
     cargarTerminos();
 
     // Asignar la función de guardar al formulario
@@ -24,7 +43,14 @@ async function cargarTerminos() {
     if (loading) loading.classList.remove('hidden');
 
     try {
-        const respuesta = await fetch(urlApi);
+        const respuesta = await fetch(urlApi, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token 
+            }
+        });
+        
         if (!respuesta.ok) throw new Error(`Error ${respuesta.status}`);
         
         const data = await respuesta.json();
@@ -49,7 +75,8 @@ async function actualizarTyC(payload) {
     return await fetch(urlApi, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token 
         },
         body: JSON.stringify(payload)
     });
@@ -57,7 +84,7 @@ async function actualizarTyC(payload) {
 
 // --- FUNCIÓN PARA GUARDAR CON VALIDACIÓN ---
 function guardarTerminos(evento) {
-    evento.preventDefault(); // Evita recargar la página
+    evento.preventDefault();
 
     const btnGuardarFinal = document.getElementById('btn-actualizar');
     const inputTitulo = document.getElementById('titulo_1col');
@@ -74,10 +101,9 @@ function guardarTerminos(evento) {
             text: "El título y el contenido no pueden estar vacíos",
             confirmButtonText: "Entendido"
         });
-        return false; // No envía
+        return false;
     }
 
-    // === Si pasa la validación, procedemos ===
     const payload = {
         titulo: tituloValor,
         contenido: contenidoValor
@@ -124,5 +150,5 @@ function guardarTerminos(evento) {
             btnGuardarFinal.textContent = "Actualizar Cambios";
         });
 
-    return false; // Evita envío por defecto
+    return false; 
 }

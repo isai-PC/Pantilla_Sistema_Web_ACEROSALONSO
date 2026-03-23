@@ -281,30 +281,42 @@ const actualizarEmpleado = async () => {
         const data = await response.json();
 
         if(!response.ok){
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
-            });
+            Swal.fire({ 
+                toast: true, 
+                position: "bottom-end", 
+                icon: "error", 
+                title: "error", 
+                showConfirmButton: false, 
+                timer: 4000 
+                });
             return;
+            
+            
         }
 
-        Swal.fire({
-            icon: "success",
+            Swal.fire({ 
+            toast: true, 
+            position: "bottom-end", 
+            icon: "success", 
             title: "Empleado actualizado",
-            text: "El empleado fue actualizado correctamente"
-        });
+            text:"El empleado fue actualizado correctamente", 
+            showConfirmButton: false, 
+            timer: 3000 
+            });
 
         console.log("Respuesta API:", data);
-        limpiarCampos()
+       
 
     } catch(error){
-
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",         
+            icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo actualizar el empleado"
-        });
+            text: "No se pudo actualizar el empleado",
+            showConfirmButton: false, 
+            timer: 4000 
+            });
 
         console.error(error);
     }
@@ -317,30 +329,35 @@ const actualizarEmpleado = async () => {
 const borrarEmpleado = async (id) => {
 
     if(!id){
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",        
+            icon: "error", 
             title: "Error",
-            text: "No se encontró el id del empleado"
+            text: "No se encontró el id del empleado",
+            showConfirmButton: false, 
+            timer: 4000 
         });
         return;
     }
 
-    //confirmación antes de borrar
-    const confirmacion = await Swal.fire({
+    // confirmación antes de borrar
+    const result = await Swal.fire({ 
         title: "¿Eliminar empleado?",
         text: "Esta acción no se puede deshacer",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar"
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
     });
 
-    if(!confirmacion.isConfirmed){
+    if(!result.isConfirmed){ 
         return;
     }
 
     try{
-
         const response = await fetch(urlApi + "/" + id, {
             method: "DELETE",
             headers:{
@@ -348,13 +365,13 @@ const borrarEmpleado = async (id) => {
             }
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if(!response.ok){
             Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
+                icon: 'error',
+                title: 'Error al borrar',
+                text: data.message || data.error || "No se pudo eliminar el empleado" 
             });
             return;
         }
@@ -364,24 +381,27 @@ const borrarEmpleado = async (id) => {
             title: "Empleado eliminado",
             text: "El empleado fue eliminado correctamente"
         }).then(()=>{
-            //redirigir al listado
+            // redirigir al listado
             window.location.href = "listadoUsuarios.html";
+            
         });
 
     }catch(error){
-
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            toast: true, 
+            position: "bottom-end",        
+            icon: "error", 
             title: "Error del servidor",
-            text: "No se pudo eliminar el empleado"
+            text: "No se pudo eliminar el empleado",
+            showConfirmButton: false, 
+            timer: 4000 
         });
 
         console.error(error);
     }
-
 };
 
-
+window.borrarEmpleado = borrarEmpleado;
 
 
 
@@ -396,6 +416,7 @@ const crearEmpleado = async () => {
     const tipoUsuario = document.getElementById('comboTipoUsuario').value;
     const contrasena = document.getElementById('contrasena').value.trim();
 
+    // VALIDACIÓN
     if(!nombre || !apellidoP || !apellidoM || !correo || !telefono || !departamento || !puesto || !tipoUsuario || !contrasena){
         
         Swal.fire({
@@ -433,36 +454,34 @@ const crearEmpleado = async () => {
         const data = await response.json();
 
         if(!response.ok){
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message
+            Swal.fire({ 
+                icon: "error", 
+                title: "Error", 
+                text: "No se pudo crear el empleado"
             });
             return;
         }
 
-        Swal.fire({
-            icon: "success",
-            title: "Empleado Creado",
+        // ÉXITO
+        Swal.fire({ 
+            icon: "success", 
+            title: "Empleado creado",
             text: "El empleado fue creado correctamente"
         });
 
         console.log("Respuesta API:", data);
-        limpiarCampos()
+        limpiarCampos();
 
     } catch(error){
-
-        Swal.fire({
-            icon: "error",
+        Swal.fire({ 
+            icon: "error", 
             title: "Error del servidor",
             text: "No se pudo crear el empleado"
         });
 
         console.error(error);
     }
-
 };
-
 
 
 
@@ -474,4 +493,72 @@ const limpiarCampos = () => {
   document.getElementById('correo').value = '';
   document.getElementById('telefono').value = '';
   document.getElementById('contrasena').value = '';
+};
+
+
+
+const buscarEmpleados = async (pagina) => {
+
+    const texto = document.getElementById("busqueda").value.trim();
+
+    if(!texto){
+        return;
+    }
+
+    let paginaConsulta = paginaActual;
+
+    if (pagina === 1) {
+        paginaConsulta = paginaActual + 1;
+    }
+
+    if (pagina === 0 && paginaActual > 0) {
+        paginaConsulta = paginaActual - 1;
+    }
+
+    if (paginaConsulta < 0) return;
+
+    try {
+
+        const response = await fetch(
+            "https://repositorio-para-vercel-tawny.vercel.app/api/incidencias/empleados/buscar" +
+            "?texto=" + encodeURIComponent(texto) +
+            "&limit=" + resultadosPorPagina +
+            "&start=" + (paginaConsulta * resultadosPorPagina),
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        // ✅ YA USAMOS LOS DATOS REALES
+        const usuarios = data.data.map(emp => ({
+            Id_Empleado: emp.Id_Empleado,
+            Nombre: emp.Nombre_Completo,
+            Correo: emp.Correo,
+            Telefono: emp.Telefono,
+            Departamento: emp.Departamento,
+            Puesto: emp.Puesto
+        }));
+
+        if (pagina === 1 && usuarios.length === 0) return;
+
+        paginaActual = paginaConsulta;
+
+        document.getElementById("pagina1").textContent = paginaActual + 1;
+        document.getElementById("pagina2").textContent = paginaActual + 2;
+
+        mostrar(usuarios);
+
+        if (usuarios.length === 0) {
+            paginaActual = 0;
+        }
+
+    } catch (error) {
+        console.error("Error en búsqueda:", error);
+    }
 };

@@ -165,15 +165,15 @@
 
         <div class="mb-8 border-b-2 border-orange-400 pb-4 text-center md:text-left">
             <h1 class="text-2xl md:text-3xl font-bold text-slate-800 uppercase">Editar Ubicación</h1>
-            <p class="text-slate-500 text-sm mt-1">ID de Ubicación: <span class="font-bold text-orange-500">#Suc-Centro</span></p>
-        </div>
+            <p class="text-slate-500 text-sm mt-1">ID de Ubicación: <span class="font-bold text-orange-500"></span></p>
+         </div>
 
         <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6">
             
             <section class="p-5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
                 <label class="block text-sm font-semibold text-slate-700 mb-2" for="descripcion">Descripción / Nombre de Sucursal *</label>
                 <textarea id="descripcion" name="descripcion" required 
-                    class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors min-h-[100px] bg-white">Sucursal Centro - Matriz Aceros Alonso</textarea>
+                    class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors min-h-[100px] bg-white"></textarea>
                 <p class="text-[11px] text-slate-400 mt-1 italic">Solo letras, espacios y signos básicos.</p>
             </section>
 
@@ -185,22 +185,34 @@
                         <img id="img-preview" src="https://via.placeholder.com/150?text=Sucursal+Centro" alt="Preview"
                             class="w-24 h-24 object-cover rounded shadow-sm border border-slate-300 bg-white">
                     </div>
-                    <div class="w-full flex flex-col gap-2">
-                        <label class="block text-sm font-semibold text-slate-700">Subir nueva imagen (Reemplazar)</label>
-                        <input type="file" id="imagen-input" name="imagen" accept="image/*"
-                            class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer bg-white border border-slate-200 p-1 rounded-md">
-                        <p class="text-[11px] text-slate-400 mt-1 italic">Si no seleccionas archivo, se mantendrá la imagen actual.</p>
-                    </div>
+                    
                 </div>
             </section>
 
             <section class="p-5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
-                <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">Enlace de Google Maps (URL) *</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">URL de la imagen*</label>
                 <input type="url" id="url" name="url" required 
                     value="https://goo.gl/maps/x1y2z3a4b5c6d7e8f9g0"
                     class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors bg-white">
                 <p class="text-[11px] text-slate-400 mt-1 italic">Debe ser una URL válida.</p>
             </section>
+            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                     <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">Coordenadas</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <!--Este es el que contiene los si agregan uno se pondra abajo de los otros-->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="input_2col_a">Latitud</label>
+                            <input type="text" id="latitud"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="input_2col_a">Longitud</label>
+                            <input type="text" id="longitud"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
+                        </div>
+
+                    </div>
+                </section>
 
             <section class="pt-4 border-t border-slate-200 flex flex-wrap items-center gap-3">
                     <button type="submit" id="btnGuardarFinal"
@@ -212,14 +224,16 @@
                         Cancelar
                     </button>
             </section>
+
+            
         </form>
     </main>
 
     <footer class="bg-slate-900 text-white py-4 text-center z-20 w-full mt-auto">
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
-
-    <script src="editar_ubicacion.js"></script>
+<script src="../../../assets/js/ubicacion/ubicaciones.js"></script>
+    
 
 </body>
 </html>
