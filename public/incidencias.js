@@ -3,7 +3,7 @@ const API = "https://repositorio-para-vercel-tawny.vercel.app/api/incidencias";
 const API_EMPLEADOS = API + "/empleados";
 const API_DEPARTAMENTOS = API + "/departamentos";
 
-// VARIABLES GLOBALES
+// VARIABLES GLOBALES aparezacan cambios yaaaaaa
 let mesActual = 0;
 let mesAnterior = 0;
 let mesAnterior2 = 0;
