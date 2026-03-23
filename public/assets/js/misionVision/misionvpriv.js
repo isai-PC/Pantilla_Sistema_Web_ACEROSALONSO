@@ -82,37 +82,28 @@ document.getElementById("url").addEventListener("input", function () {
 document.getElementById("btnGuardar").addEventListener("click", async () => {
 
     const inputUrl = document.getElementById("url");
-
     const texto = textarea.value.trim();
     const url = inputUrl.value.trim();
     const id = textarea.dataset.id;
 
-    console.log("ID:", id);
-    console.log("Texto:", texto);
-    console.log("URL:", url);
-
-    if (!id) {
-        alert("ERROR: No hay ID cargado");
-        return;
-    }
-
     try {
+        // los datos actuales
+        const resGet = await fetch(urlApi);
+        const dataActual = await resGet.json();
+
+        // para no quitar los otros
+        dataActual[campoTexto] = texto;
+        dataActual[campoImagen] = url;
+
+        //enviar todo
         const res = await fetch(urlApi, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                [campoTexto]: texto,
-                [campoImagen]: url
-            })
+            body: JSON.stringify(dataActual)
         });
-
-        const respuesta = await res.text();
-
-        console.log("STATUS:", res.status);
-        console.log("RESPUESTA:", respuesta);
 
         if (!res.ok) throw new Error("Error al actualizar");
 
