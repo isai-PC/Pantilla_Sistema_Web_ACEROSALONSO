@@ -115,6 +115,8 @@ const calcularModelo = () => {
 
     const diasMesAnterior = diasMes(anio, mes - 1);
 
+    const diasMesActual = diasMes(anio, mes);
+
     const diasMes1 = diasMes(anio, mes + 1);
     const diasMes2 = diasMes(anio, mes + 2);
     const diasMes3 = diasMes(anio, mes + 3);
@@ -133,12 +135,14 @@ const calcularModelo = () => {
 
     // k ORIGINAL
     const k = Math.log(xK / C) / tK;
+   
 
     //  TIEMPOS CORREGIDOS 
-    const tP1 = tK + diasMes1;
+    const tP1 = diasMesAnterior+diasMesActual + diasMes1;
     const tP2 = tP1 + diasMes2;
     const tP3 = tP2 + diasMes3;
     const tP4 = tP3 + diasMes4;
+    
 
     // MODELO
     const acumuladoP1 = C * Math.exp(k * tP1);
@@ -482,6 +486,9 @@ const obtenerDatos = async (modo) => {
 
     return data
 }
+
+
+
 
 // ================= LISTADOS =================
 const cargarMes = async () => {
