@@ -18,12 +18,12 @@ window.onload = function () {
     }
 };
 
-function mostrarNombreUsuario() {
+
     const elementoNombre = document.getElementById("nombre");
-    if (elementoNombre && nombre) {
+    if (elementoNombre) {
         elementoNombre.textContent = "Usuario: " + nombre;
     }
-}
+
 
 // ====================== LISTADO ======================
 async function cargarUbicaciones() {

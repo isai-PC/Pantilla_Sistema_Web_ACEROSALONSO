@@ -1,3 +1,18 @@
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
+
+const nombre = localStorage.getItem("nombre");
+const token = localStorage.getItem("token");
+
+if (nombre) {
+    const elementoNombre = document.getElementById("nombre"); 
+    if (elementoNombre) {
+        elementoNombre.textContent = "Usuario: " + nombre;
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // Menú Hamburguesa Responsivo
     const btnMenu = document.getElementById('btn-menu');
