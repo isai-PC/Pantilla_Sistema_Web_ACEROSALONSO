@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar información de contacto</title>
     <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="icon" 
+        href="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" type="image/png" sizes="16px">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="bg-slate-300 text-neutral-900 font-sans h-full m-0" >
@@ -16,7 +20,7 @@
             <!-- Div logo -->
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3 md:gap-4">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOUI5QkE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkxvZ288L3RleHQ+Cjwvc3ZnPgo=" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
+                    <img src="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20" />
                     <h2 class="m-0 text-base md:text-2xl font-bold">Aceros Alonso</h2>
                 </section>
 
@@ -33,15 +37,15 @@
             <div id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0 pb-4 md:pb-0">
                 <ul
                     class="flex flex-col md:flex-row gap-2 md:gap-5 m-0 p-0 items-start md:items-center list-none w-full">
-                    <li class="w-full md:w-auto">
-                        <a href="paginaPrincipal.html"
-                            class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
-                            Usuario: Carlos
-                        </a>
-                    </li>
+                      <li class="w-full md:w-auto">
+            <a id="nombre" href="paginaPrincipal.html"
+              class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-orange-400 w-full">
+              Usuario: Indefinido
+            </a>
+          </li>
 
                     <li class="w-full md:w-auto">
-                        <a href="Login/Login.html"
+                        <a onclick="cerrarSesion()"
                             class="block text-white no-underline px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors font-semibold text-sm md:text-base hover:bg-red-600 cursor-pointer w-full">
                             Cerrar Sesión
                         </a>

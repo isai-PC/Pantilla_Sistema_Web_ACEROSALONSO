@@ -1,5 +1,20 @@
-const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/contacto";
+
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
+
+const nombre = localStorage.getItem("nombre");
 const token = localStorage.getItem("token");
+
+if (nombre) {
+    const elementoNombre = document.getElementById("nombre"); 
+    if (elementoNombre) {
+        elementoNombre.textContent = "Usuario: " + nombre;
+    }
+}
+
+const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/contacto";
+
 
 window.onload = function () {
     cargarContacto();
