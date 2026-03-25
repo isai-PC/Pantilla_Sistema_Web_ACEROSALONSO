@@ -453,7 +453,6 @@ if (form) {
                 });
                 if (!modoEditar) {
                     form.reset();
-                    resetFormulario();
                     if (idCategoriaHidden) idCategoriaHidden.value = "";
                 }
             } else {
@@ -467,6 +466,7 @@ if (form) {
                 });
             }
         } catch (error) {
+            console.error("EL ERROR REAL AL GUARDAR ES:", error);
             Swal.fire({ 
                 toast: true, 
                 position: "bottom-end", 
