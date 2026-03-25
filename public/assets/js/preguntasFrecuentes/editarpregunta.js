@@ -1,17 +1,31 @@
+
+if (!localStorage.getItem("token")) {
+    window.location.href = "../../../index.html"; 
+}
+
 const urlApi = "https://repo-copia-vercel.vercel.app/api/preguntas";
 const token = localStorage.getItem("token");
 const nombre = localStorage.getItem("nombre"); 
 
-// Extraer el ID de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const idPregunta = urlParams.get('id');
 
 window.onload = function() {
+    //  Mostrar nombre de usuario
+    if (nombre) {
+        const elementoNombre = document.getElementById("nombre");
+        if (elementoNombre) {
+            elementoNombre.textContent = "Usuario: " + nombre;
+        }
+    }
+
+    // Validar que exista el ID para editar
     if (!idPregunta) {
         window.location.replace("listadoPreguntasFrecuentes.html");
         return;
     }
 
+    // Cargar los datos y preparar formulario
     cargarDatosPregunta();
 
     const form = document.getElementById('form-editar');
@@ -20,28 +34,17 @@ window.onload = function() {
     }
 };
 
-    if (nombre) {
-        const elementoNombre = document.getElementById("nombre");
-        if (elementoNombre) {
-            elementoNombre.textContent = "Usuario: " + nombre;
-        }
-    }
-
-
 // --- OBTENER LOS DATOS ACTUALES ---
 async function cargarDatosPregunta() {
     try {
         const respuesta = await fetch(`${urlApi}/${idPregunta}`);
         if (!respuesta.ok) throw new Error("No se pudo obtener la pregunta");
         
-        const pregunta = await respuesta.json();
-
-        document.getElementById('titulo_1col').value = pregunta.pregunta;
-        document.getElementById('desc_1col').value = pregunta.respuesta;
+        const preguntaData = await respuesta.json();
+        document.getElementById('titulo_1col').value = preguntaData.pregunta || preguntaData.Pregunta || "";
+        document.getElementById('desc_1col').value = preguntaData.respuesta || preguntaData.Respuesta || "";
 
     } catch (error) {
-        console.error("Error al cargar:", error);
-        // Usamos SweetAlert2 para el error
         Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Error al cargar datos", showConfirmButton: false, timer: 3000 });
     }
 }
@@ -65,20 +68,17 @@ async function actualizarPregunta(evento) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` 
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            // AQUÍ ESTÁ EL MENSAJE CON SWEETALERT2 (Sin redireccionar)
             Swal.fire({ toast: true, position: "bottom-end", icon: "success", title: "Pregunta actualizada correctamente", showConfirmButton: false, timer: 3000 });
         } else {
-            // MENSAJE DE ERROR CON SWEETALERT2
             Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "No se pudo actualizar", showConfirmButton: false, timer: 3000 });
         }
     } catch (error) {
-        console.error("Error al guardar:", error);
         Swal.fire({ toast: true, position: "bottom-end", icon: "error", title: "Fallo de conexión", showConfirmButton: false, timer: 3000 });
     } finally {
         btnGuardar.disabled = false;
