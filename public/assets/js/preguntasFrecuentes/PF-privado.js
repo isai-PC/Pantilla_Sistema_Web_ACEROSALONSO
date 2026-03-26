@@ -67,6 +67,49 @@ async function cargarPreguntas() {
     }
 }
 
+// --- AGREGAR PREGUNTA ---
+async function agregarPregunta(event) {
+    event.preventDefault(); 
+    const preguntaInput = document.getElementById("input-pregunta").value;
+    const respuestaInput = document.getElementById("input-respuesta").value;
+
+    if (!preguntaInput || !respuestaInput) {
+        Swal.fire({ icon: 'warning', title: 'Campos vacíos', text: 'Por favor llena la pregunta y la respuesta.' });
+        return;
+    }
+
+    const nuevaPregunta = {
+        pregunta: preguntaInput,
+        respuesta: respuestaInput
+    };
+
+    try {
+        const response = await fetch(urlApi, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(nuevaPregunta)
+        });
+
+        if (response.ok) {
+            Swal.fire({
+                icon: "success",
+                title: "Pregunta agregada",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.href = "listadoPreguntasFrecuentes.html"; 
+            });
+        } else {
+            Swal.fire({ icon: "error", title: "Error", text: "No se pudo agregar la pregunta." });
+        }
+    } catch (error) {
+        Swal.fire({ icon: "error", title: "Fallo de conexión", text: "Error de red." });
+    }
+}
+
 // --- BORRAR PREGUNTA ---
 async function borrarPregunta(id) {
     const confirmacion = await Swal.fire({
