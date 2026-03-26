@@ -94,19 +94,35 @@ async function agregarPregunta(event) {
         });
 
         if (response.ok) {
-            Swal.fire({
-                icon: "success",
-                title: "Pregunta agregada",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                window.location.href = "listadoPreguntasFrecuentes.html"; 
-            });
+        Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "success", 
+                    title: "Pregunta Agregada Exitosamente!", 
+                    showConfirmButton: false, 
+                    timer: 3000 
+                });
         } else {
-            Swal.fire({ icon: "error", title: "Error", text: "No se pudo agregar la pregunta." });
+            Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "No se pudo agregar la pregunta.", 
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
+        
         }
     } catch (error) {
-        Swal.fire({ icon: "error", title: "Fallo de conexión", text: "Error de red." });
+        Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "Fallo de conexión", 
+                    text: "Error de red.",
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
     }
 }
 
@@ -127,10 +143,7 @@ async function borrarPregunta(id) {
 
     try {
         const response = await fetch(`${urlApi}/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}` 
-            }
+            method: 'DELETE'
         });
 
         if (response.ok) {
