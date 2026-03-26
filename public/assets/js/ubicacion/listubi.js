@@ -1,7 +1,4 @@
-
-
-
-const urlApi = "https://repo-vercel-m3tb.vercel.app/api/ubi";
+    const urlApi = "https://repo-vercel-m3tb.vercel.app/api/ubi";
 
 let map;
 let controlRuta;
@@ -30,16 +27,40 @@ const cargarUbicaciones = () => {
 
       contenedor.innerHTML = "";
 
+      // Contenedor tipo grid (importante)
+      contenedor.className = ` 
+
+  
+  max-w-5xl mx-auto
+  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+  gap-6 px-4
+`;
+
       data.data.forEach(ubicacion => {
 
         const div = document.createElement("div");
 
-        div.className = "bg-white rounded-lg shadow-md p-5 hover:shadow-xl transition cursor-pointer mb-4";
+        // NUEVO ESTILO UNIFORME
+        div.className = `
+          bg-white rounded-2xl shadow-md overflow-hidden 
+          hover:shadow-xl hover:scale-[1.02] 
+          transition-all duration-300 cursor-pointer
+          flex flex-col
+        `;
 
         div.innerHTML = `
-          <h2 class="text-xl font-bold mb-2">${ubicacion.descripcion}</h2>
-          <img src="${ubicacion.url}" class="w-full max-w-xs rounded mb-3">
-          <p class="text-blue-600 font-semibold">Ruta</p>
+          <img src="${ubicacion.url}" 
+               class="w-full h-48 object-cover">
+
+          <div class="p-4 flex flex-col justify-between flex-grow">
+            
+            <h2 class="text-lg font-bold text-gray-800 mb-2">
+              ${ubicacion.descripcion}
+            </h2>
+
+            <p class="text-blue-600 font-semibold">Ruta</p>
+
+          </div>
         `;
 
         div.addEventListener("click", () => {
