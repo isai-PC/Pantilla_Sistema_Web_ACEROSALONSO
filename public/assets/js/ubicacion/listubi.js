@@ -4,6 +4,7 @@ let map;
 let controlRuta;
 let contenedor;
 
+
 document.addEventListener("DOMContentLoaded", () => {
 
   contenedor = document.getElementById("contenedorUbicaciones");
