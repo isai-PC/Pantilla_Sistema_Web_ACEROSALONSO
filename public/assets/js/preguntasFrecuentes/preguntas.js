@@ -1,3 +1,5 @@
+
+
 const urlApi = "https://repo-vercel-m3tb.vercel.app/api/preguntas";
 //cargar preguntas
 const cargarPreguntas = () => {
