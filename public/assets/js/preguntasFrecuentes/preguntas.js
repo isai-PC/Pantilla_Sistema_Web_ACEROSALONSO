@@ -1,31 +1,59 @@
 const urlApi = "https://repo-vercel-m3tb.vercel.app/api/preguntas";
+//cargar preguntas
 const cargarPreguntas = () => {
 
+  
   fetch(urlApi)
     .then(respuesta => respuesta.json())
     .then(data => {
 
       console.log("Datos recibidos:", data);
 
-      const informacion = data.data[0]; // tomamos la primera pregunta
+      // Validar que sí haya datos
+      if (!data.data || data.data.length === 0) {
+        console.warn("No hay preguntas disponibles");
+        return;
+      }
+
+      const informacion = data.data[0]; // primera pregunta
 
       mostrar(informacion);
 
     })
     .catch(error => {
-      console.error("Error:", error);
+      console.error("Error al cargar preguntas:", error);
+
+      // Mostrar mensaje de error en footer
+      const preguntaFooter = document.getElementById("preguntaFooter");
+      const respuestaFooter = document.getElementById("respuestaFooter");
+
+      if (preguntaFooter && respuestaFooter) {
+        preguntaFooter.textContent = "Error al cargar preguntas";
+        respuestaFooter.textContent = "Intenta más tarde.";
+      }
     });
 
 };
-
+//para mostrar los datos 
 const mostrar = (informacion) => {
 
-  document.getElementById("pregunta").textContent = informacion.pregunta;
-  document.getElementById("respuesta").textContent = informacion.respuesta;
+  const pregunta = document.getElementById("pregunta");
+  const respuesta = document.getElementById("respuesta");
 
-  document.getElementById("preguntaFooter").textContent = informacion.pregunta;
-  document.getElementById("respuestaFooter").textContent = informacion.respuesta;
+  if (pregunta && respuesta) {
+    pregunta.textContent = informacion.pregunta;
+    respuesta.textContent = informacion.respuesta;
+  }
+
+  // para el footer
+  const preguntaFooter = document.getElementById("preguntaFooter");
+  const respuestaFooter = document.getElementById("respuestaFooter");
+
+  if (preguntaFooter && respuestaFooter) {
+    preguntaFooter.textContent = informacion.pregunta;
+    respuestaFooter.textContent = informacion.respuesta;
+  }
 
 };
-
-window.onload = cargarPreguntas;
+//el inicio
+document.addEventListener("DOMContentLoaded", cargarPreguntas);
