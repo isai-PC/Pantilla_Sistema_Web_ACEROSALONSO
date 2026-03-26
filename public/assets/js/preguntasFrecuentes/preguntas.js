@@ -2,6 +2,7 @@ const urlApi = "https://repo-vercel-m3tb.vercel.app/api/preguntas";
 //cargar preguntas
 const cargarPreguntas = () => {
 
+  
   fetch(urlApi)
     .then(respuesta => respuesta.json())
     .then(data => {
