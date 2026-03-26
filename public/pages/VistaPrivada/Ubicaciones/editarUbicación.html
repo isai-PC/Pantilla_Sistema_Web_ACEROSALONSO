@@ -8,6 +8,9 @@
     <link rel="icon" href="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" type="image/png" sizes="16px">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </head>
 
 <body class="flex flex-col min-h-screen bg-slate-300 text-neutral-900 font-sans m-0">
@@ -168,7 +171,7 @@
             <p class="text-slate-500 text-sm mt-1">ID de Ubicación: <span class="font-bold text-orange-500"></span></p>
          </div>
 
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form id="formEditarUbicacion">
             
             <section class="p-5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
                 <label class="block text-sm font-semibold text-slate-700 mb-2" for="descripcion">Descripción / Nombre de Sucursal *</label>
@@ -177,45 +180,31 @@
                 <p class="text-[11px] text-slate-400 mt-1 italic">Solo letras, espacios y signos básicos.</p>
             </section>
 
-            <section class="p-5 bg-slate-50 border border-slate-200 border-dashed rounded-md shadow-sm">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 border-b pb-1">Imagen de la Sucursal</h2>
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <div class="shrink-0 flex flex-col items-center">
-                        <p class="text-[11px] text-slate-500 mb-1 font-bold">ACTUAL:</p>
-                        <img id="img-preview" src="https://via.placeholder.com/150?text=Sucursal+Centro" alt="Preview"
+           <section class="p-5 bg-slate-50 border border-slate-200 border-dashed rounded-md shadow-sm">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Fotografía de la Sucursal</h2>
+                <div class="flex flex-col sm:flex-row items-center gap-6">
+                    <div class="shrink-0">
+                        <img id="img-preview" src="https://via.placeholder.com/150?text=Subir+Imagen" alt="Preview"
                             class="w-24 h-24 object-cover rounded shadow-sm border border-slate-300 bg-white">
                     </div>
-                    
+                    <div class="w-full">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Seleccionar archivo *</label>
+                        <input type="file" id="imagen-input" name="imagen" required accept="image/*"
+                            class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer bg-white border border-slate-200 p-1 rounded-md">
+                    </div>
                 </div>
             </section>
 
             <section class="p-5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
-                <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">URL de la imagen*</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">Enlace de Google Maps (URL) *</label>
                 <input type="url" id="url" name="url" required 
-                    value="https://goo.gl/maps/x1y2z3a4b5c6d7e8f9g0"
-                    class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors bg-white">
-                <p class="text-[11px] text-slate-400 mt-1 italic">Debe ser una URL válida.</p>
+                    placeholder="https://goo.gl/maps/..."
+                    class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
             </section>
-            <section class="p-4 bg-slate-50 border border-slate-200 rounded-md">
-                     <label class="block text-sm font-semibold text-slate-700 mb-2" for="url">Coordenadas</label>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                        <!--Este es el que contiene los si agregan uno se pondra abajo de los otros-->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="input_2col_a">Latitud</label>
-                            <input type="text" id="latitud"
-                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1" for="input_2col_a">Longitud</label>
-                            <input type="text" id="longitud"
-                                class="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors">
-                        </div>
 
-                    </div>
-                </section>
 
             <section class="pt-4 border-t border-slate-200 flex flex-wrap items-center gap-3">
-                    <button type="submit" id="btnGuardarFinal"
+                    <button type="button" id="btnGuardarFinal"
                         class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm transition-colors w-full sm:w-auto text-center">
                         Actualizar Ubicación
                     </button>
@@ -232,7 +221,7 @@
     <footer class="bg-slate-900 text-white py-4 text-center z-20 w-full mt-auto">
         <p class="m-0 text-sm text-slate-400">Todos los derechos reservados © 2026 Aceros Alonso</p>
     </footer>
-<script src="../../../assets/js/ubicacion/ubicaciones.js"></script>
+<script src="../../../assets/js/ubicacion/editarUbicaciones.js"></script>
 <script src="../../../assets/js/login/cerrar.js"></script>
     
 

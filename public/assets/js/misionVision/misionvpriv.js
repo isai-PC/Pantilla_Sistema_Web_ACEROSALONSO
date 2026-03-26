@@ -2,7 +2,11 @@ const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/mvp";
 const token = localStorage.getItem("token");
 const nombre = localStorage.getItem("nombre");
 
-// Detectar qué página es
+// lo de clu
+const cloudName = "dr16zjtpb";
+const uploadPreset = "present5C";
+
+// para ver que pagina es 
 let campoTexto = "";
 let campoImagen = "";
 let textarea = null;
@@ -23,7 +27,7 @@ else if (document.getElementById("info")) {
     textarea = document.getElementById("info");
 }
 
-// ================= INICIO =================
+// para el inicio
 window.onload = async function () {
 
     // Mostrar usuario
@@ -34,10 +38,40 @@ window.onload = async function () {
         }
     }
 
+    const inputFile = document.getElementById("imagen-input");
+    if (inputFile) {
+        inputFile.addEventListener("change", previewImagen);
+    }
+
     await cargarDatos();
 };
 
-// ================= CARGAR =================
+// para ver la imagen
+function previewImagen() {
+    const file = this.files[0];
+    const preview = document.getElementById("previewImg");
+
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+    }
+}
+
+// para subir la imagen
+async function subirImagen(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.json();
+    return data.secure_url;
+}
+
+// cuando se carga
 async function cargarDatos() {
 
     const inputUrl = document.getElementById("url");
@@ -46,7 +80,7 @@ async function cargarDatos() {
     try {
         const res = await fetch(urlApi, {
             headers: {
-                "Authorization": `Bearer ${token}` // ✔ por si tu backend lo pide
+                "Authorization": `Bearer ${token}`
             }
         });
 
@@ -56,13 +90,14 @@ async function cargarDatos() {
             throw new Error("Error al cargar datos");
         }
 
-        const data = await res.json();
+        const json = await res.json();
+        const data = json.data || json; 
 
         console.log("DATA:", data);
 
         textarea.value = data[campoTexto] || "";
-        inputUrl.value = data[campoImagen] || "";
-        preview.src = data[campoImagen] || "https://via.placeholder.com/150";
+        if (inputUrl) inputUrl.value = data[campoImagen] || "";
+        if (preview) preview.src = data[campoImagen] || "https://via.placeholder.com/150";
 
         textarea.dataset.id = data.id;
 
@@ -72,30 +107,42 @@ async function cargarDatos() {
     }
 }
 
-// ================= PREVIEW =================
-document.getElementById("url").addEventListener("input", function () {
-    const preview = document.getElementById("previewImg");
-    preview.src = this.value || "https://via.placeholder.com/150";
-});
 
-// ================= GUARDAR =================
+const inputUrlGlobal = document.getElementById("url");
+if (inputUrlGlobal) {
+    inputUrlGlobal.addEventListener("input", function () {
+        const preview = document.getElementById("previewImg");
+        preview.src = this.value || "https://via.placeholder.com/150";
+    });
+}
+
+// para guardar los cambios
 document.getElementById("btnGuardar").addEventListener("click", async () => {
 
     const inputUrl = document.getElementById("url");
     const texto = textarea.value.trim();
-    const url = inputUrl.value.trim();
+    const url = inputUrl ? inputUrl.value.trim() : "";
     const id = textarea.dataset.id;
 
+    const file = document.getElementById("imagen-input")?.files[0];
+
     try {
-        // los datos actuales
+        let imageUrl = url;
+
+        if (file) {
+            imageUrl = await subirImagen(file);
+        }
+
+        // obtener datos actuales
         const resGet = await fetch(urlApi);
-        const dataActual = await resGet.json();
+        const jsonActual = await resGet.json();
+        const dataActual = jsonActual.data || jsonActual;
 
-        // para no quitar los otros
+        // actualizar solo lo necesario por que si no luego lo borra
         dataActual[campoTexto] = texto;
-        dataActual[campoImagen] = url;
+        dataActual[campoImagen] = imageUrl;
 
-        //enviar todo
+        // enviar
         const res = await fetch(urlApi, {
             method: "PUT",
             headers: {
