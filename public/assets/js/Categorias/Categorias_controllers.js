@@ -196,7 +196,8 @@ const obtenerDatosCategoria = async (id) => {
 // PREVISUALIZAR IMAGEN
 // ================================================
 const previsualizarImagen = () => {
-
+    const inputFile = document.getElementById("imagenInput");
+    const preview = document.getElementById("imagenPreview");
 
     // Si no existe el input o la imagen de previsualización → salir
     if (!inputFile || !preview) {
@@ -243,8 +244,12 @@ const previsualizarImagen = () => {
 // ACTUALIZAR CATEGORÍA
 // ================================================
 const actualizarCategoria = async () => {
-
-
+    const id = document.getElementById("id_categoria_hidden")?.value;
+    const nombre = document.getElementById("nombre_categoria")?.value?.trim();
+    const texto = document.getElementById("texto_secundario")?.value?.trim();
+    const inputFile = document.getElementById("imagenInput");
+    const imagenActual = document.getElementById("imagen_actual")?.value;
+    const btn = document.getElementById("btnActualizar");
 
     // Validaciones obligatorias
     if (!id || !nombre || !texto) {
