@@ -173,17 +173,18 @@
 
     <form onsubmit="agregarPregunta(event)">
       <label class="block mb-3 font-semibold">Pregunta</label>
-      <input type="text" id="input-pregunta" class="w-full border rounded-md p-3 mb-6 focus:ring-orange-400 focus:border-orange-400"
+      <input type="text" id="input-pregunta"
+        class="w-full border rounded-md p-3 mb-6 focus:ring-orange-400 focus:border-orange-400"
         placeholder="Escribe la pregunta frecuente...">
-      <label class="block mb-3 font-semibold">Respuesta</label>
-      <textarea 
-        class="w-full border rounded-md p-4 min-h-[200px] focus:ring-orange-400 focus:border-orange-400 placeholder="Escribe la respuesta..." id="input-respuesta"></textarea>
 
+      <label class="block mb-3 font-semibold">Respuesta</label>
+      <textarea id="input-respuesta"
+        class="w-full border rounded-md p-4 min-h-[200px] focus:ring-orange-400 focus:border-orange-400"
+        placeholder="Escribe la respuesta..."></textarea>
 
       <section class="pt-6 border-t border-slate-200">
         <div class="flex flex-wrap items-center gap-3">
-          <button type="submit"
-                        class=" bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm
+          <button type="submit" class=" bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-md shadow-sm
             transition-colors w-full sm:w-auto text-center">
             Guardar Producto
           </button>
