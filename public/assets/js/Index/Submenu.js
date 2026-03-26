@@ -60,15 +60,22 @@ const cargarProductosEnMenu = async () => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const result = await res.json();
-        const productos = result.data || result;   // por si tu API devuelve directo o en .data
+        let productos = result.data || result;   
 
-        renderListaProductos(productos);
+        // logica de productos nuevos
+        //Ordena los productos del más nuevo al más viejo.
+        productos.sort((a, b) => b.id_producto - a.id_producto);
+        // para mostrar de cuantos productos mostrar 
+        const productosNuevos = productos.slice(0, 10);
+        renderListaProductos(productosNuevos);
 
     } catch (err) {
         console.error("Error productos:", err);
         mostrarErrorProductos();
     }
 };
+
+
 
 // ================================================
 // FUNCIONES PARA CATEGORÍAS
