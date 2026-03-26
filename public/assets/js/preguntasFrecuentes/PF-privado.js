@@ -67,6 +67,65 @@ async function cargarPreguntas() {
     }
 }
 
+// --- AGREGAR PREGUNTA ---
+async function agregarPregunta(event) {
+    event.preventDefault(); 
+    const preguntaInput = document.getElementById("input-pregunta").value;
+    const respuestaInput = document.getElementById("input-respuesta").value;
+
+    if (!preguntaInput || !respuestaInput) {
+        Swal.fire({ icon: 'warning', title: 'Campos vacíos', text: 'Por favor llena la pregunta y la respuesta.' });
+        return;
+    }
+
+    const nuevaPregunta = {
+        pregunta: preguntaInput,
+        respuesta: respuestaInput
+    };
+
+    try {
+        const response = await fetch(urlApi, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(nuevaPregunta)
+        });
+
+        if (response.ok) {
+        Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "success", 
+                    title: "Pregunta Agregada Exitosamente!", 
+                    showConfirmButton: false, 
+                    timer: 3000 
+                });
+        } else {
+            Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "No se pudo agregar la pregunta.", 
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
+        
+        }
+    } catch (error) {
+        Swal.fire({ 
+                    toast: true, 
+                    position: "bottom-end", 
+                    icon: "error", 
+                    title: "Fallo de conexión", 
+                    text: "Error de red.",
+                    showConfirmButton: false, 
+                    timer: 4000 
+                });
+    }
+}
+
 // --- BORRAR PREGUNTA ---
 async function borrarPregunta(id) {
     const confirmacion = await Swal.fire({
@@ -84,10 +143,7 @@ async function borrarPregunta(id) {
 
     try {
         const response = await fetch(`${urlApi}/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}` 
-            }
+            method: 'DELETE'
         });
 
         if (response.ok) {

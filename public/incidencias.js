@@ -528,11 +528,35 @@ const cargarMes = async () => {
     tipoVista = "mes"
 }
 
+//funcion unicamnte visual complicado joven
+const generarMesesPorSemanas = (totalSemanas) => {
+
+    const mesesBase = [
+        obtenerMesRelativo(-2),
+        obtenerMesRelativo(-1),
+        obtenerMesRelativo(0)
+    ];
+
+    // semanas aproximadas por mes (dinámico)
+    const semanasPorMes = Math.ceil(totalSemanas / 3);
+
+    let resultado = [];
+
+    mesesBase.forEach(mes => {
+        for (let i = 0; i < semanasPorMes; i++) {
+            resultado.push(mes);
+        }
+    });
+
+    // ajustar exactamente al tamaño del API
+    return resultado.slice(0, totalSemanas);
+};
 
 const cargarSemana = async () => {
     actualizarBotonesPeriodoModal("semana"); 
 
     const data = await obtenerDatos("semana")
+    
 
     let html = `
     <div class="h-full flex flex-col">
@@ -547,10 +571,12 @@ const cargarSemana = async () => {
                 <tbody class="divide-y divide-slate-100">
     `
 
+const mesesPorSemana = generarMesesPorSemanas(data.length);
     data.forEach((v, i) => {
         html += `
         <tr class="hover:bg-slate-50">
-            <td class="px-3 py-2 font-medium text-slate-700">Semana ${i + 1}</td>
+            <td class="px-3 py-2 font-medium text-slate-700">
+            Semana ${i + 1} - ${mesesPorSemana[i]}</td>
             <td class="px-3 py-2 font-bold text-orange-500">${v}</td>
         </tr>
         `
