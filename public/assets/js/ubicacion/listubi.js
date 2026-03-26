@@ -1,9 +1,8 @@
-    const urlApi = "https://repo-vercel-m3tb.vercel.app/api/ubi";
+const urlApi = "https://repo-vercel-m3tb.vercel.app/api/ubi";
 
 let map;
 let controlRuta;
 let contenedor;
-
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -27,8 +26,6 @@ const cargarUbicaciones = () => {
     .then(data => {
 
       contenedor.innerHTML = "";
-
-      // Contenedor tipo grid (importante)
       contenedor.className = ` 
 
   
