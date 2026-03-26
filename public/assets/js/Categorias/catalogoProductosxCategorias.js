@@ -46,15 +46,16 @@ const cargarProductosPorCategoria = async () => {
             const card = document.createElement("div");
             card.className = "bg-white rounded-2xl shadow hover:shadow-2xl transition overflow-hidden";
             card.innerHTML = `
+            <a href="../VistaDetalleProducto/VistaVieew.html?id=${prod.id_producto}" class="block no-underline text-inherit">
                 <img src="${prod.ImagenesProducto || 'placeholder.jpg'}" 
                      alt="${prod.nombre_producto}" 
                      class="w-full h-56 object-cover">
                 <div class="p-5">
                     <h3 class="font-bold text-lg line-clamp-2">${prod.nombre_producto}</h3>
-                    <p class="text-green-600 font-semibold text-xl mt-2">$${parseFloat(prod.precio).toFixed(2)}</p>
+                    <p class=" font-semibold text-xl mt-2">$${parseFloat(prod.precio).toFixed(2)}</p>
                     <p class="text-sm text-gray-500 mt-1">${prod.unidad_medida || ''}</p>
                 </div>
-            `;
+            </a>`;
             catalogo.appendChild(card);
         });
 
