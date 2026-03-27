@@ -8,6 +8,7 @@ let mesActual = 0;
 let mesAnterior = 0;
 let mesAnterior2 = 0;
 
+
 let pred1 = 0, pred2 = 0, pred3 = 0, pred4 = 0;
 let chart = null; //para las graficas
 
