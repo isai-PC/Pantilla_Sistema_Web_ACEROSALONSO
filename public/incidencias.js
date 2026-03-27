@@ -16,6 +16,10 @@ let paginaActual = 0;
 const resultadosPorPagina = 10;
 let modoActual = "empleados";
 
+//VIsual para nombre
+let nombreSeleccionado = "";
+let tipoSeleccionado = "";
+
 // ==============================
 // FUNCIONES VISUALES 
 // ==============================
@@ -211,6 +215,12 @@ const generarEmpleado = async () => {
         mostrar();
         graficaLineal();
 
+        document.getElementById("subtituloAnalisis").innerText =
+    nombreSeleccionado
+    ? (tipoSeleccionado === "empleado"
+        ? "Empleado: " + nombreSeleccionado
+        : "Departamento: " + nombreSeleccionado)
+    : "";
         document.getElementById("reporte").scrollIntoView({behavior:"smooth"});
 
     } catch (e) {
@@ -249,6 +259,13 @@ const generarDepartamento = async () => {
         mostrar();
         graficaLineal();
 
+        document.getElementById("subtituloAnalisis").innerText =
+    nombreSeleccionado
+    ? (tipoSeleccionado === "empleado"
+        ? "Empleado: " + nombreSeleccionado
+        : "Departamento: " + nombreSeleccionado)
+    : "";
+
     } catch (e) {
         console.error(e);
     } finally {
@@ -274,8 +291,11 @@ const mostrarMensajeCargando = (estado) => {
 // ==============================
 // PREDECIR DESDE LISTADO
 // ==============================
-const predecirSeleccion = (id, tipo) => {
-    localStorage.setItem("seleccionPrediccion", JSON.stringify({ id }));
+const predecirSeleccion = (id, tipo, nombre) => {
+    nombreSeleccionado = nombre;
+    tipoSeleccionado = tipo;
+
+    tipoSeleccionado = tipo;localStorage.setItem("seleccionPrediccion", JSON.stringify({ id }));
     if(tipo === "empleado") generarEmpleado();
     else generarDepartamento();
 };
@@ -331,7 +351,7 @@ const mostrarEmpleados = (empleados) => {
             <td class="py-3 px-4 text-slate-600 text-sm">${emp.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
                 <button onclick="abrirModal(${emp.Id_Empleado}, 'E')" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">Ver</button>
-                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado'); graficaPorDepartamento(${emp.Id_Empleado}, '${emp.Departamento}')" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
+                <button onclick="predecirSeleccion(${emp.Id_Empleado}, 'empleado', '${emp.Nombre_Completo}'); graficaPorDepartamento(${emp.Id_Empleado}, '${emp.Departamento}')" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
             </td>
         </tr>`;
     });
@@ -374,7 +394,7 @@ const mostrarDepartamentos = (deps) => {
             <td class="py-3 px-4 text-slate-600 text-sm">${dep.faltas_anio_actual}</td>
             <td class="py-3 px-4 text-center">
                 <button onclick="abrirModal(${dep.Id_Departamento}, 'D')" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">Ver</button>
-                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento'); graficaDepartamentosGeneral(${dep.Id_Departamento})" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
+                <button onclick="predecirSeleccion(${dep.Id_Departamento}, 'departamento', '${dep.Departamento}'); graficaDepartamentosGeneral(${dep.Id_Departamento})" class="inline-flex items-center justify-center text-white bg-orange-500 hover:bg-orange-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">Predecir</button>
             </td>
         </tr>`;
     });
@@ -440,6 +460,15 @@ const abrirModal = (id, tipo) => {
     // limpiar
     document.getElementById("listado").innerHTML = ""
     if (chartModal) chartModal.destroy()
+
+ document.getElementById("subtituloModal").innerText =
+    nombreSeleccionado
+    ? (tipo === "E"
+        ? "Empleado: " + nombreSeleccionado
+        : "Departamento: " + nombreSeleccionado)
+    : (tipo === "E"
+        ? "Empleado ID: " + id
+        : "Departamento ID: " + id);
 }
 
 // CERRAR
