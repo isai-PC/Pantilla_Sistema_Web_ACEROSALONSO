@@ -52,6 +52,17 @@ function previewImagen() {
     const preview = document.getElementById("previewImg");
 
     if (file) {
+            if (!file.type.startsWith("image/")) {
+            Swal.fire({
+                icon: "error",
+                title: "Archivo inválido",
+                text: "Solo se permiten imágenes"
+            });
+
+            this.value = ""; // limpiar input
+            preview.src = "https://via.placeholder.com/150";
+            return;
+        }
         preview.src = URL.createObjectURL(file);
     }
 }
