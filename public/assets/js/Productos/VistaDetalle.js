@@ -6,28 +6,22 @@ const contenedorPrincipal = document.getElementById("vistaDetalleP");
 
 const cargarDetalleProducto = async () => {
     if (!idProducto) {
-    contenedorPrincipal.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Error: No se seleccionó ningún producto.</div>`;
-    return;
+        contenedorPrincipal.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Error: No se seleccionó ningún producto.</div>`;
+        return;
     }
 
     try {
-    // Obtenemos la lista completa para buscar el producto por su ID
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Error al conectar con el servidor");
+        const response = await fetch(`${API_URL}/${idProducto}`);
 
-    const result = await response.json();
-    const productos = result.data || result;
+        if (!response.ok) throw new Error("Producto no encontrado");
 
-    // Buscamos el producto específico comparando los IDs
-    const producto = productos.find(
-    (item) => String(item.id_producto || item.id) === String(idProducto),
-    );
+        const result = await response.json();
+        const producto = result.data || result;   
 
-    if (!producto) {
-    throw new Error("El producto no existe en el catálogo actual.");
-    }
-
-    contenedorPrincipal.innerHTML = `
+        if (!producto) {
+            throw new Error("El producto no existe");
+        }
+        contenedorPrincipal.innerHTML = `
             <div class="text-sm text-gray-500 mb-6">
                 <a href="../CatalogoProductosWiew/CatalogoProductos.html" class="hover:text-orange-500 transition-colors">Volver al Catálogo</a>
                 <span class="mx-2">/</span>
@@ -37,8 +31,8 @@ const cargarDetalleProducto = async () => {
             <div class="grid md:grid-cols-2 gap-10 items-start">
                 <div class="bg-white rounded-xl shadow p-6 flex justify-center">
                     <img src="${producto.ImagenesProducto || "../imagenes/placeholder.jpg"}" 
-                        alt="${producto.nombre_producto}" 
-                        class="max-h-96 object-contain">
+                         alt="${producto.nombre_producto}" 
+                         class="max-h-96 object-contain">
                 </div>
 
                 <div class="bg-white rounded-xl shadow p-8">
@@ -55,38 +49,14 @@ const cargarDetalleProducto = async () => {
 
                     <table class="w-full text-sm">
                         <tbody class="divide-y text-slate-600">
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Unidad de Medida</td>
-                                <td class="py-2 text-right">${producto.unidad_medida || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Calibre</td>
-                                <td class="py-2 text-right">${producto.calibre || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Metros</td>
-                                <td class="py-2 text-right">${producto.metros || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Peso (Kg)</td>
-                                <td class="py-2 text-right">${producto.kg || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Color</td>
-                                <td class="py-2 text-right">${producto.color || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Cédula</td>
-                                <td class="py-2 text-right">${producto.ced || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Tonelaje</td>
-                                <td class="py-2 text-right">${producto.ton || "—"}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 font-semibold text-slate-800">Centímetros</td>
-                                <td class="py-2 text-right">${producto.cm || "—"}</td>
-                            </tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Unidad de Medida</td><td class="py-2 text-right">${producto.unidad_medida || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Calibre</td><td class="py-2 text-right">${producto.calibre || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Metros</td><td class="py-2 text-right">${producto.metros || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Peso (Kg)</td><td class="py-2 text-right">${producto.kg || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Color</td><td class="py-2 text-right">${producto.color || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Cédula</td><td class="py-2 text-right">${producto.ced || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Tonelaje</td><td class="py-2 text-right">${producto.ton || "—"}</td></tr>
+                            <tr><td class="py-2 font-semibold text-slate-800">Centímetros</td><td class="py-2 text-right">${producto.cm || "—"}</td></tr>
                         </tbody>
                     </table>
 
@@ -96,9 +66,10 @@ const cargarDetalleProducto = async () => {
                 </div>
             </div>
         `;
+
     } catch (error) {
-    console.error("Error cargando detalle:", error);
-    contenedorPrincipal.innerHTML = `
+        console.error("Error cargando detalle:", error);
+        contenedorPrincipal.innerHTML = `
             <div class="text-center py-20">
                 <h2 class="text-2xl font-bold text-gray-800">Producto no encontrado</h2>
                 <p class="text-gray-500 mb-6">${error.message}</p>
