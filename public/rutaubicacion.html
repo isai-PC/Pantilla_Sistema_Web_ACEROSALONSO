@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aceros Alonso | Página Oficial</title>
-    <link rel="icon" href="ACASALogoAcerosA.png" type="image/png" sizes="16px">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" type="image/png" sizes="16x16">
+   <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="/public/assets/css/output.css" rel="stylesheet"><!-- Usar este link -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
@@ -31,8 +31,8 @@
 
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3">
-                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
-                    <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
+                     <img src="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                     <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
                 </section>
 
                 <button id="btn-menu"
@@ -61,12 +61,12 @@
                             class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
                     </li>
 
-                    <li class="relative group w-full md:w-auto">
+                   <li class="relative group w-full md:w-auto" id="submenu-categorias">
                         <a href="#"
                             class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul id="submenu-categorias"
+                        <ul id="listarC"
                             class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[220px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                             <!--  -->
                         </ul>
@@ -147,10 +147,10 @@
         <div id="contacto"
             class="flex flex-col md:flex-row flex-wrap max-w-[1200px] mx-auto justify-center gap-6 md:gap-12 items-center md:items-start text-base">
 
-            <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
-                <h3 class="font-bold mb-4">Pregunta frecuente de ejemplo</h3>
-                <p>Respuesta de ejemplo.</p>
-            </div>
+             <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
+                    <h3 id="preguntaFooter" class="font-bold mb-4"></h3>
+                    <p id="respuestaFooter"></p>
+                </div>
 
             <div class="w-full md:w-[280px] max-w-[350px] md:max-w-[500px]">
                 <h3 class="font-bold mb-4">Nuestras Redes Sociales</h3>
@@ -194,6 +194,7 @@
     <script src="assets/js/Index/Submenu.js"></script>
     <script src="assets/js/Categorias/catalogoProductos.js"></script>
    <script src="assets/js/ubicacion/listubi.js"></script>
+   <script src="assets/js/preguntasFrecuentes/preguntas.js"></script>
   
 
 </body>
