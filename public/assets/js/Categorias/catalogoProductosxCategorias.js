@@ -19,7 +19,7 @@ const cargarProductosPorCategoria = async () => {
         return;
     }
 
-    titulo.textContent = `Productos de la categoría ${id}`;
+    titulo.textContent = `Productos de la categoría`;
     catalogo.innerHTML = `<p class="col-span-full text-center py-10">Cargando productos...</p>`;
 
     try {
