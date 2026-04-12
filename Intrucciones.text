@@ -126,3 +126,5 @@ Tailwind solo genera el CSS final.
 Los archivos HTML y JS deben pasarse manualmente a producción.
 Siempre compilar antes de subir al hosting.
 Nunca modificar directamente archivos dentro de public.
+
+nada
