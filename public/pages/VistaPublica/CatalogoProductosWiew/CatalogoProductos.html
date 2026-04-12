@@ -13,31 +13,43 @@
 <body class="fondo">
 
     <!-- HEADER -->
-    <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
+  <header class="w-full bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
         <div class="w-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center">
-            
+
+
             <div class="flex justify-between items-center w-full md:w-auto">
                 <section class="flex items-center gap-3">
-                    <img src="ACASALogoAcerosA.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
+                    <img src="https://res.cloudinary.com/dstrcicli/image/upload/v1774247661/Captura_de_pantalla_2025-11-26_175612__1_-removebg-preview_zwdqma.png" alt="Logo de Aceros Alonso" class="w-10 md:w-20">
                     <h2 class="m-0 text-base md:text-2xl font-bold whitespace-nowrap">Aceros Alonso</h2>
                 </section>
 
-                <button id="btn-menu" class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <button id="btn-menu"
+                    class="md:hidden text-white focus:outline-none p-2 rounded-md hover:text-orange-400 transition-colors">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
 
             <nav id="menu-principal" class="hidden md:block w-full md:w-auto mt-4 md:mt-0">
-                
-                <ul class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 m-0 p-0 list-none w-full">
-                    
-                    <li class="w-full md:w-auto md:py-2">
-                        <a href="../../../index.html" class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
+
+                <ul
+                    class="flex flex-col md:flex-row md:flex-wrap md:justify-end gap-1 md:gap-3 m-0 p-0 items-start md:items-center list-none w-full">
+
+
+
+                    <li class="w-full md:w-auto">
+                        <a href="../../../incidencias.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Heidi</a>
                     </li>
-                    
-                    <li class="relative group w-full md:w-auto" id="submenu-categorias">
+                    <li class="w-full md:w-auto">
+                        <a href="../../../index.html"
+                            class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Inicio</a>
+                    </li>
+
+                      <li class="relative group w-full md:w-auto" id="submenu-categorias">
                         <a href="#"
                             class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Categorías <span class="md:hidden text-[10px] ml-1">▼</span>
@@ -57,24 +69,27 @@
                             class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                         </ul>
                     </li>
-                    
+
                     <li class="relative group w-full md:w-auto">
-                        <a href="#" class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
+                        <a href="#"
+                            class="submenu-btn flex justify-between items-center px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base cursor-pointer">
                             Acerca de Nosotros <span class="md:hidden text-[10px] ml-1">▼</span>
                         </a>
-                        <ul class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
+                        <ul
+                            class="md:absolute md:top-full md:right-0 bg-slate-800 md:bg-[#0f172a] min-w-[200px] md:rounded-b-md shadow-none md:shadow-lg z-50 flex-col hidden md:group-hover:flex pl-4 md:pl-0 border-l-2 border-orange-400 md:border-none md:border-t-2 max-h-80 overflow-y-auto custom-scroll">
                             <li class="w-full block">
-                                <a href="/public/pages/VistaPublica/nosotros/misionyvision.html" class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
+                                <a href="../nosotros/misionyvision.html"
+                                    class="block px-5 py-3 border-b border-white/10 font-normal text-sm hover:bg-orange-400 hover:pl-6 transition-all text-white no-underline">Nosotros</a>
                             </li>
                         </ul>
                     </li>
 
                     <li id="liAdmin" class="w-full md:w-auto md:py-2 mt-2 md:mt-0">
-                        <a href="../../VistaPrivada/consultas/consultasE.html"
+                        <a href="pages/VistaPrivada/consultas/consultasE.html"
                             class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base"">
                             Administracion</a>
                     </li>
-                    <li id=" liLogin" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
+                    <li id="liLogin" class=" w-full md:w-auto md:py-2 mt-2 md:mt-0">
                             <a href="../../../login.html"
                                 class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Login</a>
                     </li>
@@ -84,7 +99,7 @@
                             class="block px-4 py-2 text-white no-underline hover:bg-orange-500 rounded-md transition-colors font-semibold text-sm md:text-base">Cerrar
                             Sesion</button>
                     </li>
-                  
+
                 </ul>
             </nav>
         </div>
