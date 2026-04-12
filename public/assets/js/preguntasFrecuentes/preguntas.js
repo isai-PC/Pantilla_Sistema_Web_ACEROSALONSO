@@ -2,6 +2,7 @@ const urlpreguntas = "https://repo-vercel-m3tb.vercel.app/api/preguntas";
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  
   const contenedor = document.getElementById("contenedorPreguntas");
   const preguntaFooter = document.getElementById("preguntaFooter");
   const respuestaFooter = document.getElementById("respuestaFooter");
