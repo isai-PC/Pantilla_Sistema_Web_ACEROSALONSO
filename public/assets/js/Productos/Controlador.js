@@ -483,7 +483,7 @@ if (form) {
 }
 
 /* ======================================================
-INICIALIZACIÓN AL CARGAR LA PÁGINA (NUEVO ESTILO window.onload)
+INICIALIZACIÓN AL CARGAR LA PÁGINA
 ====================================================== */
 window.onload = async function() { 
 
@@ -553,3 +553,4 @@ window.onload = async function() {
         };
     }
 };
+
