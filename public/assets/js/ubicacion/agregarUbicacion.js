@@ -2,24 +2,29 @@ const urlApi = "https://repositorio-para-vercel-tawny.vercel.app/api/ubicaciones
 const token = localStorage.getItem("token");
 
 const cloudName = "dr16zjtpb";
-const uploadPreset = "present5C"; 
+const uploadPreset = "present5C";
 
-// ================= PREVIEW IMAGEN =================
+// ================= PREVIEW + VALIDACIÓN IMAGEN =================
 document.getElementById("imagen-input").addEventListener("change", function () {
     const file = this.files[0];
     const preview = document.getElementById("img-preview");
 
-    if (file) {
-        preview.src = URL.createObjectURL(file);
+    if (!file) return;
+
+    // Validar que sea imagen
+    if (!file.type.startsWith("image/")) {
+        alert("Solo se permiten archivos de imagen (jpg, png, webp, etc.)");
+        this.value = ""; // limpiar input
+        preview.src = "https://via.placeholder.com/150?text=Subir+Imagen";
+        return;
     }
+
+    preview.src = URL.createObjectURL(file);
 });
 
 // ================= EXTRAER COORDENADAS =================
 function extraerCoordenadas(url) {
     try {
-        // Ejemplo:
-        // https://www.google.com/maps?q=21.142177,-98.413451
-
         const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
         const match = url.match(regex);
 
@@ -30,7 +35,6 @@ function extraerCoordenadas(url) {
             };
         }
 
-        // Otro formato:
         const regex2 = /q=(-?\d+\.\d+),(-?\d+\.\d+)/;
         const match2 = url.match(regex2);
 
@@ -65,12 +69,12 @@ async function subirImagen(file) {
         throw new Error("Error al subir imagen");
     }
 
-    return data.secure_url; // 🔥 URL final
+    return data.secure_url;
 }
 
 // ================= GUARDAR UBICACIÓN =================
 document.getElementById("btnGuardarFinal").addEventListener("click", async (e) => {
-    e.preventDefault(); // 🔥 evita submit
+    e.preventDefault();
 
     const descripcion = document.getElementById("descripcion").value.trim();
     const file = document.getElementById("imagen-input").files[0];
@@ -81,11 +85,17 @@ document.getElementById("btnGuardarFinal").addEventListener("click", async (e) =
         return;
     }
 
+    // Validación final de imagen
+    if (!file.type.startsWith("image/")) {
+        alert("El archivo seleccionado no es una imagen válida");
+        return;
+    }
+
     try {
-        // 1️⃣ Subir imagen
+        // Subir imagen
         const imageUrl = await subirImagen(file);
 
-        // 2️⃣ Obtener coordenadas
+        // Obtener coordenadas
         const coords = extraerCoordenadas(urlMaps);
 
         if (!coords) {
@@ -95,7 +105,6 @@ document.getElementById("btnGuardarFinal").addEventListener("click", async (e) =
 
         console.log("Coords:", coords);
 
-        // 3️⃣ Enviar al backend
         const res = await fetch(urlApi, {
             method: "POST",
             headers: {
@@ -119,9 +128,9 @@ document.getElementById("btnGuardarFinal").addEventListener("click", async (e) =
 
         alert("Ubicación guardada correctamente");
 
-        // Reset
         document.querySelector("form").reset();
-        document.getElementById("img-preview").src = "https://via.placeholder.com/150?text=Subir+Imagen";
+        document.getElementById("img-preview").src =
+            "https://via.placeholder.com/150?text=Subir+Imagen";
 
     } catch (error) {
         console.error(error);

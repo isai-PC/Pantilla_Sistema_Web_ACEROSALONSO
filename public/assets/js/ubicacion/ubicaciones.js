@@ -44,10 +44,10 @@ async function cargarUbicaciones() {
                     <p class="text-xs">Lat: ${u.latitud} | Lng: ${u.longitud}</p>
 
                     <div class="flex gap-2 mt-3">
-                        <button onclick="editar(${u.id})" class="bg-blue-500 text-white px-3 py-1 rounded">
+                        <button onclick="editar(${u.id})" class="inline-flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-bold transition-colors">
                             Editar
                         </button>
-                        <button onclick="eliminar(${u.id})" class="bg-red-500 text-white px-3 py-1 rounded">
+                        <button onclick="eliminar(${u.id})"  class="inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer">
                             Eliminar
                         </button>
                     </div>
