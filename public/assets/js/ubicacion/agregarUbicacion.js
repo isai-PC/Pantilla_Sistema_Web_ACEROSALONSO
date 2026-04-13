@@ -120,6 +120,7 @@ document.getElementById("btnGuardarFinal").addEventListener("click", async (e) =
             })
         });
 
+        
         const data = await res.json();
 
         console.log("RESPUESTA:", data);
