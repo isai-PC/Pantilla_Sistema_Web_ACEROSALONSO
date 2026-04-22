@@ -109,7 +109,7 @@ const labelsMeses = () => [
     obtenerMesRelativo(3),
     obtenerMesRelativo(4)
 ];
-
+ let totalPredicho;
 // MODELO MATEMÁTICO DE PREDICCIÓN
 const calcularModelo = () => {
 
@@ -175,12 +175,14 @@ const calcularModelo = () => {
     pred2 = Math.max(0, Math.round(real2 + 1e-10));
     pred3 = Math.max(0, Math.round(real3 + 1e-10));
     pred4 = Math.max(0, Math.round(real4 + 1e-10));
+
+     totalPredicho = acumuladoP4-mesAnterior-mesActual
 };
 
 const mostrar = () => {
     document.getElementById("historicas").innerText = mesAnterior ;
     document.getElementById("actuales").innerText = mesActual;
-    document.getElementById("pendientes").innerText = pred1 + pred2 + pred3 + pred4;
+    document.getElementById("pendientes").innerText = Math.max(0, Math.round(totalPredicho + 1e-10));;
 };
 
 // ==============================
