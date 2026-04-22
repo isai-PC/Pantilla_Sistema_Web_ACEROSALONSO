@@ -54,9 +54,10 @@ function previewImagen() {
     if (file) {
             if (!file.type.startsWith("image/")) {
             Swal.fire({
-                icon: "error",
-                title: "Archivo inválido",
-                text: "Solo se permiten imágenes"
+                icon: "warning",
+                title: "Formato inválido",
+                text: "Seleccione un formato de imagen válido (JPG, PNG, WEBP)",
+                confirmButtonText: "Entendido"
             });
 
             this.value = ""; // limpiar input
