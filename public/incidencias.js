@@ -164,10 +164,10 @@ const calcularModelo = () => {
     // ALERT CON VALORES REALES
     alert(
         "VALORES REALES:\n\n" +
-        "Abril: " + acumuladoP1 + "\n" +
-        "Mayo: " + acumuladoP2 + "\n" +
-        "Junio: " + acumuladoP3 + "\n" +
-        "Julio: " + acumuladoP4
+        "Mayo: " + acumuladoP1 + "\n" +
+        "Junio: " + acumuladoP2 + "\n" +
+        "Julio: " + acumuladoP3 + "\n" +
+        "Agosto: " + acumuladoP4
     );
 
     //REDONDEO CORREGIDO
@@ -178,7 +178,7 @@ const calcularModelo = () => {
 };
 
 const mostrar = () => {
-    document.getElementById("historicas").innerText = mesAnterior + mesAnterior2;
+    document.getElementById("historicas").innerText = mesAnterior ;
     document.getElementById("actuales").innerText = mesActual;
     document.getElementById("pendientes").innerText = pred1 + pred2 + pred3 + pred4;
 };
